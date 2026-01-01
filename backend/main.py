@@ -7,13 +7,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Perso
 
-from adapters.api.router import routes
+from adapters.shared.api.router import routes
+from adapters.shared.lifespan import lifespan
 
 #
 #   App
 #
 
-app = FastAPI() 
+app = FastAPI(lifespan=lifespan)
 
 # Adding the CROSS security
 

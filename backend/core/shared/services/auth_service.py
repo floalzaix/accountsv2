@@ -2,11 +2,14 @@
 #   Imports
 #
 
-
+import uuid
 
 # Perso
 
 from core.shared.ports.user_db_port import UserDBPort
+from adapters.shared.utils.security_utils import hash_password
+from core.shared.models.user import User
+from core.shared.enums.user_status import UserStatus
 
 #
 #   Services
@@ -21,11 +24,32 @@ class AuthService:
     def __init__(self, user_db_port: UserDBPort):
         self._user_db_port = user_db_port
 
-    def register(self, email: str, password: str, pseudo: str) -> User:
-        user = self._user_db_port.by_email(email)
-        if user:
-            raise ValueError("User already exists")
-        user = User(email=email, password=password, pseudo=pseudo)
-        self._user_db_port.create_user(user)
+    async def register(
+        self,
+        *,
+        id: uuid.UUID,
+        email: str,
+        password: str,
+        pseudo: str
+    ) -> User:
+        """
+            Registers a new user.
 
-    def login(self, email: str, pwd: str) -> User:
+            Hashes the password and creates the user in the 
+            db through the port.
+        """
+
+        # Hashing password
+        hash = hash_password(password)
+
+        # Creating user
+        user = User(
+            id=id,
+            email=email,
+            hash=hash,
+            pseudo=pseudo,
+            status=UserStatus.ACTIVE
+        )
+        await self._user_db_port.create_user(user)
+
+        return user

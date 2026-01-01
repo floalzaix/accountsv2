@@ -5,6 +5,10 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from adapters.shared.config.config import get_settings
+
+settings = get_settings()
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -13,6 +17,17 @@ config = context.config
 # This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
+    #
+    #   DB
+    #
+    
+    # Setting up the db from the base settings of the project
+    config.set_main_option(
+        "sqlalchemy.url",
+        f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@"
+        f"{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
+    )
 
 # add your model's MetaData object here
 # for 'autogenerate' support

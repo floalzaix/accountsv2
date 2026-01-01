@@ -14,13 +14,13 @@ from core.shared.models.user import User
 
 class UserDBPort(ABC):
     @abstractmethod
-    def by_id(self, user_id: int) -> User:
+    async def by_id(self, user_id: int) -> User:
         pass
 
     @abstractmethod
-    def by_email(self, email: str) -> User:
+    async def by_email(self, email: str) -> User:
         pass
 
     @abstractmethod
-    def create_user(self, user: User) -> None:
+    async def create_user(self, user: User) -> None:
         pass
