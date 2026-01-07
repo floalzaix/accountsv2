@@ -43,7 +43,7 @@ class UserRepo(UserDBPort):
         """
             Gets a User by email.
 
-            If there arer multiple raises MultipleResultsFoundError.
+            If there are multiple raises MultipleResultsFoundError.
 
             If there is no user, raises ValueError.
         """
@@ -67,10 +67,11 @@ class UserRepo(UserDBPort):
 
         try:
             await self.by_email(user.email)
-            raise ValueError(f"User with email {user.email} already exists")
         except ValueError:
-            pass
+            self.session.add(user_orm)
 
-        self.session.add(user_orm)
+            await self.session.commit()
 
-        await self.session.commit()
+            return
+
+        raise ValueError(f"User with email {user.email} already exists")

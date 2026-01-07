@@ -66,6 +66,18 @@ class Settings(BaseSettings):
         ...,
         description="The origins allowed to access the API in production"
     )
+    SECRET_KEY: str = Field(
+        ...,
+        description="The secret key for the application used in JWT"
+    )
+    ALGO: str = Field(
+        default="HS256",
+        description="The algorithm for the application"
+    )
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(
+        default=120,
+        description="The expiration time for the access token in minutes"
+    )
 
     #
     #   DB

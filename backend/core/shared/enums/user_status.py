@@ -8,6 +8,6 @@ from enum import Enum
 #   Enums
 #
 
-class UserStatus(Enum, str):
+class UserStatus(str, Enum):
     ACTIVE = "active"
     DELETED = "deleted"

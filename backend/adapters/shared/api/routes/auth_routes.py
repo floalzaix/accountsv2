@@ -9,10 +9,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from adapters.shared.dependencies import get_db_session
 from adapters.shared.validators.user_dto import (
-    UserCreate, UserRead
+    UserCreate, UserLogin, UserRead, UserBearer
 )
 from adapters.shared.db.repositories.user_repo import UserRepo
 
+from adapters.shared.utils.security_utils import create_access_token
 from core.shared.services.auth_service import AuthService
 
 
@@ -20,7 +21,7 @@ from core.shared.services.auth_service import AuthService
 #   Routes
 #
 
-auth_routes = APIRouter()
+auth_routes = APIRouter(prefix="/auth")
 
 @auth_routes.post(
     "/register",
@@ -30,7 +31,7 @@ auth_routes = APIRouter()
 )
 async def register(
     user_create: UserCreate,
-    sb_session: AsyncSession = Depends(get_db_session),
+    db_session: AsyncSession = Depends(get_db_session),
 ):
     """
         Regsiters a new user using his email, password and pseudo.
@@ -45,7 +46,7 @@ async def register(
             pseudo and status.
     """
 
-    user_repo = UserRepo(session=sb_session)
+    user_repo = UserRepo(session=db_session)
 
     auth_service = AuthService(user_db_port=user_repo)
 
@@ -56,15 +57,64 @@ async def register(
             password=user_create.password,
             pseudo=user_create.pseudo
         )
+
+        return created_user
     except ValueError as e:
         raise HTTPException(
-            status_code=status.HTPP_409_CONFLICT,
+            status_code=status.HTTP_409_CONFLICT,
             detail={
-                "user_safe_title": "User already exists",
-                "user_safe_description": "The user with the "
-                "given email already exists.",
+                "user_safe_title": "L'utilisateur existe déjà",
+                "user_safe_description": "L'utilisateur avec l'email "
+                "donné existe déjà.",
                 "dev": str(e)
             }
         )
 
-    return created_user
+@auth_routes.post(
+    "/login",
+    response_model=UserBearer,
+    status_code=status.HTTP_200_OK,
+    summary="Login a user",
+)
+async def login(
+    user_login: UserLogin,
+    sb_session: AsyncSession = Depends(get_db_session),
+):
+    """
+        Logs in a user using his email and password.
+
+        Params:
+            - email: The email of the user.
+            - password: The password of the user.
+
+        Returns:
+            - dict: The access token, the user and the token type.
+
+        Raises:
+            - ValueError: If the password is incorrect.
+    """
+    try:
+        user_repo = UserRepo(session=sb_session)
+        auth_service = AuthService(user_db_port=user_repo)
+
+        logged_user = await auth_service.login(
+            email=user_login.email,
+            password=user_login.password
+        )
+
+        access_token = create_access_token(logged_user.id)
+
+        return {
+            "access_token": access_token,
+            "user": logged_user,
+            "token_type": "Bearer"
+        }
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail={
+                "user_safe_title": "Mot de passe et/ou email incorrect",
+                "user_safe_description": "Le mot de passe donné est incorrect.",
+                "dev": str(e)
+            }
+        )

@@ -37,7 +37,9 @@ def orm_to_model(orm_model: Base, model_type: Type[T]) -> T:
         kwargs = {
             k: v
             for k, v in orm_model.__dict__.items()
-            if not k.startswith("_")
+            if not k.startswith("_") and
+            not k.startswith("created_at") and
+            not k.startswith("updated_at")
         }
 
         return model_type(**kwargs)

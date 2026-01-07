@@ -25,7 +25,7 @@ if config.config_file_name is not None:
     # Setting up the db from the base settings of the project
     config.set_main_option(
         "sqlalchemy.url",
-        f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@"
+        f"postgresql://{settings.DB_USER}:{settings.DB_PASSWORD}@"
         f"{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
     )
 
@@ -33,7 +33,9 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+from adapters.shared.db.base import Base
+from adapters.shared.db.orms import *
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

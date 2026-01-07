@@ -11,9 +11,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy import text
 
-from sqlalchemy_utils import database_exists # type: ignore
-
-# Perso
+# Personal
 
 from adapters.shared.config.config import get_settings, Env
 
@@ -34,22 +32,20 @@ async def bootstrap_db() -> None:
     if _session_maker is not None:
         return
 
-    URL = f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@"
-    f"{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
-
-    # Verifying the existence of the database
-    if not database_exists(URL):
-        raise RuntimeError(
-            "Database does not exist. Please create it before bootstrapping."
-        )
+    URL = (
+        f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@"
+        f"{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
+    )
 
     # Creating the engine
-    engine: AsyncEngine = create_async_engine(URL)
+    engine: AsyncEngine = create_async_engine(
+        URL,
+        echo=settings.APP_ENV == Env.DEVELOPMENT,
+    )
 
     # Creating the session maker
     _session_maker = async_sessionmaker[AsyncSession](
-        engine=engine,
-        echo=settings.APP_ENV == Env.DEVELOPMENT,
+        engine,
         expire_on_commit=False,
     )
 

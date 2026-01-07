@@ -25,26 +25,26 @@ class User(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         primary_key=True,
-        description="The user's unique identifier"
+        doc="The user's unique identifier",
     )
     email: Mapped[str] = mapped_column(
         String(255),
         unique=True,
         nullable=False,
-        description="The user's email address"
+        doc="The user's email address",
     )
     hash: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
-        description="The user's password hash"
+        doc="The user's password hash",
     )
     pseudo: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
-        description="The user's nickname"
+        doc="The user's nickname",
     )
     status: Mapped[UserStatus] = mapped_column(
         Enum(UserStatus),
         nullable=False,
-        description="The user's status"
+        doc="The user's status",
     )

@@ -10,9 +10,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from adapters.shared.api.router import routes
 from adapters.shared.lifespan import lifespan
 
-#
-#   App
-#
+from adapters.shared.config.config import get_settings, Env
+
+settings = get_settings()
 
 app = FastAPI(lifespan=lifespan)
 
@@ -20,7 +20,9 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins= ["*"]
+    if settings.APP_ENV == Env.DEVELOPMENT
+    else settings.CORS_ALLOW_ORIGINS_PROD,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
