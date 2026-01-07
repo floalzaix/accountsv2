@@ -1,0 +1,529 @@
+{
+  "info": {
+    "_postman_id": "d1f79842-4fc9-4668-86e0-d964c00f6c84",
+    "name": "All",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "register-test-script",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "const requestBody = pm.request.body.raw;",
+                  "const requestData = JSON.parse(requestBody);",
+                  "",
+                  "pm.test(\"Response has id field\", function () {",
+                  "    pm.expect(body).to.have.property(\"id\");",
+                  "    pm.expect(body.id).to.be.a(\"string\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response has email field\", function () {",
+                  "    pm.expect(body).to.have.property(\"email\");",
+                  "    pm.expect(body.email).to.equal(requestData.email);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has pseudo field\", function () {",
+                  "    pm.expect(body).to.have.property(\"pseudo\");",
+                  "    pm.expect(body.pseudo).to.equal(requestData.pseudo);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has status field\", function () {",
+                  "    pm.expect(body).to.have.property(\"status\");",
+                  "    pm.expect(body.status).to.equal(\"active\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response does not have password field\", function () {",
+                  "    pm.expect(body).to.not.have.property(\"password\");",
+                  "    pm.expect(body).to.not.have.property(\"hash\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "89f3f050-ff59-4912-8922-adc8c1e07103",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"pseudo\": \"testt\",\r\n    \"password\": \"test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/auth/register",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "460c7647-71a6-4f6a-909f-63c1eec75018",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "const requestBody = pm.request.body.raw;",
+                  "const requestData = JSON.parse(requestBody);",
+                  "",
+                  "pm.test(\"Response has access_token field\", function () {",
+                  "    pm.expect(body).to.have.property(\"access_token\");",
+                  "    pm.expect(body.access_token).to.not.be.null;",
+                  "    pm.expect(body.access_token).to.be.a(\"string\");",
+                  "    pm.expect(body.access_token.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has user field\", function () {",
+                  "    pm.expect(body).to.have.property(\"user\");",
+                  "    pm.expect(body.user).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response has token_type field\", function () {",
+                  "    pm.expect(body).to.have.property(\"token_type\");",
+                  "    pm.expect(body.token_type).to.equal(\"Bearer\");",
+                  "});",
+                  "",
+                  "pm.test(\"User object has required fields\", function () {",
+                  "    pm.expect(body.user).to.have.property(\"id\");",
+                  "    pm.expect(body.user).to.have.property(\"email\");",
+                  "    pm.expect(body.user).to.have.property(\"pseudo\");",
+                  "    pm.expect(body.user).to.have.property(\"status\");",
+                  "});",
+                  "",
+                  "pm.test(\"User email matches request email\", function () {",
+                  "    pm.expect(body.user.email).to.equal(requestData.email);",
+                  "});",
+                  "",
+                  "pm.test(\"User does not have password or hash fields\", function () {",
+                  "    pm.expect(body.user).to.not.have.property(\"password\");",
+                  "    pm.expect(body.user).to.not.have.property(\"hash\");",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set(\"access_token\", body.access_token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "8e375195-0ad4-4cfe-82c8-68b0e8b96721",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/auth/login",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register - User Already Exists",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "register-user-exists-test",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"L'utilisateur existe déjà\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"email\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"existe déjà\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "register-user-exists-001",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"pseudo\": \"testt\",\r\n    \"password\": \"test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/auth/register",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Validation Error",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "register-validation-test",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Each error has required fields\", function () {",
+                  "    body.detail.forEach(function(error) {",
+                  "        pm.expect(error).to.have.property(\"loc\");",
+                  "        pm.expect(error).to.have.property(\"msg\");",
+                  "        pm.expect(error).to.have.property(\"type\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "register-validation-001",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"\",\r\n    \"pseudo\": \"\",\r\n    \"password\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/auth/register",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - User Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "login-user-not-found-test",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Mot de passe et/ou email incorrect\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"incorrect\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response does not have access_token\", function () {",
+                  "    pm.expect(body).to.not.have.property(\"access_token\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "login-user-not-found-001",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"nonexistent@test.com\",\r\n    \"password\": \"test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/auth/login",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Wrong Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "login-wrong-password-test",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Mot de passe et/ou email incorrect\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"incorrect\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response does not have access_token\", function () {",
+                  "    pm.expect(body).to.not.have.property(\"access_token\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "login-wrong-password-001",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"wrongpassword\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/auth/login",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Validation Error",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "login-validation-test",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Each error has required fields\", function () {",
+                  "    body.detail.forEach(function(error) {",
+                  "        pm.expect(error).to.have.property(\"loc\");",
+                  "        pm.expect(error).to.have.property(\"msg\");",
+                  "        pm.expect(error).to.have.property(\"type\");",
+                  "    });",
+                  "});",
+                  "",
+                  "pm.test(\"Response does not have access_token\", function () {",
+                  "    pm.expect(body).to.not.have.property(\"access_token\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "login-validation-001",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/auth/login",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "27ad3ce7-2a19-45d8-a6ba-19c5509882c4"
+    }
+  ]
+}

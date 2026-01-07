@@ -1,0 +1,65 @@
+<p-toast />
+
+<p-select-button
+  [options]="
+    [
+      { label: 'Connexion', value: 'login'},
+      { label: 'Inscription', value: 'register' },
+    ]
+  "
+  [(ngModel)]="stateSelect",
+  optionLabel="label",
+  optionValue="value"
+/>  
+
+@if (state() === "register") {
+  <!--
+  
+    Register form
+  
+  -->
+  
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <p-floatLabel variant="on">
+      <label for="email">Email</label>
+      <input pInputText type="email" formControlName="email" />
+    </p-floatLabel>
+
+    <p-floatLabel variant="on">
+      <label for="password">Mot de passe</label>
+      <input pInputText type="password" formControlName="password" />
+    </p-floatLabel>
+
+    <p-floatLabel variant="on">
+      <label for="confirmPassword">Confirmer le mot de passe</label>
+      <input pInputText type="password" formControlName="confirmPassword" />
+    </p-floatLabel>
+
+    <p-floatLabel variant="on">
+      <label for="pseudo">Nom d'utilisateur</label>
+      <input pInputText type="text" formControlName="pseudo" />
+    </p-floatLabel>
+
+    <button pButton type="submit" label="S'inscrire"></button>
+  </form>
+} @else if (state() === "login") {
+  <!--
+  
+    Login form
+  
+  -->
+  
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <p-floatLabel variant="on">
+      <label for="email">Email</label>
+      <input pInputText type="email" formControlName="email" />
+    </p-floatLabel>
+
+    <p-floatLabel variant="on">
+      <label for="password">Mot de passe</label>
+      <input pInputText type="password" formControlName="password" />
+    </p-floatLabel>
+
+    <button pButton type="submit" label="Connexion"></button>
+  </form>
+}
