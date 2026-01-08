@@ -96,6 +96,6 @@ class AuthService:
                 - ValueError: If the user is not found.
                 - ValueError: If the token is expired.
         """
-        user_id = int(verify_access_token(token))
+        user_id = uuid.UUID(verify_access_token(token))
 
         return await self._user_db_port.by_id(user_id)

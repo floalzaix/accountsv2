@@ -2,6 +2,8 @@
 #   Imports
 #
 
+import uuid
+
 from abc import ABC, abstractmethod
 
 # Perso
@@ -14,7 +16,7 @@ from core.shared.models.user import User
 
 class UserDBPort(ABC):
     @abstractmethod
-    async def by_id(self, user_id: int) -> User:
+    async def by_id(self, user_id: uuid.UUID) -> User:
         pass
 
     @abstractmethod

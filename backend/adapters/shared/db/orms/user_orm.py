@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import uuid
+from typing import TYPE_CHECKING
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String
@@ -15,7 +16,9 @@ from sqlalchemy.sql.sqltypes import Enum
 
 from adapters.shared.db.base import Base
 from core.shared.enums.user_status import UserStatus
-from adapters.features.categories.category_orm import Category as CategoryORM
+
+if TYPE_CHECKING:
+    from adapters.features.categories.category_orm import CategoryORM
 
 #
 #   ORMs
@@ -61,5 +64,6 @@ class UserORM(Base):
     
     categories: Mapped[list[CategoryORM]] = relationship(
         back_populates="user",
+        cascade="all, delete-orphan",
         doc="The categories owned by the user",
     )

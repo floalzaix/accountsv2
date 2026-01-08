@@ -137,9 +137,23 @@
                   "    pm.expect(body.user).to.not.have.property(\"hash\");",
                   "});",
                   "",
-                  "pm.collectionVariables.set(\"access_token\", body.access_token);"
+                  "pm.globals.set(\"access_token\", body.access_token);"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "05e11eb2-7797-40b7-8f38-cdfeb46555b9",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -524,6 +538,203 @@
         }
       ],
       "id": "27ad3ce7-2a19-45d8-a6ba-19c5509882c4"
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "List Categories - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "8018b1dd-5d72-435d-a889-5ea639419a60",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is an array\", function () {",
+                  "    pm.expect(body).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "if (body.length > 0) {",
+                  "    pm.test(\"Each category has required fields\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category).to.have.property(\"id\");",
+                  "            pm.expect(category).to.have.property(\"name\");",
+                  "            pm.expect(category).to.have.property(\"user_id\");",
+                  "            pm.expect(category).to.have.property(\"level\");",
+                  "            pm.expect(category).to.have.property(\"parent_ids\");",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category id is a valid UUID string\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.id).to.be.a(\"string\");",
+                  "            pm.expect(category.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category name is a string\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.name).to.be.a(\"string\");",
+                  "            pm.expect(category.name.length).to.be.above(0);",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category user_id is a valid UUID string\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.user_id).to.be.a(\"string\");",
+                  "            pm.expect(category.user_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category level is a number between 0 and 3\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.level).to.be.a(\"number\");",
+                  "            pm.expect(category.level).to.be.at.least(0);",
+                  "            pm.expect(category.level).to.be.at.most(3);",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category parent_ids is an array\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.parent_ids).to.be.an(\"array\");",
+                  "        });",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "fff66db1-8170-4e06-9187-b26b72ff2492",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Categories - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "fa10224a-ef39-42ae-83fd-28aa05254b05",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "52632982-a120-4e95-ad3a-3ab1938193e8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Categories - Invalid Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "ae8b2a2a-b195-4c82-b707-250d9d260907",
+                "exec": [
+                  "pm.test(\"Status code is 401 or 403\", function () {",
+                  "    pm.expect([401, 403]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "3fee6f6c-626e-4473-a5b8-31e94f805b50",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid_token_here",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "566cc0e5-83a5-48cd-b15a-bb5db16ef4fa"
     }
   ]
 }

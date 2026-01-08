@@ -2,6 +2,8 @@
 #   Imports
 #
 
+import uuid
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -23,7 +25,7 @@ class UserRepo(UserDBPort):
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def by_id(self, user_id: int) -> User:
+    async def by_id(self, user_id: uuid.UUID) -> User:
         """
             Gets a User by id.
 

@@ -2,7 +2,10 @@
 #   Imports
 #
 
+from __future__ import annotations
+
 import uuid
+from typing import List
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import CheckConstraint, ForeignKey, Integer, String, UniqueConstraint
@@ -57,10 +60,18 @@ class CategoryORM(Base):
     #
     
     user: Mapped[UserORM] = relationship(
-        "User",
+        "UserORM",
         back_populates="categories",
-        cascade="all, delete-orphan",
         doc="The user that owns the category",
+    )
+
+    parents: Mapped[List[CategoryORM]] = relationship(
+        "CategoryORM",
+        secondary="categories_childs",
+        primaryjoin="CategoryORM.id == CategoryChildORM.parent_id",
+        secondaryjoin="CategoryORM.id == CategoryChildORM.child_id",
+        back_populates="parents",
+        doc="The parents of the category",
     )
 
     #
