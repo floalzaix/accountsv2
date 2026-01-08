@@ -1,3 +1,8 @@
-from .user_orm import User
+from .user_orm import UserORM
+from adapters.features.categories.category_orm import CategoryORM, CategoryChildORM
 
-__all__ = ["User"]
+__all__ = [
+    "UserORM",
+    "CategoryORM",
+    "CategoryChildORM",
+]

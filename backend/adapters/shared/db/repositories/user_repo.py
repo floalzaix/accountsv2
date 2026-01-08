@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from adapters.shared.utils.conversion_utils import model_to_orm, orm_to_model
 from core.shared.ports.user_db_port import UserDBPort
-from adapters.shared.db.orms.user_orm import User as UserORM
+from adapters.shared.db.orms.user_orm import UserORM
 from core.shared.models.user import User
 
 #

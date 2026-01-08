@@ -2,7 +2,7 @@
 #   Imports
 #
 
-from sqlalchemy.orm import DeclarativeBase, declared_attr
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import DateTime, func
 from datetime import datetime
@@ -15,10 +15,6 @@ class Base(DeclarativeBase):
     """
         Base class for all database ORM models.
     """
-
-    @declared_attr.directive
-    def __tablename__(cls) -> str:
-        return cls.__name__.lower() + "s"
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=func.now()
