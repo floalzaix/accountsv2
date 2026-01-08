@@ -227,79 +227,13 @@
               }
             }
           ],
-          "id": "register-user-exists-001",
+          "id": "46312248-register-user-exists-001",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"pseudo\": \"testt\",\r\n    \"password\": \"test\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/auth/register",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "auth",
-                "register"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Register - Validation Error",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "register-validation-test",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {",
-                  "    pm.response.to.have.status(422);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has detail field\", function () {",
-                  "    pm.expect(body).to.have.property(\"detail\");",
-                  "});",
-                  "",
-                  "pm.test(\"Detail is an array of validation errors\", function () {",
-                  "    pm.expect(body.detail).to.be.an(\"array\");",
-                  "    pm.expect(body.detail.length).to.be.above(0);",
-                  "});",
-                  "",
-                  "pm.test(\"Each error has required fields\", function () {",
-                  "    body.detail.forEach(function(error) {",
-                  "        pm.expect(error).to.have.property(\"loc\");",
-                  "        pm.expect(error).to.have.property(\"msg\");",
-                  "        pm.expect(error).to.have.property(\"type\");",
-                  "    });",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "id": "register-validation-001",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"email\": \"\",\r\n    \"pseudo\": \"\",\r\n    \"password\": \"\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -439,83 +373,13 @@
               }
             }
           ],
-          "id": "login-wrong-password-001",
+          "id": "46312248-login-wrong-password-001",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"wrongpassword\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/auth/login",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "auth",
-                "login"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Login - Validation Error",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "login-validation-test",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {",
-                  "    pm.response.to.have.status(422);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has detail field\", function () {",
-                  "    pm.expect(body).to.have.property(\"detail\");",
-                  "});",
-                  "",
-                  "pm.test(\"Detail is an array of validation errors\", function () {",
-                  "    pm.expect(body.detail).to.be.an(\"array\");",
-                  "    pm.expect(body.detail.length).to.be.above(0);",
-                  "});",
-                  "",
-                  "pm.test(\"Each error has required fields\", function () {",
-                  "    body.detail.forEach(function(error) {",
-                  "        pm.expect(error).to.have.property(\"loc\");",
-                  "        pm.expect(error).to.have.property(\"msg\");",
-                  "        pm.expect(error).to.have.property(\"type\");",
-                  "    });",
-                  "});",
-                  "",
-                  "pm.test(\"Response does not have access_token\", function () {",
-                  "    pm.expect(body).to.not.have.property(\"access_token\");",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "id": "login-validation-001",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -542,161 +406,6 @@
     {
       "name": "Categories",
       "item": [
-        {
-          "name": "List Categories - Success",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "8018b1dd-5d72-435d-a889-5ea639419a60",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response is an array\", function () {",
-                  "    pm.expect(body).to.be.an(\"array\");",
-                  "});",
-                  "",
-                  "if (body.length > 0) {",
-                  "    pm.test(\"Each category has required fields\", function () {",
-                  "        body.forEach(function(category) {",
-                  "            pm.expect(category).to.have.property(\"id\");",
-                  "            pm.expect(category).to.have.property(\"name\");",
-                  "            pm.expect(category).to.have.property(\"user_id\");",
-                  "            pm.expect(category).to.have.property(\"level\");",
-                  "            pm.expect(category).to.have.property(\"parent_ids\");",
-                  "        });",
-                  "    });",
-                  "",
-                  "    pm.test(\"Category id is a valid UUID string\", function () {",
-                  "        body.forEach(function(category) {",
-                  "            pm.expect(category.id).to.be.a(\"string\");",
-                  "            pm.expect(category.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
-                  "        });",
-                  "    });",
-                  "",
-                  "    pm.test(\"Category name is a string\", function () {",
-                  "        body.forEach(function(category) {",
-                  "            pm.expect(category.name).to.be.a(\"string\");",
-                  "            pm.expect(category.name.length).to.be.above(0);",
-                  "        });",
-                  "    });",
-                  "",
-                  "    pm.test(\"Category user_id is a valid UUID string\", function () {",
-                  "        body.forEach(function(category) {",
-                  "            pm.expect(category.user_id).to.be.a(\"string\");",
-                  "            pm.expect(category.user_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
-                  "        });",
-                  "    });",
-                  "",
-                  "    pm.test(\"Category level is a number between 0 and 3\", function () {",
-                  "        body.forEach(function(category) {",
-                  "            pm.expect(category.level).to.be.a(\"number\");",
-                  "            pm.expect(category.level).to.be.at.least(0);",
-                  "            pm.expect(category.level).to.be.at.most(3);",
-                  "        });",
-                  "    });",
-                  "",
-                  "    pm.test(\"Category parent_ids is an array\", function () {",
-                  "        body.forEach(function(category) {",
-                  "            pm.expect(category.parent_ids).to.be.an(\"array\");",
-                  "        });",
-                  "    });",
-                  "}"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "id": "ff018132-fa5b-42bc-8ee2-3709af58129f",
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "fff66db1-8170-4e06-9187-b26b72ff2492",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/categories/",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "categories",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "List Categories - Unauthorized",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "fa10224a-ef39-42ae-83fd-28aa05254b05",
-                "exec": [
-                  "pm.test(\"Status code is 401\", function () {",
-                  "    pm.response.to.have.status(401);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has detail field\", function () {",
-                  "    pm.expect(body).to.have.property(\"detail\");",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "id": "52632982-a120-4e95-ad3a-3ab1938193e8",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/categories/",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "categories",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
         {
           "name": "Create Category - Success (Level 0, no parents)",
           "event": [
@@ -901,6 +610,105 @@
           "response": []
         },
         {
+          "name": "Create Category - Success (Level 1, one parent) Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "d9b3cc14-311c-4eb4-9867-41cd50593f4f",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "const requestBody = pm.request.body.raw;",
+                  "const requestData = JSON.parse(requestBody);",
+                  "",
+                  "pm.test(\"Response has all required fields\", function () {",
+                  "    pm.expect(body).to.have.property(\"id\");",
+                  "    pm.expect(body).to.have.property(\"name\");",
+                  "    pm.expect(body).to.have.property(\"user_id\");",
+                  "    pm.expect(body).to.have.property(\"level\");",
+                  "    pm.expect(body).to.have.property(\"parent_ids\");",
+                  "});",
+                  "",
+                  "pm.test(\"Name matches request name\", function () {",
+                  "    pm.expect(body.name).to.equal(requestData.name);",
+                  "});",
+                  "",
+                  "pm.test(\"Level is 1\", function () {",
+                  "    pm.expect(body.level).to.equal(1);",
+                  "});",
+                  "",
+                  "pm.test(\"Parent ids contains exactly one element\", function () {",
+                  "    pm.expect(body.parent_ids).to.be.an(\"array\");",
+                  "    pm.expect(body.parent_ids.length).to.equal(1);",
+                  "});",
+                  "",
+                  "pm.test(\"Parent id matches category_level_0_id\", function () {",
+                  "    const parentId = pm.globals.get(\"category_level_0_id\");",
+                  "    pm.expect(body.parent_ids[0]).to.equal(parentId);",
+                  "});",
+                  "",
+                  "pm.globals.set(\"category_level_1_id2\", body.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "7c6ad924-124f-4105-a8b4-efd19e911463",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "75e0215e-65c0-4831-b8d1-54b5e849002a",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Épicerie 2\",\r\n    \"level\": 1,\r\n    \"parent_ids\": [\"{{category_level_0_id}}\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Create Category - Success (Level 2, multiple parents)",
           "event": [
             {
@@ -942,8 +750,8 @@
                   "});",
                   "",
                   "pm.test(\"Parent ids match saved variables\", function () {",
-                  "    const parentId0 = pm.globals.get(\"category_level_0_id\");",
-                  "    const parentId1 = pm.globals.get(\"category_level_1_id\");",
+                  "    const parentId0 = pm.globals.get(\"category_level_1_id\");",
+                  "    const parentId1 = pm.globals.get(\"category_level_1_id2\");",
                   "    pm.expect(body.parent_ids).to.include(parentId0);",
                   "    pm.expect(body.parent_ids).to.include(parentId1);",
                   "});"
@@ -978,7 +786,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Fruits et Légumes\",\r\n    \"level\": 2,\r\n    \"parent_ids\": [\"{{category_level_0_id}}\", \"{{category_level_1_id}}\"]\r\n}",
+              "raw": "{\r\n    \"name\": \"Fruits et Légumes\",\r\n    \"level\": 2,\r\n    \"parent_ids\": [\"{{category_level_1_id}}\", \"{{category_level_1_id2}}\"]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1421,8 +1229,8 @@
               "script": {
                 "id": "0562491c-46ee-4e99-bec7-b9806d210d67",
                 "exec": [
-                  "pm.test(\"Status code is 409\", function () {",
-                  "    pm.response.to.have.status(409);",
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
                   "});",
                   "",
                   "pm.test(\"Response time is less than 2000ms\", function () {",
@@ -1509,8 +1317,8 @@
               "script": {
                 "id": "6c47f830-6a1c-417e-9220-4371d67c2861",
                 "exec": [
-                  "pm.test(\"Status code is 409\", function () {",
-                  "    pm.response.to.have.status(409);",
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
                   "});",
                   "",
                   "pm.test(\"Response time is less than 2000ms\", function () {",
@@ -1597,8 +1405,8 @@
               "script": {
                 "id": "f55bcd03-7fd6-45bb-b119-a272a133e49e",
                 "exec": [
-                  "pm.test(\"Status code is 409\", function () {",
-                  "    pm.response.to.have.status(409);",
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
                   "});",
                   "",
                   "pm.test(\"Response time is less than 2000ms\", function () {",
@@ -1663,6 +1471,161 @@
                 }
               }
             },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Categories - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "8018b1dd-5d72-435d-a889-5ea639419a60",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is an array\", function () {",
+                  "    pm.expect(body).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "if (body.length > 0) {",
+                  "    pm.test(\"Each category has required fields\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category).to.have.property(\"id\");",
+                  "            pm.expect(category).to.have.property(\"name\");",
+                  "            pm.expect(category).to.have.property(\"user_id\");",
+                  "            pm.expect(category).to.have.property(\"level\");",
+                  "            pm.expect(category).to.have.property(\"parent_ids\");",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category id is a valid UUID string\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.id).to.be.a(\"string\");",
+                  "            pm.expect(category.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category name is a string\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.name).to.be.a(\"string\");",
+                  "            pm.expect(category.name.length).to.be.above(0);",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category user_id is a valid UUID string\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.user_id).to.be.a(\"string\");",
+                  "            pm.expect(category.user_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category level is a number between 0 and 3\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.level).to.be.a(\"number\");",
+                  "            pm.expect(category.level).to.be.at.least(0);",
+                  "            pm.expect(category.level).to.be.at.most(3);",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Category parent_ids is an array\", function () {",
+                  "        body.forEach(function(category) {",
+                  "            pm.expect(category.parent_ids).to.be.an(\"array\");",
+                  "        });",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "ff018132-fa5b-42bc-8ee2-3709af58129f",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "fff66db1-8170-4e06-9187-b26b72ff2492",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Categories - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "fa10224a-ef39-42ae-83fd-28aa05254b05",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "52632982-a120-4e95-ad3a-3ab1938193e8",
+          "request": {
+            "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{URL}}/{{PREFIX}}/categories/",
               "host": [

@@ -138,7 +138,7 @@ class CategoryRepo(CategoryDBPort):
 
         # Checking if all the parents were found and have the correct level
         if len(parents) != len(parent_ids):
-            raise ValueError("One or more parents is not found or has "
+            raise RuntimeError("One or more parents is not found or has "
             "an invalid level to be the parent of this category.")
 
         # Adding the parents' relationships
