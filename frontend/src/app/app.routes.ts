@@ -1,9 +1,20 @@
 import { Routes } from '@angular/router';
-import { AuthComponent } from './auth/auth.component/auth.component';
+import { AuthPage } from './auth/auth.page/auth.page';
+import { HomePage } from './shared/pages/home.page/home.page';
+import { authGuardGuard } from './shared/guards/auth-guard-guard';
 
 export const routes: Routes = [
     {
-        path: '',
-        component: AuthComponent
+        path: "auth",
+        component: AuthPage,
+    },
+    {
+        path: "home",
+        component: HomePage,
+        canActivate: [authGuardGuard],
+    },
+    {
+        path: "**",
+        redirectTo: "auth",
     }
 ];

@@ -11,7 +11,7 @@ import { User } from '../user.model';
 import { ErrorWrapper } from '../../shared/errors/error-wrapper';
 
 @Component({
-  selector: 'app-auth.component',
+  selector: 'app-auth-component',
   imports: [
     ReactiveFormsModule,
     InputTextModule,

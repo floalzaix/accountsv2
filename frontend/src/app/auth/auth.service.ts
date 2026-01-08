@@ -3,7 +3,7 @@ import { AsyncHttpClient } from '../shared/services/async-http-client';
 import { User } from './user.model';
 import { ValidationError } from '../shared/errors/validation-error';
 import { ErrorWrapper } from '../shared/errors/error-wrapper';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { LoginResponse, LoginResponseSchema } from './login-response.model';
 
 @Injectable({
@@ -34,9 +34,9 @@ export class AuthService {
 
     if (password !== confirmPassword) {
       throw new ErrorWrapper(
-        'Passwords do not match',
-        'The passwords do not match',
-        new ValidationError('Passwords do not match')
+        "Passwords do not match",
+        "The passwords do not match",
+        new ValidationError("Passwords do not match")
       );
     }
 
@@ -44,7 +44,7 @@ export class AuthService {
     //   Preparing the observable
     //
     const observable = this.asyncHttpClient.post<User>({
-      endpoint: '/auth/register',
+      endpoint: "/auth/register",
       json: {
         email,
         password,
@@ -55,6 +55,15 @@ export class AuthService {
     return observable;
   }
 
+  /**
+   * Logs in a user.
+   * 
+   * Then stores the given token into the local storage.
+   * 
+   * @param email - The email of the user.
+   * @param password - The password of the user.
+   * @returns An observable of the user.
+   */
   public login(
     { email, password }: {
       email: string;
@@ -66,15 +75,41 @@ export class AuthService {
     //   Preparing the observable
     //
     const observable = this.asyncHttpClient.post<LoginResponse>({
-      endpoint: '/auth/login',
+      endpoint: "/auth/login",
       json: {
         email,
         password,
       },
     }).pipe(
-      map((response) => LoginResponseSchema.parse(response).user)
+      map((response) => {
+        const loginResponse = LoginResponseSchema.parse(response);
+        const user = loginResponse.user;
+
+        localStorage.setItem('access_token', loginResponse.access_token);
+
+        return user;
+      })
     );
 
     return observable;
-  } 
+  }
+
+  public isAuthenticated(): Observable<boolean> {
+    const token = localStorage.getItem('access_token');
+
+    if (!token) {
+      return of(false);
+    }
+
+    const observable = this.asyncHttpClient.get<User>("/auth/me").pipe(
+      map(() => {
+        return true;
+      }),
+      catchError(() => {
+        return of(false);
+      })
+    );
+
+    return observable;
+  }
 }

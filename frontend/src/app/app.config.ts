@@ -6,6 +6,7 @@ import { errorInterceptorInterceptor } from './shared/interceptors/error-interce
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { GlobalErrorHandler } from './shared/global-error-handler';
+import { accessTokenInterceptorInterceptor } from './shared/interceptors/access-token-interceptor-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,7 +14,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     {provide: ErrorHandler, useClass: GlobalErrorHandler},
     provideHttpClient(
-      withInterceptors([errorInterceptorInterceptor])
+      withInterceptors([
+        accessTokenInterceptorInterceptor,
+        errorInterceptorInterceptor
+      ])
     ),
     providePrimeNG({
       theme: {

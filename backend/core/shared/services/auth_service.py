@@ -92,9 +92,9 @@ class AuthService:
             Returns the user if the token is valid.
 
             Raises:
-                - ValueError: If the token is invalid.
-                - ValueError: If the user is not found.
-                - ValueError: If the token is expired.
+                - SecurityError: If the token is invalid.
+                - SecurityError: If the user is not found.
+                - SecurityError: If the token is expired.
         """
         user_id = uuid.UUID(verify_access_token(token))
 

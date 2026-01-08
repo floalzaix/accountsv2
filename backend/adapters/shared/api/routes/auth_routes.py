@@ -12,10 +12,10 @@ from adapters.shared.validators.user_dto import (
     UserCreate, UserLogin, UserRead, UserBearer
 )
 from adapters.shared.db.repositories.user_repo import UserRepo
-
 from adapters.shared.utils.security_utils import create_access_token
 from core.shared.services.auth_service import AuthService
-
+from core.shared.models.user import User
+from adapters.shared.dependencies import get_user
 
 #
 #   Routes
@@ -118,3 +118,20 @@ async def login(
                 "dev": str(e)
             }
         )
+
+@auth_routes.get(
+    "/me",
+    response_model=UserBearer,
+    status_code=status.HTTP_200_OK,
+    summary="Get the current user",
+)
+async def me(
+    user: User = Depends(get_user),
+):
+    """
+        Gets the current user from the database.
+
+        It is a mean to verify if authenticated for the frontend
+        for exemple.
+    """
+    return user
