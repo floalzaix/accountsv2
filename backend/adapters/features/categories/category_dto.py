@@ -4,7 +4,7 @@
 
 import uuid
 
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel, Field
 
 # Perso
@@ -22,7 +22,8 @@ class CategoryBase(BaseModel):
         max_length=255,
         description="The category's name"
     )
-    user_id: uuid.UUID = Field(
+    user_id: Optional[uuid.UUID] = Field(
+        default=None,
         description="The user's unique identifier"
     )
 

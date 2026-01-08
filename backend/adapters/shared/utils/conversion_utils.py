@@ -11,7 +11,7 @@ from core.shared.exceptions.conversion_error import (
 )
 
 from adapters.shared.db.base import Base
-from typing import Type, TypeVar
+from typing import Any, Dict, List, Type, TypeVar
 
 #
 #   Utils
@@ -25,7 +25,13 @@ def _error_handler(error: Exception, type: ConversionType) -> None:
     """
     raise ConversionError(error, type)
 
-def orm_to_model(orm_model: Base, model_type: Type[T]) -> T:
+def orm_to_model(
+    orm_model: Base, 
+    model_type: Type[T],
+    *,
+    exclude: List[str] = [],
+    include: Dict[str, Any] = {}
+) -> T:
     """
         Convert an ORM to a model.
 
@@ -39,8 +45,12 @@ def orm_to_model(orm_model: Base, model_type: Type[T]) -> T:
             for k, v in orm_model.__dict__.items()
             if not k.startswith("_") and
             not k.startswith("created_at") and
-            not k.startswith("updated_at")
+            not k.startswith("updated_at") and
+            k not in exclude
         }
+
+        kwargs.update(include)
+
 
         return model_type(**kwargs)
 
@@ -48,7 +58,13 @@ def orm_to_model(orm_model: Base, model_type: Type[T]) -> T:
         _error_handler(e, ConversionType.ORM_TO_MODEL)
         raise
 
-def model_to_orm(model: object, orm_type: Type[Base]) -> Base:
+def model_to_orm(
+    model: object, 
+    orm_type: Type[Base],
+    *,
+    exclude: List[str] = [],
+    include: Dict[str, Any] = {}
+) -> Base:
     """
         Convert a model to an ORM.
     
@@ -60,8 +76,10 @@ def model_to_orm(model: object, orm_type: Type[Base]) -> Base:
         kwargs = {
             k: v
             for k, v in model.__dict__.items()
-            if not k.startswith("_")
+            if not k.startswith("_") and k not in exclude
         }
+
+        kwargs.update(include)
 
         return orm_type(**kwargs)
     except Exception as e:

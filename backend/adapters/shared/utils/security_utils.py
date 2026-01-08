@@ -11,7 +11,7 @@ from passlib.context import CryptContext
 # Perso
 
 from adapters.shared.config.config import get_settings
-
+from core.shared.exceptions.security_error import SecurityError
 #
 #   Utils
 #
@@ -60,10 +60,10 @@ def verify_access_token(token: str) -> Any:
         data: Any = payload.get("sub")
 
         if not data:
-            raise ValueError(f"Invalid token !")
+            raise SecurityError(f"Invalid token !")
 
         return data
     except jwt.ExpiredSignatureError:
-        raise ValueError(f"Token expired !")
+        raise SecurityError(f"Token expired !")
     except Exception as e:
-        raise ValueError(f"Invalid token !") from e
+        raise SecurityError(f"Invalid token !") from e

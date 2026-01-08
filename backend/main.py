@@ -2,15 +2,15 @@
 #   Imports
 #
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 
 # Perso
 
 from adapters.shared.api.router import routes
 from adapters.shared.lifespan import lifespan
-
 from adapters.shared.config.config import get_settings, Env
+from core.shared.exceptions.security_error import SecurityError
 
 settings = get_settings()
 
@@ -33,3 +33,13 @@ app.add_middleware(
 app.include_router(routes, prefix="/api")
 
 # Handling global exceptions
+@app.exception_handler(SecurityError)
+async def security_error_handler(request: Request, exc: SecurityError):
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail={
+            "security_safe_title": "Unauthorized",
+            "security_safe_description": "You are not authorized to access this resource.",
+            "dev": str(exc)
+        }
+    )

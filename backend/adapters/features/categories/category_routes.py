@@ -3,16 +3,18 @@
 #
 
 from typing import List
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # Perso
 
 from adapters.shared.dependencies import get_db_session, get_user
-from adapters.features.categories.category_dto import CategoryRead
+from adapters.features.categories.category_dto import CategoryRead, CategoryCreate
 from adapters.features.categories.category_repo import CategoryRepo
 from core.features.categories.category_service import CategoryService
 from core.shared.models.user import User
+from adapters.shared.utils.conversion_utils import pydantic_to_model
+from core.features.categories.category import Category
 
 #
 #   Routes
@@ -39,6 +41,40 @@ async def list_categories(
 
     categories = await category_service.list_categories(user_id=user.id)
 
-    print(user)
-
     return categories
+
+@category_routes.post(
+    "/",
+    response_model=CategoryRead,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create a new category for a given user",
+)
+async def create_category(
+    category_create: CategoryCreate,
+    user: User = Depends(get_user),
+    db_session: AsyncSession = Depends(get_db_session),
+):
+    """
+        Create a new category for a given user.
+    """
+    category_repo = CategoryRepo(session=db_session)
+
+    category_service = CategoryService(category_db_port=category_repo)
+
+    category_create.user_id = user.id
+
+    category_model: Category = pydantic_to_model(category_create, Category)
+
+    try:
+        category = await category_service.create_category(category_model)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "user_safe_title": "Catégorie déjà existante",
+                "user_safe_description": "La catégorie existe probablement déjà.",
+                "dev": str(e)
+            }
+        )
+
+    return category

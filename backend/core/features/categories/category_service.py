@@ -35,4 +35,18 @@ class CategoryService:
         """
         return await self._category_db_port.by_user_id(user_id)
 
+    async def create_category(self, category: Category) -> Category:
+        """
+            Creates a category.
+
+            Params:
+                - category: The category to create.
+
+            Returns:
+                - The created category.
+        """
+        category = await self._category_db_port.create(category)
+
+        return category
+
     

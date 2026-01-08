@@ -109,3 +109,12 @@ class CategoryChildORM(Base):
         nullable=False,
         doc="The child category's unique identifier",
     )
+
+    #
+    #   Constraints
+    #
+    
+    __table_args__ = (
+        UniqueConstraint("parent_id", "child_id", name="uq_parent_id_child_id"),
+    )
+    

@@ -611,7 +611,21 @@
                   "    });",
                   "}"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "ff018132-fa5b-42bc-8ee2-3709af58129f",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -684,15 +698,317 @@
           "response": []
         },
         {
-          "name": "List Categories - Invalid Token",
+          "name": "Create Category - Success (Level 0, no parents)",
           "event": [
             {
               "listen": "test",
               "script": {
-                "id": "ae8b2a2a-b195-4c82-b707-250d9d260907",
+                "id": "f9945cd8-914a-48b0-b28f-d6da895c0ce7",
                 "exec": [
-                  "pm.test(\"Status code is 401 or 403\", function () {",
-                  "    pm.expect([401, 403]).to.include(pm.response.code);",
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "const requestBody = pm.request.body.raw;",
+                  "const requestData = JSON.parse(requestBody);",
+                  "",
+                  "pm.test(\"Response has all required fields\", function () {",
+                  "    pm.expect(body).to.have.property(\"id\");",
+                  "    pm.expect(body).to.have.property(\"name\");",
+                  "    pm.expect(body).to.have.property(\"user_id\");",
+                  "    pm.expect(body).to.have.property(\"level\");",
+                  "    pm.expect(body).to.have.property(\"parent_ids\");",
+                  "});",
+                  "",
+                  "pm.test(\"Name matches request name\", function () {",
+                  "    pm.expect(body.name).to.equal(requestData.name);",
+                  "});",
+                  "",
+                  "pm.test(\"Level matches request level\", function () {",
+                  "    pm.expect(body.level).to.equal(requestData.level);",
+                  "});",
+                  "",
+                  "pm.test(\"Id is a valid UUID string\", function () {",
+                  "    pm.expect(body.id).to.be.a(\"string\");",
+                  "    pm.expect(body.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});",
+                  "",
+                  "pm.test(\"User id is a valid UUID string\", function () {",
+                  "    pm.expect(body.user_id).to.be.a(\"string\");",
+                  "    pm.expect(body.user_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});",
+                  "",
+                  "pm.test(\"Parent ids is an empty array\", function () {",
+                  "    pm.expect(body.parent_ids).to.be.an(\"array\");",
+                  "    pm.expect(body.parent_ids.length).to.equal(0);",
+                  "});",
+                  "",
+                  "pm.globals.set(\"category_level_0_id\", body.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "0fd66a77-ed95-42b7-9af3-7d5fcf967dc3",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "54e86eba-3439-44bc-80e3-29c9cf818342",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Alimentation\",\r\n    \"level\": 0,\r\n    \"parent_ids\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Success (Level 1, one parent)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "d9b3cc14-311c-4eb4-9867-41cd50593f4f",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "const requestBody = pm.request.body.raw;",
+                  "const requestData = JSON.parse(requestBody);",
+                  "",
+                  "pm.test(\"Response has all required fields\", function () {",
+                  "    pm.expect(body).to.have.property(\"id\");",
+                  "    pm.expect(body).to.have.property(\"name\");",
+                  "    pm.expect(body).to.have.property(\"user_id\");",
+                  "    pm.expect(body).to.have.property(\"level\");",
+                  "    pm.expect(body).to.have.property(\"parent_ids\");",
+                  "});",
+                  "",
+                  "pm.test(\"Name matches request name\", function () {",
+                  "    pm.expect(body.name).to.equal(requestData.name);",
+                  "});",
+                  "",
+                  "pm.test(\"Level is 1\", function () {",
+                  "    pm.expect(body.level).to.equal(1);",
+                  "});",
+                  "",
+                  "pm.test(\"Parent ids contains exactly one element\", function () {",
+                  "    pm.expect(body.parent_ids).to.be.an(\"array\");",
+                  "    pm.expect(body.parent_ids.length).to.equal(1);",
+                  "});",
+                  "",
+                  "pm.test(\"Parent id matches category_level_0_id\", function () {",
+                  "    const parentId = pm.globals.get(\"category_level_0_id\");",
+                  "    pm.expect(body.parent_ids[0]).to.equal(parentId);",
+                  "});",
+                  "",
+                  "pm.globals.set(\"category_level_1_id\", body.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "7c6ad924-124f-4105-a8b4-efd19e911463",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "e0cb0032-550a-4c14-8f64-19e9f62c23cf",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Épicerie\",\r\n    \"level\": 1,\r\n    \"parent_ids\": [\"{{category_level_0_id}}\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Success (Level 2, multiple parents)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "7beb70de-31a4-4c51-b320-ede07ecaa143",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "const requestBody = pm.request.body.raw;",
+                  "const requestData = JSON.parse(requestBody);",
+                  "",
+                  "pm.test(\"Response has all required fields\", function () {",
+                  "    pm.expect(body).to.have.property(\"id\");",
+                  "    pm.expect(body).to.have.property(\"name\");",
+                  "    pm.expect(body).to.have.property(\"user_id\");",
+                  "    pm.expect(body).to.have.property(\"level\");",
+                  "    pm.expect(body).to.have.property(\"parent_ids\");",
+                  "});",
+                  "",
+                  "pm.test(\"Name matches request name\", function () {",
+                  "    pm.expect(body.name).to.equal(requestData.name);",
+                  "});",
+                  "",
+                  "pm.test(\"Level is 2\", function () {",
+                  "    pm.expect(body.level).to.equal(2);",
+                  "});",
+                  "",
+                  "pm.test(\"Parent ids contains exactly two elements\", function () {",
+                  "    pm.expect(body.parent_ids).to.be.an(\"array\");",
+                  "    pm.expect(body.parent_ids.length).to.equal(2);",
+                  "});",
+                  "",
+                  "pm.test(\"Parent ids match saved variables\", function () {",
+                  "    const parentId0 = pm.globals.get(\"category_level_0_id\");",
+                  "    const parentId1 = pm.globals.get(\"category_level_1_id\");",
+                  "    pm.expect(body.parent_ids).to.include(parentId0);",
+                  "    pm.expect(body.parent_ids).to.include(parentId1);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "e8611705-621a-4066-bddc-2443d375217c",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "2edbbfcc-ae93-4edc-8eb1-a997597ad1f6",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Fruits et Légumes\",\r\n    \"level\": 2,\r\n    \"parent_ids\": [\"{{category_level_0_id}}\", \"{{category_level_1_id}}\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "7e5aafd3-3cea-4ca9-9d87-41cfb311032f",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
                   "});",
                   "",
                   "pm.test(\"Response time is less than 2000ms\", function () {",
@@ -705,20 +1021,648 @@
                   "    pm.expect(body).to.have.property(\"detail\");",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "0385d170-ad80-4137-96bc-92087d38b15f",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
-          "id": "3fee6f6c-626e-4473-a5b8-31e94f805b50",
+          "id": "5060c1e1-22f8-40cb-bec2-64392485fabd",
           "request": {
-            "method": "GET",
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Alimentation\",\r\n    \"level\": 0,\r\n    \"parent_ids\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Validation Error (name vide)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "8531fe55-da88-4f42-8201-0db3789ac2b3",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Each error has required fields\", function () {",
+                  "    body.detail.forEach(function(error) {",
+                  "        pm.expect(error).to.have.property(\"loc\");",
+                  "        pm.expect(error).to.have.property(\"msg\");",
+                  "        pm.expect(error).to.have.property(\"type\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "370a1814-bc27-4d33-becf-0c6cfe2d8744",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "61caffc0-c120-46a8-a6f2-1c7210a36ed6",
+          "request": {
+            "method": "POST",
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer invalid_token_here",
+                "value": "Bearer {{access_token}}",
                 "type": "text"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"\",\r\n    \"level\": 0,\r\n    \"parent_ids\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Validation Error (level invalide)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "12aaf35d-e879-459e-bec2-4d069e425438",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Each error has required fields\", function () {",
+                  "    body.detail.forEach(function(error) {",
+                  "        pm.expect(error).to.have.property(\"loc\");",
+                  "        pm.expect(error).to.have.property(\"msg\");",
+                  "        pm.expect(error).to.have.property(\"type\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "7a1b0e23-6165-4c07-85ce-d0f29bd1f48b",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "7f09a45a-94c3-415f-833d-2ef0efcf455b",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Test Category\",\r\n    \"level\": 5,\r\n    \"parent_ids\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Validation Error (missing required fields)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "946b2654-91f0-4b15-a7ed-6ce87b71e355",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Each error has required fields\", function () {",
+                  "    body.detail.forEach(function(error) {",
+                  "        pm.expect(error).to.have.property(\"loc\");",
+                  "        pm.expect(error).to.have.property(\"msg\");",
+                  "        pm.expect(error).to.have.property(\"type\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "b328df07-8599-4651-8d71-70d3f365eabc",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "2c40640d-4673-4ee2-b002-40cdf6f62e69",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Already Exists",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "84b06a0a-9c7a-4200-aeae-8b302bf08cd5",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Catégorie déjà existante\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"existe probablement déjà\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "b8f44d82-11b3-4388-831f-f6e8dc244d5d",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "00f81627-b43c-496e-bf6b-44548971fec4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Alimentation\",\r\n    \"level\": 0,\r\n    \"parent_ids\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Invalid Level (level trop faible)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "0562491c-46ee-4e99-bec7-b9806d210d67",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Catégorie déjà existante\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"existe probablement déjà\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message mentions invalid level\", function () {",
+                  "    pm.expect(body.detail.dev).to.include(\"invalid level\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "9b8db621-98aa-4fe7-9339-0d9e89eb4c3d",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "4610b16e-55c1-4ccd-a6fd-c265d68311c6",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Catégorie avec niveau trop faible\",\r\n    \"level\": 2,\r\n    \"parent_ids\": [\"{{category_level_0_id}}\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Invalid Level (level trop haut)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "6c47f830-6a1c-417e-9220-4371d67c2861",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Catégorie déjà existante\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"existe probablement déjà\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message mentions invalid level\", function () {",
+                  "    pm.expect(body.detail.dev).to.include(\"invalid level\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "015e8d11-3d67-4e99-86e8-36a50122d4fc",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "a3d56e0a-cb9c-426a-a2fb-b5d71dc355e1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Catégorie avec niveau trop haut\",\r\n    \"level\": 0,\r\n    \"parent_ids\": [\"{{category_level_1_id}}\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category - Invalid Level (même niveau)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "f55bcd03-7fd6-45bb-b119-a272a133e49e",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Catégorie déjà existante\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"existe probablement déjà\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message mentions invalid level\", function () {",
+                  "    pm.expect(body.detail.dev).to.include(\"invalid level\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "84b1be51-5dee-4eda-b46c-a0d14db8bffc",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "e86fc6fe-a7ea-434b-98be-54558c1665a5",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Catégorie avec même niveau\",\r\n    \"level\": 1,\r\n    \"parent_ids\": [\"{{category_level_1_id}}\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{URL}}/{{PREFIX}}/categories/",
               "host": [
