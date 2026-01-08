@@ -5,7 +5,7 @@
 import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update
+from sqlalchemy import select, update, delete
 from sqlalchemy.orm import selectinload
 from typing import List
 
@@ -182,3 +182,38 @@ class CategoryRepo(CategoryDBPort):
         await self._session.commit()
 
         return await self.by_id(category.id, category.user_id)
+    
+    async def list_childs(
+        self,
+        category_id: uuid.UUID,
+        user_id: uuid.UUID
+    ) -> List[Category]:
+        query = (
+            select(CategoryORM)
+            .join(CategoryChildORM, CategoryORM.id == CategoryChildORM.child_id)
+            .where(CategoryChildORM.parent_id == category_id)
+            .where(CategoryORM.user_id == user_id)
+        )
+
+        result = await self._session.execute(query)
+
+        childs = result.scalars().all()
+
+        return [orm_to_model(child, Category) for child in childs]
+
+    async def delete(
+        self, category_id: uuid.UUID, user_id: uuid.UUID) -> None:
+        query = (
+            delete(CategoryORM)
+            .where(CategoryORM.id == category_id)
+            .where(CategoryORM.user_id == user_id)
+        )
+
+        result = await self._session.execute(query)
+
+        # Verifying if the category was deleted
+        if (result.rowcount <= 0): # type: ignore
+            raise ValueError(f"Category with id {category_id} not found "
+            f"for user {user_id}.")
+
+        await self._session.commit()

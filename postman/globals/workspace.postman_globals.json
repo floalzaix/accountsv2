@@ -43,9 +43,16 @@
       "enabled": true,
       "type": "any",
       "description": ""
+    },
+    {
+      "key": "category_to_delete_id",
+      "value": "",
+      "enabled": true,
+      "type": "any",
+      "description": ""
     }
   ],
   "_postman_variable_scope": "globals",
-  "_postman_exported_at": "2026-01-08T17:20:49.892Z",
+  "_postman_exported_at": "2026-01-08T19:46:45.084Z",
   "_postman_exported_using": "Postman/11.0.0"
 }

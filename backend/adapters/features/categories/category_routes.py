@@ -119,4 +119,34 @@ async def update_category(
         )
 
     return category
-    
+
+@category_routes.delete(
+    "/{category_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete a category for a given user",
+)
+async def delete_category(
+    category_id: uuid.UUID,
+    user: User = Depends(get_user),
+    db_session: AsyncSession = Depends(get_db_session),
+):
+    """
+        Delete a category for a given user.
+    """
+    category_repo = CategoryRepo(session=db_session)
+
+    category_service = CategoryService(category_db_port=category_repo)
+
+    try:
+        await category_service.delete_category(category_id=category_id, user_id=user.id)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "user_safe_title": "Catégorie non trouvée",
+                "user_safe_description": "La catégorie donnée "
+                "n'existe pas.",
+                "dev": str(e)
+            }
+        )
+    return None

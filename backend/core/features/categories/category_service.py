@@ -83,4 +83,22 @@ class CategoryService:
 
         return category
 
-    
+    async def delete_category(
+        self,
+        category_id: uuid.UUID,
+        user_id: uuid.UUID
+    ) -> None:
+        """
+            Deletes a category.
+
+            Recursively deletes the category and all its childs.
+        """
+
+        childs = await self._category_db_port.list_childs(
+            category_id, user_id
+        )
+
+        for child in childs:
+            await self.delete_category(child.id, user_id)
+
+        await self._category_db_port.delete(category_id, user_id)

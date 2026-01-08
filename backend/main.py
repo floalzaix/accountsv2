@@ -43,3 +43,14 @@ async def security_error_handler(request: Request, exc: SecurityError):
             "dev": str(exc)
         }
     )
+
+@app.exception_handler(Exception)
+async def exception_handler(request: Request, exc: Exception):
+    raise HTTPException(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        detail={
+            "user_safe_title": "Erreur inattendue",
+            "user_safe_description": "Une erreur inattendue du serveur est survenue.",
+            "dev": str(exc)
+        }
+    )

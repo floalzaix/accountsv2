@@ -2148,6 +2148,242 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Delete Category - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "f56c8e6c-f568-47a7-a630-1de82a6b6085",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "1839e823-df10-4ca6-86a1-5bdebaade37a",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "5180fa73-1d84-45d6-b1f6-9e6a43662fc6",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/{{category_level_0_id}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                "{{category_level_0_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "3d4aac83-1b2d-4771-ae4a-677de30f66d6",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Catégorie non trouvée\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"n'existe pas\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "3b797720-eec6-4a63-8a2d-d73e3d8b1266",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "7ea15283-664e-4251-8227-4ad7b79a7981",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/00000000-0000-0000-0000-000000000000",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                "00000000-0000-0000-0000-000000000000"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "df75624d-5baa-4b1a-889e-2677c67fa824",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has no body\", function () {",
+                  "    pm.expect(pm.response.body).to.be.empty;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "05094813-f96a-46b7-ade2-3e4d9cc709fd",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const createRequest = {",
+                  "    url: url + \"/\" + prefix + \"/categories/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + pm.globals.get(\"access_token\"),",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            name: \"Catégorie à supprimer\",",
+                  "            level: 0,",
+                  "            parent_ids: []",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createRequest, function (err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "    } else {",
+                  "        const body = res.json();",
+                  "        pm.globals.set(\"category_to_delete_id\", body.id);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "fa250fc2-2cc5-40a5-852c-175d1f1751ea",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/{{category_level_0_id}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                "{{category_level_0_id}}"
+              ]
+            }
+          },
+          "response": []
         }
       ],
       "id": "566cc0e5-83a5-48cd-b15a-bb5db16ef4fa"

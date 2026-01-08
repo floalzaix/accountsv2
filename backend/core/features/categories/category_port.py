@@ -97,3 +97,34 @@ class CategoryDBPort(ABC):
                 - ValueError: If the category name is already in use.
         """
         pass
+
+    @abstractmethod
+    async def list_childs(self, category_id: uuid.UUID, user_id: uuid.UUID) -> List[Category]:
+        """
+            Lists the childs of a category.
+
+            Meant to delete to enable deletion of children
+            when a category is deleted.
+
+            Params:
+                - category_id: The category's unique identifier.
+                - user_id: The user's unique identifier.
+
+            Returns:
+                - A list of categories that are childs of the category.
+        """
+        pass
+
+    @abstractmethod
+    async def delete(self, category_id: uuid.UUID, user_id: uuid.UUID) -> None:
+        """
+            Deletes a category.
+
+            Params:
+                - category_id: The category's unique identifier.
+                - user_id: The user's unique identifier.
+
+            Raises:
+                - ValueError: If the category is not found.
+        """
+        pass
