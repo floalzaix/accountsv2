@@ -18,6 +18,7 @@ class CategoryBase(BaseModel):
         Base model for a category.
     """
     name: str = Field(
+        ...,
         min_length=1,
         max_length=255,
         description="The category's name"

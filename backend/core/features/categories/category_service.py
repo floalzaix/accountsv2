@@ -44,8 +44,42 @@ class CategoryService:
 
             Returns:
                 - The created category.
+
+            Raises:
+                - ValueError: If the category name is already in use.
+                - RuntimeError: If one or more parents is not found
+                or has an invalid level to be the parent of this category.
         """
         category = await self._category_db_port.create(category)
+
+        return category
+
+    async def update_category(
+        self,
+        category_id: uuid.UUID,
+        user_id: uuid.UUID,
+        name: str
+    ) -> Category:
+        """
+            Updates a category.
+
+            Params:
+                - category_id: The category's unique identifier.
+                - user_id: The user's unique identifier.
+                - name: The new name of the category.
+
+            Returns:
+                - The updated category.
+
+            Raises:
+                - ValueError: If the category is not found.
+                - ValueError: If the category name is already in use.
+        """
+        category = await self._category_db_port.by_id(category_id, user_id)
+
+        category.name = name
+
+        await self._category_db_port.update(category)
 
         return category
 

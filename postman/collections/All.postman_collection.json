@@ -1639,6 +1639,515 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Update Category - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4a1b95cd-442f-45a6-8d27-62f800e0e189",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "const requestBody = pm.request.body.raw;",
+                  "const requestData = JSON.parse(requestBody);",
+                  "",
+                  "pm.test(\"Response has all required fields\", function () {",
+                  "    pm.expect(body).to.have.property(\"id\");",
+                  "    pm.expect(body).to.have.property(\"name\");",
+                  "    pm.expect(body).to.have.property(\"user_id\");",
+                  "    pm.expect(body).to.have.property(\"level\");",
+                  "    pm.expect(body).to.have.property(\"parent_ids\");",
+                  "});",
+                  "",
+                  "pm.test(\"Name matches updated name\", function () {",
+                  "    pm.expect(body.name).to.equal(requestData.name);",
+                  "});",
+                  "",
+                  "pm.test(\"Id matches category ID\", function () {",
+                  "    pm.expect(body.id).to.equal(requestData.id);",
+                  "});",
+                  "",
+                  "pm.test(\"Id is a valid UUID string\", function () {",
+                  "    pm.expect(body.id).to.be.a(\"string\");",
+                  "    pm.expect(body.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "24d17b53-3579-4a9a-89bb-c0dad6dd9429",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "e0fddf06-7e97-469c-8536-be79ad66ce1e",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{category_level_0_id}}\",\r\n    \"name\": \"Alimentation Modifiée\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/{{category_level_0_id}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                "{{category_level_0_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "bbb41697-60b2-4503-bf7f-adbe99488192",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a55d9e55-8725-4e3b-a19a-5c1b3a010e62",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "c8105350-1219-4900-b003-b547aab1cd62",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{category_level_0_id}}\",\r\n    \"name\": \"Nouveau Nom\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/{{category_level_0_id}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                "{{category_level_0_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "6de63fcc-7a0f-417e-8f57-82f34cc57d04",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Catégorie non trouvée ou nom déjà utilisé\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"n'existe pas\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "b8c1e461-79f4-4762-ae10-3be7e0fce38d",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "8dd97fa6-c477-47e9-bd84-61b3d1e65577",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"name\": \"Nouveau Nom\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/00000000-0000-0000-0000-000000000000",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                "00000000-0000-0000-0000-000000000000"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category - Name Already Exists",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "61fa49e1-f884-4937-998c-10897123bdf8",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Catégorie non trouvée ou nom déjà utilisé\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"nom donné est déjà utilisé\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "5f16f055-f300-4af4-9758-10cc89d3bca3",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "bf3b6ce7-205e-4bc3-9b82-6ece6fb12f95",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{category_level_0_id}}\",\r\n    \"name\": \"Épicerie\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/{{category_level_0_id}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                "{{category_level_0_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category - Validation Error (name vide)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e1220c12-b399-4a89-b433-82144931e090",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Each error has required fields\", function () {",
+                  "    body.detail.forEach(function(error) {",
+                  "        pm.expect(error).to.have.property(\"loc\");",
+                  "        pm.expect(error).to.have.property(\"msg\");",
+                  "        pm.expect(error).to.have.property(\"type\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "6d19d88e-96e8-4cf7-85d8-f7b03329a530",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "d726d269-b7e1-4eef-993a-1371df14fe3e",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{category_level_0_id}}\",\r\n    \"name\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/{{category_level_0_id}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                "{{category_level_0_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category - Validation Error (missing name)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "a3c423c1-afe1-424f-82c5-1599a81ce2ec",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Each error has required fields\", function () {",
+                  "    body.detail.forEach(function(error) {",
+                  "        pm.expect(error).to.have.property(\"loc\");",
+                  "        pm.expect(error).to.have.property(\"msg\");",
+                  "        pm.expect(error).to.have.property(\"type\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "37092637-801a-41a8-805e-148dcb507a21",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "08d597eb-0581-4321-8657-260e078d6bbd",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{category_level_0_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/categories/{{category_level_0_id}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "categories",
+                "{{category_level_0_id}}"
+              ]
+            }
+          },
+          "response": []
         }
       ],
       "id": "566cc0e5-83a5-48cd-b15a-bb5db16ef4fa"

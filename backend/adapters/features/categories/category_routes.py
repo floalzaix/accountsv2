@@ -2,6 +2,8 @@
 #   Imports
 #
 
+import uuid
+
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 # Perso
 
 from adapters.shared.dependencies import get_db_session, get_user
-from adapters.features.categories.category_dto import CategoryRead, CategoryCreate
+from adapters.features.categories.category_dto import CategoryRead, CategoryCreate, CategoryUpdate
 from adapters.features.categories.category_repo import CategoryRepo
 from core.features.categories.category_service import CategoryService
 from core.shared.models.user import User
@@ -78,3 +80,43 @@ async def create_category(
         )
 
     return category
+
+@category_routes.put(
+    "/{category_id}",
+    response_model=CategoryRead,
+    status_code=status.HTTP_200_OK,
+    summary="Update a category for a given user",
+)
+async def update_category(
+    category_id: uuid.UUID,
+    category_update: CategoryUpdate,
+    user: User = Depends(get_user),
+    db_session: AsyncSession = Depends(get_db_session),
+):
+    """
+        Update a category for a given user.
+    """
+    category_repo = CategoryRepo(session=db_session)
+
+    category_service = CategoryService(category_db_port=category_repo)
+
+    try:
+        category = await category_service.update_category(
+            category_id=category_id,
+            user_id=user.id,
+            name=category_update.name
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "user_safe_title": "Catégorie non trouvée ou nom déjà "
+                "utilisé",
+                "user_safe_description": "La catégorie avec l'id donné "
+                "n'existe pas ou le nom donné est déjà utilisé.",
+                "dev": str(e)
+            }
+        )
+
+    return category
+    

@@ -18,7 +18,7 @@ from core.features.categories.category import Category
 class CategoryDBPort(ABC):
 
     @abstractmethod
-    async def by_id(self, category_id: uuid.UUID) -> Category:
+    async def by_id(self, category_id: uuid.UUID, user_id: uuid.UUID) -> Category:
         """
             Gets a Category by id.
 
@@ -73,5 +73,27 @@ class CategoryDBPort(ABC):
 
             Returns:
                 - The created category.
+
+            Raises:
+                - ValueError: If the category name is already in use.
+                - RuntimeError: If one or more parents is not found
+                or has an invalid level to be the parent of this category.
+        """
+        pass
+
+    @abstractmethod
+    async def update(self, category: Category) -> Category:
+        """
+            Updates a category.
+
+            Params:
+                - category: The category to update.
+
+            Returns:
+                - The updated category.
+
+            Raises:
+                - ValueError: If the category is not found.
+                - ValueError: If the category name is already in use.
         """
         pass

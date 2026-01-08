@@ -5,7 +5,7 @@
 import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.orm import selectinload
 from typing import List
 
@@ -27,10 +27,11 @@ class CategoryRepo(CategoryDBPort):
     def __init__(self, session: AsyncSession):
         self._session = session
 
-    async def by_id(self, category_id: uuid.UUID) -> Category:
+    async def by_id(self, category_id: uuid.UUID, user_id: uuid.UUID) -> Category:
         query = (
             select(CategoryORM)
             .where(CategoryORM.id == category_id)
+            .where(CategoryORM.user_id == user_id)
             .options(selectinload(CategoryORM.parents))
         )
 
@@ -159,3 +160,25 @@ class CategoryRepo(CategoryDBPort):
             include={"parent_ids": parent_ids}
         )
 
+    async def update(self, category: Category) -> Category:
+        # Verifying if the new name is already in use
+        try:
+            await self.by_name(category.name, category.user_id)
+        except ValueError:
+            pass
+        else:
+            raise ValueError(f"Category with id {category.name} already exists")
+
+        # Updating the category
+        query = (
+            update(CategoryORM)
+            .where(CategoryORM.id == category.id)
+            .where(CategoryORM.user_id == category.user_id)
+            .values(name=category.name)
+        )
+
+        await self._session.execute(query)
+
+        await self._session.commit()
+
+        return await self.by_id(category.id, category.user_id)
