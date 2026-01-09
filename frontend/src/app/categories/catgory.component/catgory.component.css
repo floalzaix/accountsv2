@@ -1,0 +1,39 @@
+::ng-deep .p-card {
+    width: 140px;
+}
+
+::ng-deep.p-card-body {
+    width: 100%;
+    padding: 0 !important;
+}
+
+::ng-deep.p-card-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+#category-container  i {
+    padding-left: 12px;
+}
+
+#category-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+#category-buttons :first-child ::ng-deep .p-button {
+    border-top-left-radius: 0;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#category-buttons :last-child ::ng-deep .p-button {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 12px;
+}
