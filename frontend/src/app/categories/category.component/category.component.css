@@ -1,22 +1,20 @@
-::ng-deep .p-card {
+#category-container ::ng-deep .p-card {
     width: 140px;
 }
 
-::ng-deep.p-card-body {
+#category-container ::ng-deep .p-card-body {
     width: 100%;
     padding: 0 !important;
 }
 
-::ng-deep.p-card-content {
+#category-container ::ng-deep .p-card-content {
+    padding-left: 12px;
+
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-}
-
-#category-container  i {
-    padding-left: 12px;
 }
 
 #category-buttons {

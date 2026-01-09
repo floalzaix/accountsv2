@@ -1,1 +1,23 @@
-<app-catgory-component />
+<div id="categories-container">
+  @if (categories().length > 0) {
+    @for (category of categories(); track category.id) {
+      <app-category-component [category]="category" />
+    }
+  }
+  @else {
+    <i class="pi pi-spin pi-spinner"></i>
+  }
+
+  <p-card id="categories-add-category-card">
+    <p-inplace>
+      <ng-template #display>
+        <i class="pi pi-plus"></i>
+      </ng-template>
+      <ng-template #content>
+        <form [formGroup]="addCategoryForm" (submit)="addCategory()">
+          <input type="text" pInputText formControlName="name" />
+        </form>
+      </ng-template>
+    </p-inplace>
+  </p-card>
+</div>

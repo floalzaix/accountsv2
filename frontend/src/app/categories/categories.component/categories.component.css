@@ -1,0 +1,14 @@
+#categories-add-category-card {
+    width: 140px;
+    height: 74px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+#categories-add-category-card ::ng-deep .p-card-body {
+    height: 100%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
