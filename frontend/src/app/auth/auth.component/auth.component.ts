@@ -9,6 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { User } from '../user.model';
 import { ErrorWrapper } from '../../shared/errors/error-wrapper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-component',
@@ -32,7 +33,8 @@ export class AuthComponent {
   
   private readonly authService: AuthService = inject(AuthService);
   private readonly toastService: MessageService = inject(MessageService);
-
+  private readonly router: Router = inject(Router);
+  
   //
   //   State Machine
   //
@@ -126,6 +128,7 @@ export class AuthComponent {
           detail: "Bienvenue " + user.pseudo + " !",
           life: 1000,
         });
+        this.router.navigate(["/home"]);
       },
       error: (error: ErrorWrapper) => {
         this.toastService.add({

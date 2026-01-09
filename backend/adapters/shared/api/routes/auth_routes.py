@@ -121,7 +121,7 @@ async def login(
 
 @auth_routes.get(
     "/me",
-    response_model=UserBearer,
+    response_model=UserRead,
     status_code=status.HTTP_200_OK,
     summary="Get the current user",
 )

@@ -399,6 +399,73 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Me",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "703e1de9-5044-404e-a7d7-f8d1b8feaed5",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "16e0416e-170f-4f3b-98ff-622b7d76cd85",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const body = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Response body contains 'user'\", function () {\r",
+                  "    pm.expect(body).to.have.property(\"id\");\r",
+                  "    pm.expect(body).to.have.property(\"email\");\r",
+                  "    pm.expect(body).to.have.property(\"pseudo\");\r",
+                  "    pm.expect(body).to.have.property(\"status\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "bcffbe9b-6505-45e4-9acf-22ce190cb58e",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/auth/me",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
         }
       ],
       "id": "27ad3ce7-2a19-45d8-a6ba-19c5509882c4"
