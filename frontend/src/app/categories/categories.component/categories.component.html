@@ -1,23 +1,83 @@
 <div id="categories-container">
   @if (categories().length > 0) {
     @for (category of categories(); track category.id) {
-      <app-category-component [category]="category" />
+      @if (category.level === 0) {
+        <app-category-component 
+          [category]="category"
+          (stateChange)="$event === 'selected' 
+            ? level1SelectedCategory.set(category.id) 
+            : level1SelectedCategory.set(null)"
+          [state]="level1SelectedCategory() 
+            ? (level1SelectedCategory() === category.id 
+              ? 'selected' 
+              : 'disabled') 
+            : 'normal'"
+        />
+      }
+    }
+
+    @for (category of categories(); track category.id) {
+      @if (category.level === 1 && categoriesStateLevel() >= 1) {
+        <app-category-component 
+          [category]="category"
+          (stateChange)="$event === 'selected' 
+            ? level2SelectedCategory.set(category.id) 
+            : level2SelectedCategory.set(null)"
+          [state]="level2SelectedCategory() 
+            ? (level2SelectedCategory() === category.id 
+              ? 'selected' 
+              : 'disabled') 
+            : (category.parent_ids.includes(level1SelectedCategory()!) 
+              ? 'normal' 
+              : 'disabled')"
+        />
+      }
+    }
+
+    @for (category of categories(); track category.id) {
+      @if (category.level === 2 && categoriesStateLevel() >= 2) {
+        <app-category-component 
+          [category]="category"
+          (stateChange)="$event === 'selected' 
+            ? level3SelectedCategory.set(category.id) 
+            : level3SelectedCategory.set(null)"
+          [state]="level3SelectedCategory() 
+            ? (level3SelectedCategory() === category.id 
+              ? 'selected' 
+              : 'disabled') 
+            : 'normal'"
+        />
+      }
     }
   }
   @else {
     <i class="pi pi-spin pi-spinner"></i>
   }
 
-  <p-card id="categories-add-category-card">
+  <div id="categories-add-category-card">
     <p-inplace>
       <ng-template #display>
-        <i class="pi pi-plus"></i>
+        <p-card>
+          <i class="pi pi-plus"></i>
+        </p-card>
       </ng-template>
-      <ng-template #content>
-        <form [formGroup]="addCategoryForm" (submit)="addCategory()">
-          <input type="text" pInputText formControlName="name" />
-        </form>
+      <ng-template #content let-closeAddCategoryForm="closeCallback">
+        <p-card>
+          <form
+            [formGroup]="addCategoryForm"
+            (blur)="closeAddCategoryForm($event)"
+            (submit)="addCategory()"
+          >
+            <input 
+              type="text"
+              (blur)="closeAddCategoryForm($event)"
+              [pAutoFocus]="true"
+              formControlName="name"
+            />
+            <p-button icon="pi pi-check" type="submit" />
+          </form>
+        </p-card>
       </ng-template>
     </p-inplace>
-  </p-card>
+  </div>
 </div>

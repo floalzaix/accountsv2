@@ -1,5 +1,6 @@
 #category-container ::ng-deep .p-card {
-    width: 140px;
+    width: 160px;
+    height: 74px;
 }
 
 #category-container ::ng-deep .p-card-body {
@@ -12,9 +13,20 @@
 
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-between;
     gap: 12px;
+}
+
+#category-name {
+    width: 100%;
+    min-height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
 }
 
 #category-buttons {

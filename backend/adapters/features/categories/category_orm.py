@@ -68,8 +68,8 @@ class CategoryORM(Base):
     parents: Mapped[List[CategoryORM]] = relationship(
         "CategoryORM",
         secondary="categories_childs",
-        primaryjoin="CategoryORM.id == CategoryChildORM.parent_id",
-        secondaryjoin="CategoryORM.id == CategoryChildORM.child_id",
+        primaryjoin="CategoryORM.id == CategoryChildORM.child_id",
+        secondaryjoin="CategoryORM.id == CategoryChildORM.parent_id",
         back_populates="parents",
         doc="The parents of the category",
     )

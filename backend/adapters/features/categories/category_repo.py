@@ -193,13 +193,21 @@ class CategoryRepo(CategoryDBPort):
             .join(CategoryChildORM, CategoryORM.id == CategoryChildORM.child_id)
             .where(CategoryChildORM.parent_id == category_id)
             .where(CategoryORM.user_id == user_id)
+            .options(selectinload(CategoryORM.parents))
         )
 
         result = await self._session.execute(query)
 
         childs = result.scalars().all()
 
-        return [orm_to_model(child, Category) for child in childs]
+        return [orm_to_model(
+            child, Category,
+            exclude=["parents"],
+            include={"parent_ids": [
+                parent.id
+                for parent in child.parents
+            ]}
+        ) for child in childs]
 
     async def delete(
         self, category_id: uuid.UUID, user_id: uuid.UUID) -> None:

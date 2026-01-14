@@ -1,10 +1,25 @@
 <div id="category-container">
-    <p-card>
+    <p-card 
+        [style.background-color]="color()"
+        [style.display]="state() === 'disabled' ? 'none' : 'block'"
+        [style.opacity]="state() === 'selected' ? 1 : 0.5"
+    >
         <!-- <i class="pi pi-pencil"></i> not for now in MVP -->
-        <div id="category-name">{{ category().name }}</div>
-        <div id="category-buttons">
-            <p-button icon="pi pi-pencil"/>
-            <p-button icon="pi pi-trash"/>
+        <div 
+            id="category-name"
+            (click)="state() === 'selected' ? state.set('normal') : state.set('selected')"
+        >
+            {{ category().name }}
+        </div>
+        <div 
+            id="category-buttons"
+        >
+            <p-button
+                icon="pi pi-pencil"
+            />
+            <p-button
+                icon="pi pi-trash"
+            />
         </div>
     </p-card>
 </div>
