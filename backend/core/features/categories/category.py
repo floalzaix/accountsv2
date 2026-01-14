@@ -5,7 +5,6 @@
 import uuid
 
 from dataclasses import dataclass
-from typing import List
 
 # Perso
 
@@ -22,4 +21,4 @@ class Category:
     name: str
     level: int
     user_id: uuid.UUID
-    parent_ids: List[uuid.UUID]
+    parent_id: uuid.UUID

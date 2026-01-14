@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import uuid
-from typing import List
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import CheckConstraint, ForeignKey, Integer, String, UniqueConstraint
@@ -42,6 +41,12 @@ class CategoryORM(Base):
         nullable=False,
         doc="The category's level",
     )
+    parent_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("categories.id", ondelete="CASCADE"),
+        nullable=True,
+        doc="The parent category's unique identifier",
+    )
     
 
     #
@@ -65,56 +70,12 @@ class CategoryORM(Base):
         doc="The user that owns the category",
     )
 
-    parents: Mapped[List[CategoryORM]] = relationship(
-        "CategoryORM",
-        secondary="categories_childs",
-        primaryjoin="CategoryORM.id == CategoryChildORM.child_id",
-        secondaryjoin="CategoryORM.id == CategoryChildORM.parent_id",
-        back_populates="parents",
-        doc="The parents of the category",
-    )
-
     #
     #   Constraints
     #
     
     __table_args__ = (
-        UniqueConstraint("name", "user_id", name="uq_name_user_id"),
         CheckConstraint("level >= 0", name="ck_level_ge_0"),
-    )
-
-class CategoryChildORM(Base):
-    """
-        Represents a category child in the database.
-
-        To persist the relationships between categories and their children.
-    """
-
-    __tablename__ = "categories_childs"
-
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        doc="The relationship's unique identifier",
-    )
-    parent_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("categories.id", ondelete="CASCADE"),
-        nullable=False,
-        doc="The parent category's unique identifier",
-    )
-    child_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("categories.id", ondelete="CASCADE"),
-        nullable=False,
-        doc="The child category's unique identifier",
-    )
-
-    #
-    #   Constraints
-    #
-    
-    __table_args__ = (
-        UniqueConstraint("parent_id", "child_id", name="uq_parent_id_child_id"),
+        UniqueConstraint("parent_id", "name", name="uq_parent_id_name"),
     )
     

@@ -74,7 +74,8 @@ async def create_category(
             status_code=status.HTTP_409_CONFLICT,
             detail={
                 "user_safe_title": "Catégorie déjà existante",
-                "user_safe_description": "La catégorie existe probablement déjà.",
+                "user_safe_description": "La catégorie existe probablement "
+                "déjà avec le même parent.",
                 "dev": str(e)
             }
         )
@@ -110,10 +111,9 @@ async def update_category(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail={
-                "user_safe_title": "Catégorie non trouvée ou nom déjà "
-                "utilisé",
-                "user_safe_description": "La catégorie avec l'id donné "
-                "n'existe pas ou le nom donné est déjà utilisé.",
+                "user_safe_title": "Catégorie déjà existante",
+                "user_safe_description": "La catégorie existe probablement "
+                "déjà avec le même parent.",
                 "dev": str(e)
             }
         )

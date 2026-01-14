@@ -34,19 +34,19 @@ class CategoryDBPort(ABC):
         pass
 
     @abstractmethod
-    async def by_name(self, name: str, user_id: uuid.UUID) -> Category:
+    async def by_name(self, name: str, user_id: uuid.UUID) -> List[Category]:
         """
-            Gets a Category by name.
+            Gets the categories by name.
 
             Params:
-                - name: The name of the category to get.
+                - name: The name of the categories to get.
                 - user_id: The user's unique identifier.
 
             Returns:
-                - The category.
+                - A list of categories.
 
             Raises:
-                - ValueError: If the category is not found.
+                - ValueError: If no categories with the given name are found.
         """
         pass
 
@@ -75,7 +75,8 @@ class CategoryDBPort(ABC):
                 - The created category.
 
             Raises:
-                - ValueError: If the category name is already in use.
+                - ValueError: If the category name is already in use with
+                the same parent.
                 - RuntimeError: If one or more parents is not found
                 or has an invalid level to be the parent of this category.
         """

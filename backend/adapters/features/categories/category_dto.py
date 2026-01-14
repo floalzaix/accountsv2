@@ -4,7 +4,7 @@
 
 import uuid
 
-from typing import List, Optional
+from typing import Optional
 from pydantic import BaseModel, Field
 
 # Perso
@@ -42,9 +42,9 @@ class CategoryRead(CategoryBase):
         le=3,
         description="The category's level"
     )
-    parent_ids: List[uuid.UUID] = Field(
-        ...,
-        description="The parent categories' unique identifiers"
+    parent_id: Optional[uuid.UUID] = Field(
+        default=None,
+        description="The parent category's unique identifier"
     )
 
 class CategoryCreate(CategoryBase):
@@ -61,9 +61,9 @@ class CategoryCreate(CategoryBase):
         le=3,
         description="The category's level"
     )
-    parent_ids: List[uuid.UUID] = Field(
-        ...,
-        description="The parent categories' unique identifiers"
+    parent_id: Optional[uuid.UUID] = Field(
+        default=None,
+        description="The parent category's unique identifier"
     )
 
 class CategoryUpdate(CategoryBase):
