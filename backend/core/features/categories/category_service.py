@@ -72,12 +72,12 @@ class CategoryService:
                 - The updated category.
 
             Raises:
-                - ValueError: If the category is not found.
+                - RuntimeError: If the category is not found.
                 - ValueError: If the category name is already in use.
         """
         try:
             category = await self._category_db_port.by_id(category_id, user_id)
-        except RuntimeError:
+        except Exception:
             raise RuntimeError(f"Category with id {category_id} not found.")
 
         category.name = name

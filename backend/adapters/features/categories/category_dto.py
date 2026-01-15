@@ -70,6 +70,7 @@ class CategoryUpdate(CategoryBase):
     """
         Model for updating a category.
     """
-    id: uuid.UUID = Field(
+    id: Optional[uuid.UUID] = Field(
+        default=None,
         description="The category's unique identifier"
     )

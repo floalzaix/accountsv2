@@ -39,9 +39,11 @@ async def security_error_handler(request: Request, exc: SecurityError):
     return JSONResponse(
         status_code=401,
         content={
-            "security_safe_title": "Unauthorized",
-            "security_safe_description": "You are not authorized to access this resource.",
-            "dev": str(exc)
+            "detail": {
+                "security_safe_title": "Unauthorized",
+                "security_safe_description": "You are not authorized to access this resource.",
+                "dev": str(exc)
+            }
         }
     )
 
@@ -50,8 +52,10 @@ async def exception_handler(request: Request, exc: Exception):
     return JSONResponse(
         status_code=500,
         content={
-            "user_safe_title": "Erreur inattendue",
-            "user_safe_description": "Une erreur inattendue du serveur est survenue.",
-            "dev": str(exc)
+            "detail": {
+                "user_safe_title": "Erreur inattendue",
+                "user_safe_description": "Une erreur inattendue du serveur est survenue.",
+                "dev": str(exc)
+            }
         }
     )

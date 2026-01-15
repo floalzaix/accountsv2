@@ -102,13 +102,17 @@ class CategoryRepo(CategoryDBPort):
             Raises:
                 - ValueError: If the name is already in use for the same parent.
         """
-        categories_same_name = await self.by_name(name, user_id)
-        for cat in categories_same_name:
-            if cat.parent_id != parent_id:
-                pass
-            else:
-                raise ValueError(f"Category with id {name} "
-                f"already exists for parent {parent_id}.")
+        try:
+            categories_same_name = await self.by_name(name, user_id)
+        except ValueError:
+            pass
+        else:
+            for cat in categories_same_name:
+                if cat.parent_id != parent_id:
+                    pass
+                else:
+                    raise ValueError(f"Category with id {name} "
+                    f"already exists for parent {parent_id}.")
 
     async def create(self, category: Category) -> Category:
         category_orm = model_to_orm(
@@ -155,7 +159,12 @@ class CategoryRepo(CategoryDBPort):
 
         await self._session.commit()
 
-        return await self.by_id(category.id, category.user_id)
+        try:
+            updated_cat = await self.by_id(category.id, category.user_id)
+        except Exception:
+            raise RuntimeError(f"Category with id {category.id} not found.")
+
+        return updated_cat
     
     async def list_childs(
         self,
