@@ -8,7 +8,7 @@ export const CategorySchema = z.object({
   id: z.string(),
   name: z.string(),
   level: z.number(),
-  parent_ids: z.array(z.string()),
+  parent_id: z.string().optional(),
 });
 
 export type Category = z.infer<typeof CategorySchema>;

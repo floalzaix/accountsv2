@@ -1,9 +1,12 @@
+<p-toast />
+
 <div id="categories-container">
   @if (categories().length > 0) {
     @for (category of categories(); track category.id) {
       @if (category.level === 0) {
         <app-category-component 
           [category]="category"
+          (onUpdated)="getAllCategories()"
           (stateChange)="$event === 'selected' 
             ? level1SelectedCategory.set(category.id) 
             : level1SelectedCategory.set(null)"
@@ -20,6 +23,7 @@
       @if (category.level === 1 && categoriesStateLevel() >= 1) {
         <app-category-component 
           [category]="category"
+          (onUpdated)="getAllCategories()"
           (stateChange)="$event === 'selected' 
             ? level2SelectedCategory.set(category.id) 
             : level2SelectedCategory.set(null)"
@@ -27,7 +31,7 @@
             ? (level2SelectedCategory() === category.id 
               ? 'selected' 
               : 'disabled') 
-            : (category.parent_ids.includes(level1SelectedCategory()!) 
+            : (category.parent_id === level1SelectedCategory() 
               ? 'normal' 
               : 'disabled')"
         />
@@ -38,6 +42,7 @@
       @if (category.level === 2 && categoriesStateLevel() >= 2) {
         <app-category-component 
           [category]="category"
+          (onUpdated)="getAllCategories()"
           (stateChange)="$event === 'selected' 
             ? level3SelectedCategory.set(category.id) 
             : level3SelectedCategory.set(null)"
@@ -45,39 +50,44 @@
             ? (level3SelectedCategory() === category.id 
               ? 'selected' 
               : 'disabled') 
-            : 'normal'"
+            : (category.parent_id === level2SelectedCategory() 
+              ? 'normal' 
+              : 'disabled')"
         />
       }
     }
   }
-  @else {
-    <i class="pi pi-spin pi-spinner"></i>
-  }
 
-  <div id="categories-add-category-card">
-    <p-inplace>
-      <ng-template #display>
-        <p-card>
-          <i class="pi pi-plus"></i>
-        </p-card>
-      </ng-template>
-      <ng-template #content let-closeAddCategoryForm="closeCallback">
-        <p-card>
-          <form
-            [formGroup]="addCategoryForm"
-            (blur)="closeAddCategoryForm($event)"
-            (submit)="addCategory()"
-          >
-            <input 
-              type="text"
-              (blur)="closeAddCategoryForm($event)"
-              [pAutoFocus]="true"
-              formControlName="name"
-            />
-            <p-button icon="pi pi-check" type="submit" />
-          </form>
-        </p-card>
-      </ng-template>
-    </p-inplace>
-  </div>
+  @if (categoriesStateLevel() <= 2) {
+    <div id="categories-add-category-card">
+      <p-inplace>
+        <ng-template #display>
+          <p-card>
+            <i class="pi pi-plus"></i>
+          </p-card>
+        </ng-template>
+        <ng-template #content let-closeCallback="closeCallback">
+          <p-card>
+            <form
+              [formGroup]="addCategoryForm"
+              (ngSubmit)="addCategory()"
+            >
+              <input 
+                type="text"
+                (blur)="closeInplaceForm(closeCallback, $event)"
+                [pAutoFocus]="true"
+                formControlName="name"
+              />
+
+              <p-button
+                icon="pi pi-check"
+                type="submit"
+                (click)="closeInplaceForm(closeCallback, $event)"
+              />
+            </form>
+          </p-card>
+        </ng-template>
+      </p-inplace>
+    </div>
+  }
 </div>

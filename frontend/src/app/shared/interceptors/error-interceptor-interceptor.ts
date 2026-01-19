@@ -14,7 +14,7 @@ export const errorInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
           return new ErrorWrapper(
             "Une erreur est survenue",
             "Une erreur inattendue est survenue",
-            new Error(error.message));
+            error);
         });
       }
 

@@ -1,25 +1,65 @@
+<p-toast />
+
 <div id="category-container">
-    <p-card 
-        [style.background-color]="color()"
-        [style.display]="state() === 'disabled' ? 'none' : 'block'"
-        [style.opacity]="state() === 'selected' ? 1 : 0.5"
-    >
-        <!-- <i class="pi pi-pencil"></i> not for now in MVP -->
-        <div 
-            id="category-name"
-            (click)="state() === 'selected' ? state.set('normal') : state.set('selected')"
-        >
-            {{ category().name }}
-        </div>
-        <div 
-            id="category-buttons"
-        >
-            <p-button
-                icon="pi pi-pencil"
-            />
-            <p-button
-                icon="pi pi-trash"
-            />
-        </div>
-    </p-card>
+  <p-card 
+    [style.background-color]="color()"
+    [style.display]="state() === 'disabled' ? 'none' : 'block'"
+    [style.opacity]="state() === 'selected' ? 1 : 0.5"
+  >
+    <!-- <i class="pi pi-pencil"></i> not for now in MVP -->
+    @if (!isEditing() && !isDeleting()) {
+      <div 
+        id="category-name"
+        (click)="state() === 'selected' ? state.set('normal') : state.set('selected')"
+      >
+        {{ category().name }}
+      </div>
+      <div 
+        id="category-buttons"
+      >
+        <p-button
+          icon="pi pi-pencil"
+          (click)="isEditing.set(true)"
+        />
+        <p-button
+          icon="pi pi-trash"
+          (click)="isDeleting.set(true)"
+        />
+      </div>
+    } @else if (isEditing()) {
+      <form 
+        [formGroup]="editCategoryForm"
+        (ngSubmit)="editCategory()"
+      >
+        <input 
+          type="text"
+          (blur)="closeInplaceForm(isEditing.set, false)"
+          [pAutoFocus]="true"
+          formControlName="name"
+        />
+        <p-button
+          icon="pi pi-check"
+          type="submit"
+          (click)="closeInplaceForm(isEditing.set, false)"
+        />
+      </form>
+    } @else if (isDeleting()) {
+      <form>
+        <button
+          pButton
+          icon="pi pi-trash"
+          (blur)="closeInplaceForm(isDeleting.set, false)"
+          [pAutoFocus]="true"
+          (click)="deleteCategory(); isDeleting.set(false); $event.preventDefault();"
+        ></button>
+
+        <button
+          pButton
+          icon="pi pi-times"
+          severity="danger"
+          (click)="isDeleting.set(false); $event.preventDefault();"
+        ></button>
+      </form>
+    }
+  </p-card>
 </div>

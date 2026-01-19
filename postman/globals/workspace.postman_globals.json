@@ -50,6 +50,20 @@
       "enabled": true,
       "type": "any",
       "description": ""
+    },
+    {
+      "key": "transaction_id",
+      "value": "",
+      "enabled": true,
+      "type": "any",
+      "description": ""
+    },
+    {
+      "key": "transaction_to_delete_id",
+      "value": "",
+      "enabled": true,
+      "type": "any",
+      "description": ""
     }
   ],
   "_postman_variable_scope": "globals",

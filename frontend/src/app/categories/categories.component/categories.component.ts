@@ -7,6 +7,10 @@ import { InplaceModule } from 'primeng/inplace';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { ButtonModule } from 'primeng/button';
+import { ErrorWrapper } from '../../shared/errors/error-wrapper';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { closeInplaceForm } from '../../shared/utils/other';
 
 @Component({
   selector: 'app-categories-component',
@@ -17,16 +21,21 @@ import { ButtonModule } from 'primeng/button';
     ReactiveFormsModule,
     AutoFocusModule,
     ButtonModule,
+    ToastModule,
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css',
+  providers: [MessageService],
 })
 export class CategoriesComponent implements OnInit {
+  closeInplaceForm = closeInplaceForm;
+
   //
   //   Interfaces
   //
   
   private readonly categoriesService = inject(CategoriesService);
+  private readonly messageService = inject(MessageService);
 
   //
   //   Data
@@ -39,7 +48,7 @@ export class CategoriesComponent implements OnInit {
   //
   
   public addCategoryForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]),
+    name: new FormControl<string>('', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]),
   });
 
   //
@@ -77,6 +86,12 @@ export class CategoriesComponent implements OnInit {
     if (this.level2SelectedCategory() !== null) {
       this.categoriesStateLevel.set(2);
     } else {
+      this.level3SelectedCategory.set(null);
+    }
+
+    // Same process for level 3 categories
+    if (this.level3SelectedCategory() !== null) {
+      this.categoriesStateLevel.set(3);
     }
     
     // Resetting if no level is selected
@@ -104,6 +119,66 @@ export class CategoriesComponent implements OnInit {
    * Adds a new category to the database.
    */
   public addCategory(): void {
-    console.log('addCategory');
+    // Looking for the parent category and therefore the level
+    let parent_id = null;
+    let level = 0;
+
+    if (this.level1SelectedCategory()) {
+      parent_id = this.level1SelectedCategory();
+      level = 1;
+    } 
+    if (this.level2SelectedCategory()) {
+      parent_id = this.level2SelectedCategory();
+      level = 2;
+    } 
+    if (this.level3SelectedCategory()) {
+      throw new Error('Cannot add a category to a level 3 category');
+    }
+
+    // Validating the data
+    if (this.addCategoryForm.invalid) {
+      this.addCategoryForm.markAllAsTouched();
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Le nom est invalide !',
+        life: 3000,
+      });
+      
+      return;
+    }
+
+    // Adding the category
+    this.categoriesService.addCategory({
+      name: this.addCategoryForm.value.name!,
+      level,
+      parent_id,
+    }).subscribe({
+      next: () => {
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Catégorie ajoutée avec succès !',
+          life: 2000,
+        });
+
+        // Refreshing the categories system.
+        this.addCategoryForm.reset();
+        this.getAllCategories();
+      },
+      error: (error) => {
+        if (error instanceof ErrorWrapper) {
+          this.messageService.add({
+            severity: 'error',
+            summary: error.userSafeTitle,
+            detail: error.userSafeDescription,
+            life: 3000,
+          });
+        }
+
+        throw error;
+      },
+    });
   }
 }

@@ -498,7 +498,7 @@
                   "    pm.expect(body).to.have.property(\"name\");",
                   "    pm.expect(body).to.have.property(\"user_id\");",
                   "    pm.expect(body).to.have.property(\"level\");",
-                  "    pm.expect(body).to.have.property(\"parent_ids\");",
+                  "    pm.expect(body).to.have.property(\"parent_id\");",
                   "});",
                   "",
                   "pm.test(\"Name matches request name\", function () {",
@@ -519,9 +519,8 @@
                   "    pm.expect(body.user_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
                   "});",
                   "",
-                  "pm.test(\"Parent ids is an empty array\", function () {",
-                  "    pm.expect(body.parent_ids).to.be.an(\"array\");",
-                  "    pm.expect(body.parent_ids.length).to.equal(0);",
+                  "pm.test(\"Parent id matches request parent_id\", function () {",
+                  "    pm.expect(body.parent_id).to.equal(requestData.parent_id);",
                   "});",
                   "",
                   "pm.globals.set(\"category_level_0_id\", body.id);"
@@ -556,7 +555,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Alimentation\",\r\n    \"level\": 0,\r\n    \"parent_ids\": []\r\n}",
+              "raw": "{\r\n    \"name\": \"Alimentation\",\r\n    \"level\": 0,\r\n    \"parent_id\": null\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -602,7 +601,7 @@
                   "    pm.expect(body).to.have.property(\"name\");",
                   "    pm.expect(body).to.have.property(\"user_id\");",
                   "    pm.expect(body).to.have.property(\"level\");",
-                  "    pm.expect(body).to.have.property(\"parent_ids\");",
+                  "    pm.expect(body).to.have.property(\"parent_id\");",
                   "});",
                   "",
                   "pm.test(\"Name matches request name\", function () {",
@@ -613,14 +612,9 @@
                   "    pm.expect(body.level).to.equal(1);",
                   "});",
                   "",
-                  "pm.test(\"Parent ids contains exactly one element\", function () {",
-                  "    pm.expect(body.parent_ids).to.be.an(\"array\");",
-                  "    pm.expect(body.parent_ids.length).to.equal(1);",
-                  "});",
-                  "",
                   "pm.test(\"Parent id matches category_level_0_id\", function () {",
                   "    const parentId = pm.globals.get(\"category_level_0_id\");",
-                  "    pm.expect(body.parent_ids[0]).to.equal(parentId);",
+                  "    pm.expect(body.parent_id).to.equal(parentId);",
                   "});",
                   "",
                   "pm.globals.set(\"category_level_1_id\", body.id);"
@@ -655,7 +649,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Épicerie\",\r\n    \"level\": 1,\r\n    \"parent_ids\": [\"{{category_level_0_id}}\"]\r\n}",
+              "raw": "{\r\n    \"name\": \"Épicerie\",\r\n    \"level\": 1,\r\n    \"parent_id\": \"{{category_level_0_id}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -701,7 +695,7 @@
                   "    pm.expect(body).to.have.property(\"name\");",
                   "    pm.expect(body).to.have.property(\"user_id\");",
                   "    pm.expect(body).to.have.property(\"level\");",
-                  "    pm.expect(body).to.have.property(\"parent_ids\");",
+                  "    pm.expect(body).to.have.property(\"parent_id\");",
                   "});",
                   "",
                   "pm.test(\"Name matches request name\", function () {",
@@ -712,14 +706,9 @@
                   "    pm.expect(body.level).to.equal(1);",
                   "});",
                   "",
-                  "pm.test(\"Parent ids contains exactly one element\", function () {",
-                  "    pm.expect(body.parent_ids).to.be.an(\"array\");",
-                  "    pm.expect(body.parent_ids.length).to.equal(1);",
-                  "});",
-                  "",
                   "pm.test(\"Parent id matches category_level_0_id\", function () {",
                   "    const parentId = pm.globals.get(\"category_level_0_id\");",
-                  "    pm.expect(body.parent_ids[0]).to.equal(parentId);",
+                  "    pm.expect(body.parent_id).to.equal(parentId);",
                   "});",
                   "",
                   "pm.globals.set(\"category_level_1_id2\", body.id);"
@@ -754,106 +743,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Épicerie 2\",\r\n    \"level\": 1,\r\n    \"parent_ids\": [\"{{category_level_0_id}}\"]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/categories/",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "categories",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Category - Success (Level 2, multiple parents)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "7beb70de-31a4-4c51-b320-ede07ecaa143",
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {",
-                  "    pm.response.to.have.status(201);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "const requestBody = pm.request.body.raw;",
-                  "const requestData = JSON.parse(requestBody);",
-                  "",
-                  "pm.test(\"Response has all required fields\", function () {",
-                  "    pm.expect(body).to.have.property(\"id\");",
-                  "    pm.expect(body).to.have.property(\"name\");",
-                  "    pm.expect(body).to.have.property(\"user_id\");",
-                  "    pm.expect(body).to.have.property(\"level\");",
-                  "    pm.expect(body).to.have.property(\"parent_ids\");",
-                  "});",
-                  "",
-                  "pm.test(\"Name matches request name\", function () {",
-                  "    pm.expect(body.name).to.equal(requestData.name);",
-                  "});",
-                  "",
-                  "pm.test(\"Level is 2\", function () {",
-                  "    pm.expect(body.level).to.equal(2);",
-                  "});",
-                  "",
-                  "pm.test(\"Parent ids contains exactly two elements\", function () {",
-                  "    pm.expect(body.parent_ids).to.be.an(\"array\");",
-                  "    pm.expect(body.parent_ids.length).to.equal(2);",
-                  "});",
-                  "",
-                  "pm.test(\"Parent ids match saved variables\", function () {",
-                  "    const parentId0 = pm.globals.get(\"category_level_1_id\");",
-                  "    const parentId1 = pm.globals.get(\"category_level_1_id2\");",
-                  "    pm.expect(body.parent_ids).to.include(parentId0);",
-                  "    pm.expect(body.parent_ids).to.include(parentId1);",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "id": "e8611705-621a-4066-bddc-2443d375217c",
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "2edbbfcc-ae93-4edc-8eb1-a997597ad1f6",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Fruits et Légumes\",\r\n    \"level\": 2,\r\n    \"parent_ids\": [\"{{category_level_1_id}}\", \"{{category_level_1_id2}}\"]\r\n}",
+              "raw": "{\r\n    \"name\": \"Épicerie 2\",\r\n    \"level\": 1,\r\n    \"parent_id\": \"{{category_level_0_id}}\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -920,7 +810,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Alimentation\",\r\n    \"level\": 0,\r\n    \"parent_ids\": []\r\n}",
+              "raw": "{\r\n    \"name\": \"Alimentation\",\r\n    \"level\": 0,\r\n    \"parent_id\": null\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1006,7 +896,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"\",\r\n    \"level\": 0,\r\n    \"parent_ids\": []\r\n}",
+              "raw": "{\r\n    \"name\": \"\",\r\n    \"level\": 0,\r\n    \"parent_id\": null\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1092,7 +982,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Test Category\",\r\n    \"level\": 5,\r\n    \"parent_ids\": []\r\n}",
+              "raw": "{\r\n    \"name\": \"Test Category\",\r\n    \"level\": 5,\r\n    \"parent_id\": null\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1267,262 +1157,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Alimentation\",\r\n    \"level\": 0,\r\n    \"parent_ids\": []\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/categories/",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "categories",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Category - Invalid Level (level trop faible)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "0562491c-46ee-4e99-bec7-b9806d210d67",
-                "exec": [
-                  "pm.test(\"Status code is 500\", function () {",
-                  "    pm.response.to.have.status(500);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has user_safe_title field\", function () {",
-                  "    pm.expect(body).to.have.property(\"user_safe_title\");",
-                  "    pm.expect(body.user_safe_title).to.equal(\"Erreur inattendue\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response has user_safe_description field\", function () {",
-                  "    pm.expect(body).to.have.property(\"user_safe_description\");",
-                  "    pm.expect(body.user_safe_description).to.include(\"erreur inattendue\");",
-                  "});",
-                  "",
-                  "pm.test(\"Error has dev field\", function () {",
-                  "    pm.expect(body).to.have.property(\"dev\");",
-                  "    pm.expect(body.dev).to.be.a(\"string\");",
-                  "    pm.expect(body.dev).to.include(\"invalid level\");",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "id": "9b8db621-98aa-4fe7-9339-0d9e89eb4c3d",
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "4610b16e-55c1-4ccd-a6fd-c265d68311c6",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Catégorie avec niveau trop faible\",\r\n    \"level\": 2,\r\n    \"parent_ids\": [\"{{category_level_0_id}}\"]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/categories/",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "categories",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Category - Invalid Level (level trop haut)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "6c47f830-6a1c-417e-9220-4371d67c2861",
-                "exec": [
-                  "pm.test(\"Status code is 500\", function () {",
-                  "    pm.response.to.have.status(500);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has user_safe_title field\", function () {",
-                  "    pm.expect(body).to.have.property(\"user_safe_title\");",
-                  "    pm.expect(body.user_safe_title).to.equal(\"Erreur inattendue\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response has user_safe_description field\", function () {",
-                  "    pm.expect(body).to.have.property(\"user_safe_description\");",
-                  "    pm.expect(body.user_safe_description).to.include(\"erreur inattendue\");",
-                  "});",
-                  "",
-                  "pm.test(\"Error has dev field\", function () {",
-                  "    pm.expect(body).to.have.property(\"dev\");",
-                  "    pm.expect(body.dev).to.be.a(\"string\");",
-                  "    pm.expect(body.dev).to.include(\"invalid level\");",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "id": "015e8d11-3d67-4e99-86e8-36a50122d4fc",
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "a3d56e0a-cb9c-426a-a2fb-b5d71dc355e1",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Catégorie avec niveau trop haut\",\r\n    \"level\": 0,\r\n    \"parent_ids\": [\"{{category_level_1_id}}\"]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/categories/",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "categories",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Category - Invalid Level (même niveau)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "f55bcd03-7fd6-45bb-b119-a272a133e49e",
-                "exec": [
-                  "pm.test(\"Status code is 500\", function () {",
-                  "    pm.response.to.have.status(500);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has user_safe_title field\", function () {",
-                  "    pm.expect(body).to.have.property(\"user_safe_title\");",
-                  "    pm.expect(body.user_safe_title).to.equal(\"Erreur inattendue\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response has user_safe_description field\", function () {",
-                  "    pm.expect(body).to.have.property(\"user_safe_description\");",
-                  "    pm.expect(body.user_safe_description).to.include(\"erreur inattendue\");",
-                  "});",
-                  "",
-                  "pm.test(\"Error has dev field\", function () {",
-                  "    pm.expect(body).to.have.property(\"dev\");",
-                  "    pm.expect(body.dev).to.be.a(\"string\");",
-                  "    pm.expect(body.dev).to.include(\"invalid level\");",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "id": "84b1be51-5dee-4eda-b46c-a0d14db8bffc",
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "e86fc6fe-a7ea-434b-98be-54558c1665a5",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Catégorie avec même niveau\",\r\n    \"level\": 1,\r\n    \"parent_ids\": [\"{{category_level_1_id}}\"]\r\n}",
+              "raw": "{\r\n    \"name\": \"Alimentation\",\r\n    \"level\": 0,\r\n    \"parent_id\": null\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1572,7 +1207,7 @@
                   "            pm.expect(category).to.have.property(\"name\");",
                   "            pm.expect(category).to.have.property(\"user_id\");",
                   "            pm.expect(category).to.have.property(\"level\");",
-                  "            pm.expect(category).to.have.property(\"parent_ids\");",
+                  "            pm.expect(category).to.have.property(\"parent_id\");",
                   "        });",
                   "    });",
                   "",
@@ -1605,9 +1240,12 @@
                   "        });",
                   "    });",
                   "",
-                  "    pm.test(\"Category parent_ids is an array\", function () {",
+                  "    pm.test(\"Category parent_id is null or a valid UUID string\", function () {",
                   "        body.forEach(function(category) {",
-                  "            pm.expect(category.parent_ids).to.be.an(\"array\");",
+                  "            if (category.parent_id !== null) {",
+                  "                pm.expect(category.parent_id).to.be.a(\"string\");",
+                  "                pm.expect(category.parent_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "            }",
                   "        });",
                   "    });",
                   "}"
@@ -1723,7 +1361,7 @@
                   "    pm.expect(body).to.have.property(\"name\");",
                   "    pm.expect(body).to.have.property(\"user_id\");",
                   "    pm.expect(body).to.have.property(\"level\");",
-                  "    pm.expect(body).to.have.property(\"parent_ids\");",
+                  "    pm.expect(body).to.have.property(\"parent_id\");",
                   "});",
                   "",
                   "pm.test(\"Name matches updated name\", function () {",
@@ -1769,7 +1407,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{category_level_0_id}}\",\r\n    \"name\": \"Alimentation Modifiée\"\r\n}",
+              "raw": "{\r\n    \"name\": \"Alimentation Modifiée\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1865,8 +1503,8 @@
               "script": {
                 "id": "6de63fcc-7a0f-417e-8f57-82f34cc57d04",
                 "exec": [
-                  "pm.test(\"Status code is 409\", function () {",
-                  "    pm.response.to.have.status(409);",
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
                   "});",
                   "",
                   "pm.test(\"Response time is less than 2000ms\", function () {",
@@ -1875,19 +1513,16 @@
                   "",
                   "const body = pm.response.json();",
                   "",
-                  "pm.test(\"Response has detail field\", function () {",
+                  "pm.test(\"Error has field detail\", function() {",
                   "    pm.expect(body).to.have.property(\"detail\");",
-                  "    pm.expect(body.detail).to.be.an(\"object\");",
                   "});",
                   "",
                   "pm.test(\"Error has user_safe_title field\", function () {",
                   "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
-                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Catégorie non trouvée ou nom déjà utilisé\");",
                   "});",
                   "",
                   "pm.test(\"Error has user_safe_description field\", function () {",
                   "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
-                  "    pm.expect(body.detail.user_safe_description).to.include(\"n'existe pas\");",
                   "});",
                   "",
                   "pm.test(\"Error has dev field\", function () {",
@@ -1971,12 +1606,10 @@
                   "",
                   "pm.test(\"Error has user_safe_title field\", function () {",
                   "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
-                  "    pm.expect(body.detail.user_safe_title).to.equal(\"Catégorie non trouvée ou nom déjà utilisé\");",
                   "});",
                   "",
                   "pm.test(\"Error has user_safe_description field\", function () {",
                   "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
-                  "    pm.expect(body.detail.user_safe_description).to.include(\"nom donné est déjà utilisé\");",
                   "});",
                   "",
                   "pm.test(\"Error has dev field\", function () {",
@@ -2014,7 +1647,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{category_level_0_id}}\",\r\n    \"name\": \"Épicerie\"\r\n}",
+              "raw": "{\r\n    \"id\": \"{{category_level_0_id}}\",\r\n    \"name\": \"Alimentation Modifiée\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2395,7 +2028,7 @@
                   "        raw: JSON.stringify({",
                   "            name: \"Catégorie à supprimer\",",
                   "            level: 0,",
-                  "            parent_ids: []",
+                  "            parent_id: null",
                   "        })",
                   "    }",
                   "};",
@@ -2441,6 +2074,2551 @@
         }
       ],
       "id": "566cc0e5-83a5-48cd-b15a-bb5db16ef4fa"
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Create Transaction - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-success-test",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "const requestBody = pm.request.body.raw;",
+                  "const requestData = JSON.parse(requestBody);",
+                  "",
+                  "pm.test(\"Response has all required fields\", function () {",
+                  "    pm.expect(body).to.have.property(\"id\");",
+                  "    pm.expect(body).to.have.property(\"user_id\");",
+                  "    pm.expect(body).to.have.property(\"event_date\");",
+                  "    pm.expect(body).to.have.property(\"motive\");",
+                  "    pm.expect(body).to.have.property(\"to\");",
+                  "    pm.expect(body).to.have.property(\"bank_date\");",
+                  "    pm.expect(body).to.have.property(\"type\");",
+                  "    pm.expect(body).to.have.property(\"amount\");",
+                  "});",
+                  "",
+                  "pm.test(\"Id is a valid UUID string\", function () {",
+                  "    pm.expect(body.id).to.be.a(\"string\");",
+                  "    pm.expect(body.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});",
+                  "",
+                  "pm.test(\"User id is a valid UUID string\", function () {",
+                  "    pm.expect(body.user_id).to.be.a(\"string\");",
+                  "    pm.expect(body.user_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});",
+                  "",
+                  "pm.test(\"Motive is a string\", function () {",
+                  "    pm.expect(body.motive).to.be.a(\"string\");",
+                  "    pm.expect(body.motive.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Amount is a number\", function () {",
+                  "    pm.expect(body.amount).to.be.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Type is a string\", function () {",
+                  "    pm.expect(body.type).to.be.a(\"string\");",
+                  "    pm.expect(body.type.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.globals.set(\"transaction_id\", body.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-success-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1\": null,\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 45.50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-unauthorized-test",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-unauthorized-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-unauthorized-001",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"amount\": 45.50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - Validation Error (missing required fields)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-validation-error-test",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Each error has required fields\", function () {",
+                  "    body.detail.forEach(function(error) {",
+                  "        pm.expect(error).to.have.property(\"loc\");",
+                  "        pm.expect(error).to.have.property(\"msg\");",
+                  "        pm.expect(error).to.have.property(\"type\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-validation-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-validation-error-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"motive\": \"Test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - Already Exists",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-already-exists-test",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"La transaction existe déjà\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "    pm.expect(body.detail.user_safe_description).to.include(\"existe déjà\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-already-exists-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-already-exists-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1\": null,\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 45.50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Transactions - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "list-transactions-success-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is an array\", function () {",
+                  "    pm.expect(body).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "if (body.length > 0) {",
+                  "    pm.test(\"Each transaction has required fields\", function () {",
+                  "        body.forEach(function(transaction) {",
+                  "            pm.expect(transaction).to.have.property(\"id\");",
+                  "            pm.expect(transaction).to.have.property(\"user_id\");",
+                  "            pm.expect(transaction).to.have.property(\"event_date\");",
+                  "            pm.expect(transaction).to.have.property(\"motive\");",
+                  "            pm.expect(transaction).to.have.property(\"to\");",
+                  "            pm.expect(transaction).to.have.property(\"bank_date\");",
+                  "            pm.expect(transaction).to.have.property(\"type\");",
+                  "            pm.expect(transaction).to.have.property(\"amount\");",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Transaction id is a valid UUID string\", function () {",
+                  "        body.forEach(function(transaction) {",
+                  "            pm.expect(transaction.id).to.be.a(\"string\");",
+                  "            pm.expect(transaction.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Transaction amount is a number\", function () {",
+                  "        body.forEach(function(transaction) {",
+                  "            pm.expect(transaction.amount).to.be.a(\"number\");",
+                  "        });",
+                  "    });",
+                  "",
+                  "    pm.test(\"Transaction type is a string\", function () {",
+                  "        body.forEach(function(transaction) {",
+                  "            pm.expect(transaction.type).to.be.a(\"string\");",
+                  "        });",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "list-transactions-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "list-transactions-success-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Transactions - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "list-transactions-unauthorized-test",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "list-transactions-unauthorized-001",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Transaction - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "update-transaction-success-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "const requestBody = pm.request.body.raw;",
+                  "const requestData = JSON.parse(requestBody);",
+                  "",
+                  "pm.test(\"Response has all required fields\", function () {",
+                  "    pm.expect(body).to.have.property(\"id\");",
+                  "    pm.expect(body).to.have.property(\"user_id\");",
+                  "    pm.expect(body).to.have.property(\"motive\");",
+                  "    pm.expect(body).to.have.property(\"amount\");",
+                  "});",
+                  "",
+                  "pm.test(\"Motive is a string\", function () {",
+                  "    pm.expect(body.motive).to.be.a(\"string\");",
+                  "    pm.expect(body.motive.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Id is a valid UUID string\", function () {",
+                  "    pm.expect(body.id).to.be.a(\"string\");",
+                  "    pm.expect(body.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "update-transaction-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "update-transaction-success-001",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1\": null,\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 50.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Transaction - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "update-transaction-unauthorized-test",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "update-transaction-unauthorized-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "update-transaction-unauthorized-001",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Nouveau motif\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"amount\": 50.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Transaction - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "update-transaction-not-found-test",
+                "exec": [
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Error has field detail\", function() {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "update-transaction-not-found-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "update-transaction-not-found-001",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Nouveau motif\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"amount\": 50.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Transaction - Already Exists",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "update-transaction-already-exists-test",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "update-transaction-already-exists-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "update-transaction-already-exists-001",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1\": null,\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 50.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Transaction - Validation Error (missing required fields)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "update-transaction-validation-error-test",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Each error has required fields\", function () {",
+                  "    body.detail.forEach(function(error) {",
+                  "        pm.expect(error).to.have.property(\"loc\");",
+                  "        pm.expect(error).to.have.property(\"msg\");",
+                  "        pm.expect(error).to.have.property(\"type\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "update-transaction-validation-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "update-transaction-validation-error-001",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{transaction_id}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Transaction - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "delete-transaction-success-test",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "delete-transaction-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const createRequest = {",
+                  "    url: url + \"/\" + prefix + \"/transactions/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + pm.globals.get(\"access_token\"),",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            event_date: \"2024-01-15T10:30:00\",",
+                  "            motive: \"Transaction à supprimer\",",
+                  "            to: \"Épicerie Carrefour\",",
+                  "            bank_date: \"2024-01-15T10:35:00\",",
+                  "            type: \"debit\",",
+                  "            category1_id: null,",
+                  "            category2_id: null,",
+                  "            category3_id: null,",
+                  "            amount: 25.00",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createRequest, function (err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "    } else {",
+                  "        const body = res.json();",
+                  "        pm.globals.set(\"transaction_to_delete_id\", body.id);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "delete-transaction-success-001",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/{{transaction_to_delete_id}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                "{{transaction_to_delete_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Transaction - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "delete-transaction-unauthorized-test",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "delete-transaction-unauthorized-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "delete-transaction-unauthorized-001",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/{{transaction_id}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                "{{transaction_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Transaction - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "delete-transaction-not-found-test",
+                "exec": [
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "    pm.expect(body.detail).to.be.an(\"object\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has dev field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"dev\");",
+                  "    pm.expect(body.detail.dev).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "delete-transaction-not-found-prerequest",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "delete-transaction-not-found-001",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/00000000-0000-0000-0000-000000000000",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                "00000000-0000-0000-0000-000000000000"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - Success with One Category (category1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-one-category-test",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has all required fields\", function () {",
+                  "    pm.expect(body).to.have.property(\"id\");",
+                  "    pm.expect(body).to.have.property(\"user_id\");",
+                  "    pm.expect(body).to.have.property(\"event_date\");",
+                  "    pm.expect(body).to.have.property(\"motive\");",
+                  "    pm.expect(body).to.have.property(\"to\");",
+                  "    pm.expect(body).to.have.property(\"bank_date\");",
+                  "    pm.expect(body).to.have.property(\"type\");",
+                  "    pm.expect(body).to.have.property(\"amount\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response has category1_id field\", function () {",
+                  "    pm.expect(body).to.have.property(\"category1_id\");",
+                  "    pm.expect(body.category1_id).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Category1_id is a valid UUID string\", function () {",
+                  "    pm.expect(body.category1_id).to.be.a(\"string\");",
+                  "    pm.expect(body.category1_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});",
+                  "",
+                  "pm.test(\"Category2_id and category3_id are null\", function () {",
+                  "    pm.expect(body.category2_id).to.be.null;",
+                  "    pm.expect(body.category3_id).to.be.null;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-one-category-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer catégorie niveau 0",
+                  "const createLevel0 = {",
+                  "    url: url + \"/\" + prefix + \"/categories/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            name: \"Catégorie Test Niveau 0 - One Cat\",",
+                  "            level: 0,",
+                  "            parent_id: null",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createLevel0, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const level0 = res.json();",
+                  "    ",
+                  "    // Créer catégorie niveau 1",
+                  "    const createLevel1 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Catégorie Test Niveau 1 - One Cat\",",
+                  "                level: 1,",
+                  "                parent_id: level0.id",
+                  "            })",
+                  "        }",
+                  "    };",
+                  "    ",
+                  "    pm.sendRequest(createLevel1, function(err, res) {",
+                  "        if (err) {",
+                  "            console.log(err);",
+                  "            return;",
+                  "        }",
+                  "        const level1 = res.json();",
+                  "        console.log(level1);",
+                  "        pm.variables.set(\"cat_level_1_id\", level1.id);",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-one-category-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat avec une catégorie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 45.50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - Success with Multiple Categories (category1 + category2)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-multiple-categories-test",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has category1_id and category2_id\", function () {",
+                  "    pm.expect(body).to.have.property(\"category1_id\");",
+                  "    pm.expect(body).to.have.property(\"category2_id\");",
+                  "    pm.expect(body.category1_id).to.not.be.null;",
+                  "    pm.expect(body.category2_id).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Category1_id is a valid UUID string\", function () {",
+                  "    pm.expect(body.category1_id).to.be.a(\"string\");",
+                  "    pm.expect(body.category1_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});",
+                  "",
+                  "pm.test(\"Category2_id is a valid UUID string\", function () {",
+                  "    pm.expect(body.category2_id).to.be.a(\"string\");",
+                  "    pm.expect(body.category2_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});",
+                  "",
+                  "pm.test(\"Category3_id is null\", function () {",
+                  "    pm.expect(body.category3_id).to.be.null;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-multiple-categories-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer catégorie niveau 0",
+                  "const createLevel0 = {",
+                  "    url: url + \"/\" + prefix + \"/categories/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            name: \"Catégorie Test Niveau 0 - Multiple Cat\",",
+                  "            level: 0,",
+                  "            parent_id: null",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createLevel0, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const level0 = res.json();",
+                  "    ",
+                  "    // Créer catégorie niveau 1",
+                  "    const createLevel1 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Catégorie Test Niveau 1 - Multiple Cat\",",
+                  "                level: 1,",
+                  "                parent_id: level0.id",
+                  "            })",
+                  "        }",
+                  "    };",
+                  "    ",
+                  "    pm.sendRequest(createLevel1, function(err, res) {",
+                  "        if (err) {",
+                  "            console.log(err);",
+                  "            return;",
+                  "        }",
+                  "        const level1 = res.json();",
+                  "        ",
+                  "        // Créer catégorie niveau 2",
+                  "        const createLevel2 = {",
+                  "            url: url + \"/\" + prefix + \"/categories/\",",
+                  "            method: \"POST\",",
+                  "            header: {",
+                  "                \"Authorization\": \"Bearer \" + token,",
+                  "                \"Content-Type\": \"application/json\"",
+                  "            },",
+                  "            body: {",
+                  "                mode: \"raw\",",
+                  "                raw: JSON.stringify({",
+                  "                    name: \"Catégorie Test Niveau 2 - Multiple Cat\",",
+                  "                    level: 2,",
+                  "                    parent_id: level1.id",
+                  "                })",
+                  "            }",
+                  "        };",
+                  "        ",
+                  "        pm.sendRequest(createLevel2, function(err, res) {",
+                  "            if (err) {",
+                  "                console.log(err);",
+                  "                return;",
+                  "            }",
+                  "            const level2 = res.json();",
+                  "            pm.variables.set(\"cat_level_1_id\", level1.id);",
+                  "            pm.variables.set(\"cat_level_2_id\", level2.id);",
+                  "        });",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-multiple-categories-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat avec plusieurs catégories\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3\": null,\r\n    \"amount\": 50.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - Success with All Categories (category1 + category2 + category3)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-all-categories-test",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has all three category IDs\", function () {",
+                  "    pm.expect(body).to.have.property(\"category1_id\");",
+                  "    pm.expect(body).to.have.property(\"category2_id\");",
+                  "    pm.expect(body).to.have.property(\"category3_id\");",
+                  "    pm.expect(body.category1_id).to.not.be.null;",
+                  "    pm.expect(body.category2_id).to.not.be.null;",
+                  "    pm.expect(body.category3_id).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"All category IDs are valid UUID strings\", function () {",
+                  "    [body.category1_id, body.category2_id, body.category3_id].forEach(function(catId) {",
+                  "        pm.expect(catId).to.be.a(\"string\");",
+                  "        pm.expect(catId).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-all-categories-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer catégorie niveau 0",
+                  "const createLevel0 = {",
+                  "    url: url + \"/\" + prefix + \"/categories/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            name: \"Catégorie Test Niveau 0 - All Cat\",",
+                  "            level: 0,",
+                  "            parent_id: null",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createLevel0, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const level0 = res.json();",
+                  "    ",
+                  "    // Créer catégorie niveau 1",
+                  "    const createLevel1 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Catégorie Test Niveau 1 - All Cat\",",
+                  "                level: 1,",
+                  "                parent_id: level0.id",
+                  "            })",
+                  "        }",
+                  "    };",
+                  "    ",
+                  "    pm.sendRequest(createLevel1, function(err, res) {",
+                  "        if (err) {",
+                  "            console.log(err);",
+                  "            return;",
+                  "        }",
+                  "        const level1 = res.json();",
+                  "        ",
+                  "        // Créer catégorie niveau 2",
+                  "        const createLevel2 = {",
+                  "            url: url + \"/\" + prefix + \"/categories/\",",
+                  "            method: \"POST\",",
+                  "            header: {",
+                  "                \"Authorization\": \"Bearer \" + token,",
+                  "                \"Content-Type\": \"application/json\"",
+                  "            },",
+                  "            body: {",
+                  "                mode: \"raw\",",
+                  "                raw: JSON.stringify({",
+                  "                    name: \"Catégorie Test Niveau 2 - All Cat\",",
+                  "                    level: 2,",
+                  "                    parent_id: level1.id",
+                  "                })",
+                  "            }",
+                  "        };",
+                  "        ",
+                  "        pm.sendRequest(createLevel2, function(err, res) {",
+                  "            if (err) {",
+                  "                console.log(err);",
+                  "                return;",
+                  "            }",
+                  "            const level2 = res.json();",
+                  "            ",
+                  "            // Créer catégorie niveau 3",
+                  "            const createLevel3 = {",
+                  "                url: url + \"/\" + prefix + \"/categories/\",",
+                  "                method: \"POST\",",
+                  "                header: {",
+                  "                    \"Authorization\": \"Bearer \" + token,",
+                  "                    \"Content-Type\": \"application/json\"",
+                  "                },",
+                  "                body: {",
+                  "                    mode: \"raw\",",
+                  "                    raw: JSON.stringify({",
+                  "                        name: \"Catégorie Test Niveau 3 - All Cat\",",
+                  "                        level: 3,",
+                  "                        parent_id: level2.id",
+                  "                    })",
+                  "                }",
+                  "            };",
+                  "            ",
+                  "            pm.sendRequest(createLevel3, function(err, res) {",
+                  "                if (err) {",
+                  "                    console.log(err);",
+                  "                    return;",
+                  "                }",
+                  "                const level3 = res.json();",
+                  "                pm.variables.set(\"cat_level_1_id\", level1.id);",
+                  "                pm.variables.set(\"cat_level_2_id\", level2.id);",
+                  "                pm.variables.set(\"cat_level_3_id\", level3.id);",
+                  "            });",
+                  "        });",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-all-categories-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat avec toutes les catégories\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": \"{{cat_level_3_id}}\",\r\n    \"amount\": 55.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Transaction - Success with Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "update-transaction-with-categories-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has category1_id and category2_id\", function () {",
+                  "    pm.expect(body).to.have.property(\"category1_id\");",
+                  "    pm.expect(body).to.have.property(\"category2_id\");",
+                  "    pm.expect(body.category1_id).to.not.be.null;",
+                  "    pm.expect(body.category2_id).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Category1_id is a valid UUID string\", function () {",
+                  "    pm.expect(body.category1_id).to.be.a(\"string\");",
+                  "    pm.expect(body.category1_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});",
+                  "",
+                  "pm.test(\"Category2_id is a valid UUID string\", function () {",
+                  "    pm.expect(body.category2_id).to.be.a(\"string\");",
+                  "    pm.expect(body.category2_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});",
+                  "",
+                  "pm.test(\"Transaction ID is a valid UUID string\", function () {",
+                  "    pm.expect(body.id).to.be.a(\"string\");",
+                  "    pm.expect(body.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "update-transaction-with-categories-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer une transaction sans catégories",
+                  "const createTransaction = {",
+                  "    url: url + \"/\" + prefix + \"/transactions/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            event_date: \"2024-01-15T10:30:00\",",
+                  "            motive: \"Transaction à mettre à jour\",",
+                  "            to: \"Test\",",
+                  "            bank_date: \"2024-01-15T10:35:00\",",
+                  "            type: \"debit\",",
+                  "            category1_id: null,",
+                  "            category2_id: null,",
+                  "            category3_id: null,",
+                  "            amount: 30.00",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createTransaction, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const transaction = res.json();",
+                  "    pm.variables.set(\"transaction_id_to_update\", transaction.id);",
+                  "    ",
+                  "    // Créer catégorie niveau 0",
+                  "    const createLevel0 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Catégorie Test Niveau 0 - Update\",",
+                  "                level: 0,",
+                  "                parent_id: null",
+                  "            })",
+                  "        }",
+                  "    };",
+                  "    ",
+                  "    pm.sendRequest(createLevel0, function(err, res) {",
+                  "        if (err) {",
+                  "            console.log(err);",
+                  "            return;",
+                  "        }",
+                  "        const level0 = res.json();",
+                  "        ",
+                  "        // Créer catégorie niveau 1",
+                  "        const createLevel1 = {",
+                  "            url: url + \"/\" + prefix + \"/categories/\",",
+                  "            method: \"POST\",",
+                  "            header: {",
+                  "                \"Authorization\": \"Bearer \" + token,",
+                  "                \"Content-Type\": \"application/json\"",
+                  "            },",
+                  "            body: {",
+                  "                mode: \"raw\",",
+                  "                raw: JSON.stringify({",
+                  "                    name: \"Catégorie Test Niveau 1 - Update\",",
+                  "                    level: 1,",
+                  "                    parent_id: level0.id",
+                  "                })",
+                  "            }",
+                  "        };",
+                  "        ",
+                  "        pm.sendRequest(createLevel1, function(err, res) {",
+                  "            if (err) {",
+                  "                console.log(err);",
+                  "                return;",
+                  "            }",
+                  "            const level1 = res.json();",
+                  "            ",
+                  "            // Créer catégorie niveau 2",
+                  "            const createLevel2 = {",
+                  "                url: url + \"/\" + prefix + \"/categories/\",",
+                  "                method: \"POST\",",
+                  "                header: {",
+                  "                    \"Authorization\": \"Bearer \" + token,",
+                  "                    \"Content-Type\": \"application/json\"",
+                  "                },",
+                  "                body: {",
+                  "                    mode: \"raw\",",
+                  "                    raw: JSON.stringify({",
+                  "                        name: \"Catégorie Test Niveau 2 - Update\",",
+                  "                        level: 2,",
+                  "                        parent_id: level1.id",
+                  "                    })",
+                  "                }",
+                  "            };",
+                  "            ",
+                  "            pm.sendRequest(createLevel2, function(err, res) {",
+                  "                if (err) {",
+                  "                    console.log(err);",
+                  "                    return;",
+                  "                }",
+                  "                const level2 = res.json();",
+                  "                pm.variables.set(\"cat_level_1_id\", level1.id);",
+                  "                pm.variables.set(\"cat_level_2_id\", level2.id);",
+                  "            });",
+                  "        });",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "update-transaction-with-categories-001",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_to_update}}\",\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Transaction mise à jour avec catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3\": null,\r\n    \"amount\": 35.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Transaction - Change Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "update-transaction-change-categories-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has new category1_id\", function () {",
+                  "    pm.expect(body).to.have.property(\"category1_id\");",
+                  "    pm.expect(body.category1_id).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Category1_id is a valid UUID string\", function () {",
+                  "    pm.expect(body.category1_id).to.be.a(\"string\");",
+                  "    pm.expect(body.category1_id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "update-transaction-change-categories-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer ancienne hiérarchie de catégories",
+                  "const createOldLevel0 = {",
+                  "    url: url + \"/\" + prefix + \"/categories/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            name: \"Ancienne Catégorie Niveau 0\",",
+                  "            level: 0,",
+                  "            parent_id: null",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createOldLevel0, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const oldLevel0 = res.json();",
+                  "    ",
+                  "    // Créer ancienne catégorie niveau 1",
+                  "    const createOldLevel1 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Ancienne Catégorie Niveau 1\",",
+                  "                level: 1,",
+                  "                parent_id: oldLevel0.id",
+                  "            })",
+                  "        }",
+                  "    };",
+                  "    ",
+                  "    pm.sendRequest(createOldLevel1, function(err, res) {",
+                  "        if (err) {",
+                  "            console.log(err);",
+                  "            return;",
+                  "        }",
+                  "        const oldLevel1 = res.json();",
+                  "        pm.variables.set(\"old_cat_level_1_id\", oldLevel1.id);",
+                  "        ",
+                  "        // Créer transaction avec anciennes catégories",
+                  "        const createTransaction = {",
+                  "            url: url + \"/\" + prefix + \"/transactions/\",",
+                  "            method: \"POST\",",
+                  "            header: {",
+                  "                \"Authorization\": \"Bearer \" + token,",
+                  "                \"Content-Type\": \"application/json\"",
+                  "            },",
+                  "            body: {",
+                  "                mode: \"raw\",",
+                  "                raw: JSON.stringify({",
+                  "                    event_date: \"2024-01-15T10:30:00\",",
+                  "                    motive: \"Transaction avec anciennes catégories\",",
+                  "                    to: \"Test\",",
+                  "                    bank_date: \"2024-01-15T10:35:00\",",
+                  "                    type: \"debit\",",
+                  "                    category1_id: oldLevel1.id,",
+                  "                    category2_id: null,",
+                  "                    category3_id: null,",
+                  "                    amount: 40.00",
+                  "                })",
+                  "            }",
+                  "        };",
+                  "        ",
+                  "        pm.sendRequest(createTransaction, function(err, res) {",
+                  "            if (err) {",
+                  "                console.log(err);",
+                  "                return;",
+                  "            }",
+                  "            const transaction = res.json();",
+                  "            pm.variables.set(\"transaction_id_to_change\", transaction.id);",
+                  "            ",
+                  "            // Créer nouvelle hiérarchie de catégories",
+                  "            const createNewLevel0 = {",
+                  "                url: url + \"/\" + prefix + \"/categories/\",",
+                  "                method: \"POST\",",
+                  "                header: {",
+                  "                    \"Authorization\": \"Bearer \" + token,",
+                  "                    \"Content-Type\": \"application/json\"",
+                  "                },",
+                  "                body: {",
+                  "                    mode: \"raw\",",
+                  "                    raw: JSON.stringify({",
+                  "                        name: \"Nouvelle Catégorie Niveau 0\",",
+                  "                        level: 0,",
+                  "                        parent_id: null",
+                  "                    })",
+                  "                }",
+                  "            };",
+                  "            ",
+                  "            pm.sendRequest(createNewLevel0, function(err, res) {",
+                  "                if (err) {",
+                  "                    console.log(err);",
+                  "                    return;",
+                  "                }",
+                  "                const newLevel0 = res.json();",
+                  "                ",
+                  "                // Créer nouvelle catégorie niveau 1",
+                  "                const createNewLevel1 = {",
+                  "                    url: url + \"/\" + prefix + \"/categories/\",",
+                  "                    method: \"POST\",",
+                  "                    header: {",
+                  "                        \"Authorization\": \"Bearer \" + token,",
+                  "                        \"Content-Type\": \"application/json\"",
+                  "                    },",
+                  "                    body: {",
+                  "                        mode: \"raw\",",
+                  "                        raw: JSON.stringify({",
+                  "                            name: \"Nouvelle Catégorie Niveau 1\",",
+                  "                            level: 1,",
+                  "                            parent_id: newLevel0.id",
+                  "                        })",
+                  "                    }",
+                  "                };",
+                  "                ",
+                  "                pm.sendRequest(createNewLevel1, function(err, res) {",
+                  "                    if (err) {",
+                  "                        console.log(err);",
+                  "                        return;",
+                  "                    }",
+                  "                    const newLevel1 = res.json();",
+                  "                    pm.variables.set(\"cat_level_1_id\", newLevel1.id);",
+                  "                });",
+                  "            });",
+                  "        });",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "update-transaction-change-categories-001",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_to_change}}\",\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Transaction avec nouvelles catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 45.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - Invalid Category Level (category1 with level 0)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-invalid-level-0-test",
+                "exec": [
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Error has detail field\", function() {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message indicates level mismatch\", function() {",
+                  "    const detail = body.detail;",
+                  "    if (typeof detail === \"string\") {",
+                  "        pm.expect(detail.toLowerCase()).to.include(\"level\");",
+                  "    } else if (typeof detail === \"object\") {",
+                  "        pm.expect(detail).to.have.property(\"dev\");",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-invalid-level-0-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer catégorie niveau 0 (qui ne devrait pas être utilisée pour category1)",
+                  "const createLevel0 = {",
+                  "    url: url + \"/\" + prefix + \"/categories/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            name: \"Catégorie Test Niveau 0 - Invalid\",",
+                  "            level: 0,",
+                  "            parent_id: null",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createLevel0, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const level0 = res.json();",
+                  "    pm.variables.set(\"cat_level_0_invalid_id\", level0.id);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-invalid-level-0-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat avec catégorie niveau invalide\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_0_invalid_id}}\",\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 50.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Transaction - Invalid Category Level",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "update-transaction-invalid-level-test",
+                "exec": [
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Error has detail field\", function() {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message indicates level mismatch\", function() {",
+                  "    const detail = body.detail;",
+                  "    if (typeof detail === \"string\") {",
+                  "        pm.expect(detail.toLowerCase()).to.include(\"level\");",
+                  "    } else if (typeof detail === \"object\") {",
+                  "        pm.expect(detail).to.have.property(\"dev\");",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "update-transaction-invalid-level-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer une transaction valide",
+                  "const createTransaction = {",
+                  "    url: url + \"/\" + prefix + \"/transactions/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            event_date: \"2024-01-15T10:30:00\",",
+                  "            motive: \"Transaction à mettre à jour avec niveau invalide\",",
+                  "            to: \"Test\",",
+                  "            bank_date: \"2024-01-15T10:35:00\",",
+                  "            type: \"debit\",",
+                  "            category1_id: null,",
+                  "            category2_id: null,",
+                  "            category3_id: null,",
+                  "            amount: 30.00",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createTransaction, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const transaction = res.json();",
+                  "    pm.variables.set(\"transaction_id_invalid_level\", transaction.id);",
+                  "    ",
+                  "    // Créer catégorie niveau 0 (qui ne devrait pas être utilisée pour category1)",
+                  "    const createLevel0 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Catégorie Test Niveau 0 - Update Invalid\",",
+                  "                level: 0,",
+                  "                parent_id: null",
+                  "            })",
+                  "        }",
+                  "    };",
+                  "    ",
+                  "    pm.sendRequest(createLevel0, function(err, res) {",
+                  "        if (err) {",
+                  "            console.log(err);",
+                  "            return;",
+                  "        }",
+                  "        const level0 = res.json();",
+                  "        pm.variables.set(\"cat_level_0_invalid_update_id\", level0.id);",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "update-transaction-invalid-level-001",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_invalid_level}}\",\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Transaction mise à jour avec catégorie niveau invalide\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_0_invalid_update_id}}\",\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 35.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - Non-existent Category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-non-existent-category-test",
+                "exec": [
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Error has detail field\", function() {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message indicates category not found\", function() {",
+                  "    const detail = body.detail;",
+                  "    if (typeof detail === \"string\") {",
+                  "        pm.expect(detail.toLowerCase()).to.include(\"not found\");",
+                  "    } else if (typeof detail === \"object\") {",
+                  "        pm.expect(detail).to.have.property(\"dev\");",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-non-existent-category-prerequest",
+                "exec": [
+                  "// Pas besoin de créer de catégories, on utilise un UUID inexistant"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-non-existent-category-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Achat avec catégorie inexistante\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"00000000-0000-0000-0000-000000000999\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Transaction - Non-existent Category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "update-transaction-non-existent-category-test",
+                "exec": [
+                  "pm.test(\"Status code is 500\", function () {",
+                  "    pm.response.to.have.status(500);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Error has detail field\", function() {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message indicates category not found\", function() {",
+                  "    const detail = body.detail;",
+                  "    if (typeof detail === \"string\") {",
+                  "        pm.expect(detail.toLowerCase()).to.include(\"not found\");",
+                  "    } else if (typeof detail === \"object\") {",
+                  "        pm.expect(detail).to.have.property(\"dev\");",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "update-transaction-non-existent-category-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer une transaction valide sans catégories",
+                  "const createTransaction = {",
+                  "    url: url + \"/\" + prefix + \"/transactions/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            event_date: \"2024-01-15T10:30:00\",",
+                  "            motive: \"Transaction à mettre à jour avec catégorie inexistante\",",
+                  "            to: \"Test\",",
+                  "            bank_date: \"2024-01-15T10:35:00\",",
+                  "            type: \"debit\",",
+                  "            category1_id: null,",
+                  "            category2_id: null,",
+                  "            category3_id: null,",
+                  "            amount: 30.00",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createTransaction, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const transaction = res.json();",
+                  "    pm.variables.set(\"transaction_id_non_existent\", transaction.id);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "update-transaction-non-existent-category-001",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_non_existent}}\",\r\n    \"event_date\": \"2024-01-15T10:30:00\",\r\n    \"motive\": \"Transaction mise à jour avec catégorie inexistante\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15T10:35:00\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"00000000-0000-0000-0000-000000000999\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 35.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "transactions-section-001"
     }
   ]
 }

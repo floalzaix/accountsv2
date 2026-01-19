@@ -113,7 +113,7 @@ export class AuthComponent {
           severity: "error",
           summary: error.userSafeTitle,
           detail: error.userSafeDescription,
-          life: 1000,
+          life: 2000,
         });
       },
     });
@@ -126,7 +126,7 @@ export class AuthComponent {
           severity: "success",
           summary: "Connexion réussie",
           detail: "Bienvenue " + user.pseudo + " !",
-          life: 1000,
+          life: 2000,
         });
         this.router.navigate(["/home"]);
       },
@@ -135,7 +135,8 @@ export class AuthComponent {
           severity: "error",
           summary: error.userSafeTitle,
           detail: error.userSafeDescription,
-        });
+          life: 3000
+,        });
       },
     });
   }

@@ -57,15 +57,21 @@ export class AsyncHttpClient {
     )
   }
 
-  public patch<T>({ endpoint, json, data} : {
+  public put<T>({ endpoint, json, data} : {
     endpoint: string,
     json?: Record<string, any>,
     data?: FormData
   }): Observable<T> {
-    return this.http_client.patch<T>(
+    return this.http_client.put<T>(
       this.prepareUrl(endpoint),
       json ?? data
     )
+  }
+
+  public delete<T>(endpoint: string): Observable<T> {
+    return this.http_client.delete<T>(
+      this.prepareUrl(endpoint)
+    );
   }
 
   //
