@@ -19,6 +19,7 @@ from core.shared.enums.user_status import UserStatus
 
 if TYPE_CHECKING:
     from adapters.features.categories.category_orm import CategoryORM
+    from adapters.features.transactions.transactions_orm import TransactionORM
 
 #
 #   ORMs
@@ -66,4 +67,10 @@ class UserORM(Base):
         back_populates="user",
         cascade="all, delete-orphan",
         doc="The categories owned by the user",
+    )
+
+    transactions: Mapped[list[TransactionORM]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+        doc="The transactions owned by the user",
     )

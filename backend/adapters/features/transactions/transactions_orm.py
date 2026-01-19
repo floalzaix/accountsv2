@@ -2,11 +2,13 @@
 #   Imports
 #
 
+from __future__ import annotations
+
 import uuid
 import datetime
 
+from typing import TYPE_CHECKING
 from sqlalchemy import ForeignKey, UniqueConstraint
-
 from adapters.shared.db.base import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
@@ -15,6 +17,9 @@ from sqlalchemy.sql.sqltypes import DateTime, String, Float
 # Perso
 
 from adapters.shared.db.orms.user_orm import UserORM
+
+if TYPE_CHECKING:
+    from adapters.features.categories.category_orm import CategoryORM
 
 #
 #   ORMs
@@ -44,10 +49,10 @@ class TransactionORM(Base):
         nullable=False,
         doc="The amount of money in the transaction",
     )
-    to: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+    to: Mapped[str] = mapped_column(
+        String(255),
         nullable=False,
-        doc="The user's id who received the money",
+        doc="The name of the receiver of the transaction",
     )
     bank_date: Mapped[datetime.datetime] = mapped_column(
         DateTime,
@@ -75,6 +80,21 @@ class TransactionORM(Base):
         nullable=False,
         doc="The user's id who made the transaction",
     )
+    category1_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("categories.id", ondelete="SET NULL"),
+        doc="The first level category's id",
+    )
+    category2_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("categories.id", ondelete="SET NULL"),
+        doc="The second level category's id",
+    )
+    category3_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("categories.id", ondelete="SET NULL"),
+        doc="The third level category's id",
+    )
     
     #
     #   Relationships
@@ -86,51 +106,26 @@ class TransactionORM(Base):
         doc="The user who made the transaction",
     )
 
+    category1: Mapped[CategoryORM] = relationship(
+        "CategoryORM",
+        foreign_keys=[category1_id],
+        doc="The first level category of the transaction",
+    )
+    category2: Mapped[CategoryORM] = relationship(
+        "CategoryORM",
+        foreign_keys=[category2_id],
+        doc="The second level category of the transaction",
+    )
+    category3: Mapped[CategoryORM] = relationship(
+        "CategoryORM",
+        foreign_keys=[category3_id],
+        doc="The third level category of the transaction",
+    )
+
     #
     #   Constraints
     #
     
     __table_args__ = (
-        UniqueConstraint("event_date", "motive", "to", "bank_date", "type", "amount", "user_id", name="uix_event_date_motive_to_bank_date_type_amount_user_id"),
-    )
-    
-class TransactionCategoriesORM(Base):
-    __tablename__ = "transactions_categories"
-    
-    """
-        Links the three levels of the categories linked to a transaction.
-    """
-
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        doc="The transaction category's unique identifier",
-    )
-
-    #
-    #   Foreign Keys
-    #
-
-    transaction_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("transactions.id", ondelete="CASCADE"),
-        nullable=False,
-        unique=True,
-        doc="The transaction's id",
-    )
-    category1_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("categories.id", ondelete="CASCADE"),
-        nullable=False,
-        doc="The first level category's id",
-    )
-    category2_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("categories.id", ondelete="CASCADE"),
-        doc="The second level category's id",
-    )
-    category3_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("categories.id", ondelete="CASCADE"),
-        doc="The third level category's id",
+        UniqueConstraint("event_date", "motive", "to", "bank_date", "type", "amount", "user_id", "category1_id", "category2_id", "category3_id", name="uq_transaction_unique"),
     )
