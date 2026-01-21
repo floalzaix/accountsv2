@@ -23,7 +23,6 @@ export class TransactionsService {
     //
     const observable = this.http.get<object>("/transactions").pipe(
       map((response) => {
-        console.log(response);
         if (response instanceof Array) {
           return response.map((item) => TransactionSchema.parse(item));
         }

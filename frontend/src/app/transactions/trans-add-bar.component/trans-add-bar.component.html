@@ -1,0 +1,59 @@
+<div id="transaction-add-bar">
+    <form [formGroup]="transactionAddForm" (ngSubmit)="addTransaction()">
+        <p-floatLabel variant="on">
+            <p-datepicker 
+                formControlName="event_date" 
+                [view]="'date'" 
+                [dateFormat]="'dd/mm'"
+                inputId="event_date"
+                iconDisplay="input"
+                [showIcon]="true"
+            />
+            <label for="event_date">Date</label>
+        </p-floatLabel>
+        <p-floatLabel variant="on">
+            <p-iconfield>
+                <p-inputicon class="pi pi-bullseye"></p-inputicon>
+                <input 
+                pInputText
+                formControlName="motive"
+                inputId="motive"
+                />
+            </p-iconfield>
+            <label for="motive">Motive</label>
+        </p-floatLabel>
+        <p-floatLabel variant="on">
+            <p-iconfield>
+                <p-inputicon class="pi pi-user"></p-inputicon>
+                <input 
+                pInputText
+                formControlName="to" 
+                inputId="to"
+                />
+            </p-iconfield>
+            <label for="to">Destinataire</label>
+        </p-floatLabel>
+        <p-floatLabel variant="on">
+            <p-datepicker 
+                formControlName="bank_date" 
+                [view]="'date'" 
+                [dateFormat]="'dd/mm'"
+                inputId="bank_date"
+                iconDisplay="input"
+                [showIcon]="true"
+            />
+            <label for="bank_date">Date en banque</label>
+        </p-floatLabel>
+        <p-floatLabel variant="on">
+            <p-inputnumber
+                formControlName="amount"
+                mode="currency"
+                currency="EUR"
+                locale="fr-FR"
+                inputId="amount"
+            />
+            <label for="amount">Montant</label>
+        </p-floatLabel>
+        <p-button icon="pi pi-plus" type="submit" />
+    </form>
+</div>
