@@ -2,10 +2,10 @@ import { z } from "zod";
 
 export const TransactionSchema = z.object({
   id: z.string().optional().nullable(),
-  event_date: z.coerce.date(),
+  event_date: z.string(),
   motive: z.string(),
   to: z.string(),
-  bank_date: z.coerce.date(),
+  bank_date: z.string(),
   type: z.string(),
   category1_id: z.string().optional().nullable(),
   category2_id: z.string().optional().nullable(),

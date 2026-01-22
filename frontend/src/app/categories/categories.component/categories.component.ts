@@ -1,8 +1,7 @@
-import { Component, effect, inject, model, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, model, signal } from '@angular/core';
 import { CategoryComponent } from '../category.component/category.component';
 import { CardModule } from 'primeng/card';
 import { CategoriesService } from '../categories.service';
-import { Category } from '../categories.model';
 import { InplaceModule } from 'primeng/inplace';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AutoFocusModule } from 'primeng/autofocus';
@@ -27,21 +26,21 @@ import { closeInplaceForm } from '../../shared/utils/other';
   styleUrl: './categories.component.css',
   providers: [MessageService],
 })
-export class CategoriesComponent implements OnInit {
+export class CategoriesComponent {
   closeInplaceForm = closeInplaceForm;
 
   //
   //   Interfaces
   //
   
-  private readonly categoriesService = inject(CategoriesService);
+  protected readonly categoriesService = inject(CategoriesService);
   private readonly messageService = inject(MessageService);
 
   //
   //   Data
   //
   
-  public categories = signal<Category[]>([]);
+  public categories = this.categoriesService.categories;
 
   //
   //   Forms
@@ -50,14 +49,6 @@ export class CategoriesComponent implements OnInit {
   public addCategoryForm = new FormGroup({
     name: new FormControl<string>('', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]),
   });
-
-  //
-  //   Init
-  //
-  
-  ngOnInit(): void {
-    this.getAllCategories();
-  }
 
   //
   //   State Machines
@@ -103,17 +94,6 @@ export class CategoriesComponent implements OnInit {
   //
   //   Methods
   //
-  
-  /**
-   * Fetches all categories from the backend.
-   */
-  public getAllCategories(): void {
-    this.categoriesService.getAllCategories().subscribe({
-      next: (categories) => {
-        this.categories.set(categories);
-      },
-    });
-  }
 
   /**
    * Adds a new category to the database.
@@ -165,7 +145,7 @@ export class CategoriesComponent implements OnInit {
 
         // Refreshing the categories system.
         this.addCategoryForm.reset();
-        this.getAllCategories();
+        this.categoriesService.refresh();
       },
       error: (error) => {
         if (error instanceof ErrorWrapper) {

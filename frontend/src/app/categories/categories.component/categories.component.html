@@ -1,12 +1,13 @@
 <p-toast />
 
 <div id="categories-container">
-  @if (categories().length > 0) {
-    @for (category of categories(); track category.id) {
+  @let categories = categoriesService.categories();
+  @if (categories && categories.length > 0) {
+    @for (category of categories; track category.id) {
       @if (category.level === 0) {
         <app-category-component 
           [category]="category"
-          (onUpdated)="getAllCategories()"
+          (onUpdated)="categoriesService.refresh()"
           (stateChange)="$event === 'selected' 
             ? level1SelectedCategory.set(category.id) 
             : level1SelectedCategory.set(null)"
@@ -19,11 +20,11 @@
       }
     }
 
-    @for (category of categories(); track category.id) {
+    @for (category of categories; track category.id) {
       @if (category.level === 1 && categoriesStateLevel() >= 1) {
         <app-category-component 
           [category]="category"
-          (onUpdated)="getAllCategories()"
+          (onUpdated)="categoriesService.refresh()"
           (stateChange)="$event === 'selected' 
             ? level2SelectedCategory.set(category.id) 
             : level2SelectedCategory.set(null)"
@@ -38,11 +39,11 @@
       }
     }
 
-    @for (category of categories(); track category.id) {
+    @for (category of categories; track category.id) {
       @if (category.level === 2 && categoriesStateLevel() >= 2) {
         <app-category-component 
           [category]="category"
-          (onUpdated)="getAllCategories()"
+          (onUpdated)="categoriesService.refresh()"
           (stateChange)="$event === 'selected' 
             ? level3SelectedCategory.set(category.id) 
             : level3SelectedCategory.set(null)"
