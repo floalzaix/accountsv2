@@ -39,7 +39,7 @@ class TransactionORM(Base):
         primary_key=True,
         doc="The transaction's unique identifier",
     )
-    event_date: Mapped[datetime.datetime] = mapped_column(
+    event_date: Mapped[datetime.date] = mapped_column(
         DateTime,
         nullable=False,
         doc="The date of the transaction",
@@ -54,7 +54,7 @@ class TransactionORM(Base):
         nullable=False,
         doc="The name of the receiver of the transaction",
     )
-    bank_date: Mapped[datetime.datetime] = mapped_column(
+    bank_date: Mapped[datetime.date] = mapped_column(
         DateTime,
         nullable=False,
         doc="The date of the transaction in the bank",

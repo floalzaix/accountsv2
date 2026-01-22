@@ -26,7 +26,7 @@ class TransactionBase(BaseModel):
         default=None,
         description="The id of the user who made the transaction"
     )
-    event_date: datetime.datetime = Field(
+    event_date: datetime.date = Field(
         description="The date of the transaction"
     )
     motive: str = Field(
@@ -35,7 +35,7 @@ class TransactionBase(BaseModel):
     to: str = Field(
         description="The name of the receiver of the transaction"
     )
-    bank_date: datetime.datetime = Field(
+    bank_date: datetime.date = Field(
         description="The date of the transaction in the bank"
     )
     type: str = Field(

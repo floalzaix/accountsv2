@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const TransactionSchema = z.object({
-  id: z.string(),
+  id: z.string().optional().nullable(),
   event_date: z.coerce.date(),
   motive: z.string(),
   to: z.string(),

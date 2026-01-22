@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, model, OnInit, signal } from '@angular/core';
 import { CategoryComponent } from '../category.component/category.component';
 import { CardModule } from 'primeng/card';
 import { CategoriesService } from '../categories.service';
@@ -65,9 +65,9 @@ export class CategoriesComponent implements OnInit {
 
   public readonly categoriesStateLevel = signal<number>(0);
 
-  protected readonly level1SelectedCategory = signal<string | null>(null);
-  protected readonly level2SelectedCategory = signal<string | null>(null);
-  protected readonly level3SelectedCategory = signal<string | null>(null);
+  public readonly level1SelectedCategory = model<string | null>(null);
+  public readonly level2SelectedCategory = model<string | null>(null);
+  public readonly level3SelectedCategory = model<string | null>(null);
   
   // State handlers
 

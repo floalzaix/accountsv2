@@ -1,8 +1,8 @@
 """Transactions
 
-Revision ID: 2f119758200b
+Revision ID: 5e083eecd1c8
 Revises: 6abdb9ee591e
-Create Date: 2026-01-19 10:11:41.884240
+Create Date: 2026-01-22 16:44:37.246718
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '2f119758200b'
+revision: str = '5e083eecd1c8'
 down_revision: Union[str, Sequence[str], None] = '6abdb9ee591e'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -30,9 +30,9 @@ def upgrade() -> None:
     sa.Column('type', sa.String(length=255), nullable=False),
     sa.Column('amount', sa.Float(), nullable=False),
     sa.Column('user_id', sa.UUID(), nullable=False),
-    sa.Column('category1_id', sa.UUID()),
-    sa.Column('category2_id', sa.UUID()),
-    sa.Column('category3_id', sa.UUID()),
+    sa.Column('category1_id', sa.UUID(), nullable=True),
+    sa.Column('category2_id', sa.UUID(), nullable=True),
+    sa.Column('category3_id', sa.UUID(), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=False),
     sa.ForeignKeyConstraint(['category1_id'], ['categories.id'], ondelete='SET NULL'),

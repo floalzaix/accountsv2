@@ -1,3 +1,5 @@
+<p-toast />
+
 <div id="transaction-add-bar">
     <form [formGroup]="transactionAddForm" (ngSubmit)="addTransaction()">
         <p-floatLabel variant="on">
@@ -8,9 +10,12 @@
                 inputId="event_date"
                 iconDisplay="input"
                 [showIcon]="true"
+                [minDate]="minDate()"
+                [maxDate]="maxDate()"
             />
             <label for="event_date">Date</label>
         </p-floatLabel>
+
         <p-floatLabel variant="on">
             <p-iconfield>
                 <p-inputicon class="pi pi-bullseye"></p-inputicon>
@@ -22,6 +27,7 @@
             </p-iconfield>
             <label for="motive">Motive</label>
         </p-floatLabel>
+
         <p-floatLabel variant="on">
             <p-iconfield>
                 <p-inputicon class="pi pi-user"></p-inputicon>
@@ -33,6 +39,7 @@
             </p-iconfield>
             <label for="to">Destinataire</label>
         </p-floatLabel>
+
         <p-floatLabel variant="on">
             <p-datepicker 
                 formControlName="bank_date" 
@@ -41,9 +48,12 @@
                 inputId="bank_date"
                 iconDisplay="input"
                 [showIcon]="true"
+                [minDate]="minDate()"
+                [maxDate]="maxDate()"
             />
             <label for="bank_date">Date en banque</label>
         </p-floatLabel>
+
         <p-floatLabel variant="on">
             <p-inputnumber
                 formControlName="amount"

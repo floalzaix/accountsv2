@@ -23,7 +23,5 @@ export class TransactionsTable {
   //   Data
   //
   
-  protected readonly transactions = toSignal(
-    this.transactionsService.getAllTransactions()
-  );
+  protected readonly transactions = this.transactionsService.transactions;
 }

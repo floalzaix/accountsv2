@@ -54,6 +54,7 @@ async def create_transaction(
     """
         Creates a new transaction for a user.
     """
+    print("Testtttttttttttttt")
     repo = TransactionsRepo(db_session)
     service = TransactionsService(repo)
 
