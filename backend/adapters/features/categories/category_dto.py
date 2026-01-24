@@ -39,7 +39,7 @@ class CategoryRead(CategoryBase):
     level: int = Field(
         ...,
         ge=0,
-        le=3,
+        le=2,
         description="The category's level"
     )
     parent_id: Optional[uuid.UUID] = Field(
@@ -58,7 +58,7 @@ class CategoryCreate(CategoryBase):
     level: int = Field(
         ...,
         ge=0,
-        le=3,
+        le=2,
         description="The category's level"
     )
     parent_id: Optional[uuid.UUID] = Field(

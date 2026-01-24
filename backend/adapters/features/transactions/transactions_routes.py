@@ -54,7 +54,6 @@ async def create_transaction(
     """
         Creates a new transaction for a user.
     """
-    print("Testtttttttttttttt")
     repo = TransactionsRepo(db_session)
     service = TransactionsService(repo)
 
@@ -70,10 +69,10 @@ async def create_transaction(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail={
-                "user_safe_title": "La transaction existe déjà",
+                "user_safe_title": "La transaction existe peut-être déjà",
                 "user_safe_description": "La transaction avec les même "
-                "date, motif, destinataire, catégories et montant "
-                "existe déjà.",
+                "date, motif, destinataire, catégories et montant existe "
+                "possiblement déjà.",
                 "dev": str(e)
             }
         )
@@ -107,10 +106,10 @@ async def update_transaction(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail={
-                "user_safe_title": "La transaction existe déjà",
+                "user_safe_title": "La transaction existe peut-être déjà ou problème de catégories",
                 "user_safe_description": "La transaction avec les même "
                 "date, motif, destinataire, catégories et montant "
-                "existe déjà.",
+                "existe peut-être déjà ou problème de catégories.",
                 "dev": str(e)
             }
         )

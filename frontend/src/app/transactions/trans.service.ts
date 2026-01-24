@@ -42,12 +42,28 @@ export class TransactionsService {
     const observable = this.http.post<object>({
       endpoint: "/transactions",
       json: transaction,
-    }).pipe(
-      catchError((error) => {
-        console.error(error.error);
-        throw error;
-      }),
-    );
+    });
+
+    return observable;
+  }
+
+  public updateTransaction(transaction: Transaction): Observable<unknown> {
+    //
+    //   Prepare the observable
+    //
+    const observable = this.http.put<object>({
+      endpoint: "/transactions",
+      json: transaction,
+    });
+
+    return observable;
+  }
+
+  public deleteTransaction(transactionId: string): Observable<unknown> {
+    //
+    //   Prepare the observable
+    //
+    const observable = this.http.delete<object>(`/transactions/${transactionId}`);
 
     return observable;
   }

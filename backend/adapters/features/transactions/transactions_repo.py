@@ -90,9 +90,16 @@ class TransactionsRepo(TransactionDBPort):
         if result.scalars().first() is not None:
             raise ValueError("Transaction already exists !")
 
-    async def _verify_category(self, category_id: uuid.UUID, level: int, user_id: uuid.UUID) -> None:
+    async def _verify_category(
+        self,
+        category_id: uuid.UUID,
+        level: int,
+        user_id: uuid.UUID,
+        parent_id: uuid.UUID | None = None
+    ) -> None:
         """
-            Verifies if a category exists and if the level is correct.
+            Verifies if a category exists and if the level is correct
+            finally checks if the parent id is correct.
 
             Params:
                 - category_id: The id of the category to verify.
@@ -117,7 +124,10 @@ class TransactionsRepo(TransactionDBPort):
             f"user_id {user_id} and level {level} not found !")
 
         if category_orm.level != level:
-            raise RuntimeError(f"Levels not matching !")
+            raise RuntimeError("Levels not matching !")
+
+        if parent_id is not None and category_orm.parent_id != parent_id:
+            raise ValueError("Parent id not matching !")
 
     async def _verify_categories(self, transaction: Transaction) -> None:
         """
@@ -130,11 +140,17 @@ class TransactionsRepo(TransactionDBPort):
                 - RuntimeError: If the categories do not exist or the levels are not correct.
         """
         if transaction.category1_id is not None:
-            await self._verify_category(transaction.category1_id, 1, transaction.user_id)
+            await self._verify_category(transaction.category1_id, 0, transaction.user_id)
+
         if transaction.category2_id is not None:
-            await self._verify_category(transaction.category2_id, 2, transaction.user_id)
+            if transaction.category1_id is None:
+                raise ValueError("Category 1 id is required for category 2 !")
+            await self._verify_category(transaction.category2_id, 1, transaction.user_id, transaction.category1_id)
+
         if transaction.category3_id is not None:
-            await self._verify_category(transaction.category3_id, 3, transaction.user_id)
+            if transaction.category2_id is None:
+                raise ValueError("Category 2 id is required for category 3 !")
+            await self._verify_category(transaction.category3_id, 2, transaction.user_id, transaction.category2_id)
 
     async def create_transaction(self, transaction: Transaction) -> Transaction:
         transaction_orm = cast(

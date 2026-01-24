@@ -982,7 +982,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Test Category\",\r\n    \"level\": 5,\r\n    \"parent_id\": null\r\n}",
+              "raw": "{\r\n    \"name\": \"Test Category\",\r\n    \"level\": 3,\r\n    \"parent_id\": null\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2165,7 +2165,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1\": null,\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 45.50\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 45.50\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2364,12 +2364,11 @@
                   "",
                   "pm.test(\"Error has user_safe_title field\", function () {",
                   "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
-                  "    pm.expect(body.detail.user_safe_title).to.equal(\"La transaction existe déjà\");",
+                  "    pm.expect(body.detail.user_safe_title).to.equal(\"La transaction existe peut-être déjà\");",
                   "});",
                   "",
                   "pm.test(\"Error has user_safe_description field\", function () {",
                   "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
-                  "    pm.expect(body.detail.user_safe_description).to.include(\"existe déjà\");",
                   "});",
                   "",
                   "pm.test(\"Error has dev field\", function () {",
@@ -2407,7 +2406,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1\": null,\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 45.50\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 45.50\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2637,7 +2636,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1\": null,\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2877,7 +2876,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1\": null,\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3302,34 +3301,7 @@
                   "        return;",
                   "    }",
                   "    const level0 = res.json();",
-                  "    ",
-                  "    // Créer catégorie niveau 1",
-                  "    const createLevel1 = {",
-                  "        url: url + \"/\" + prefix + \"/categories/\",",
-                  "        method: \"POST\",",
-                  "        header: {",
-                  "            \"Authorization\": \"Bearer \" + token,",
-                  "            \"Content-Type\": \"application/json\"",
-                  "        },",
-                  "        body: {",
-                  "            mode: \"raw\",",
-                  "            raw: JSON.stringify({",
-                  "                name: \"Catégorie Test Niveau 1 - One Cat\",",
-                  "                level: 1,",
-                  "                parent_id: level0.id",
-                  "            })",
-                  "        }",
-                  "    };",
-                  "    ",
-                  "    pm.sendRequest(createLevel1, function(err, res) {",
-                  "        if (err) {",
-                  "            console.log(err);",
-                  "            return;",
-                  "        }",
-                  "        const level1 = res.json();",
-                  "        console.log(level1);",
-                  "        pm.variables.set(\"cat_level_1_id\", level1.id);",
-                  "    });",
+                  "    pm.variables.set(\"cat_level_1_id\", level0.id);",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -3350,7 +3322,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec une catégorie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 45.50\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec une catégorie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": -45.50\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3498,8 +3470,8 @@
                   "                return;",
                   "            }",
                   "            const level2 = res.json();",
-                  "            pm.variables.set(\"cat_level_1_id\", level1.id);",
-                  "            pm.variables.set(\"cat_level_2_id\", level2.id);",
+                  "            pm.variables.set(\"cat_level_1_id\", level0.id);",
+                  "            pm.variables.set(\"cat_level_2_id\", level1.id);",
                   "        });",
                   "    });",
                   "});"
@@ -3522,7 +3494,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec plusieurs catégories\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec plusieurs catégories\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3609,13 +3581,13 @@
                   "    }",
                   "};",
                   "",
-                  "pm.sendRequest(createLevel0, function(err, res) {",
+                  "pm.sendRequest(createLevel0, function (err, res) {",
                   "    if (err) {",
                   "        console.log(err);",
                   "        return;",
                   "    }",
                   "    const level0 = res.json();",
-                  "    ",
+                  "",
                   "    // Créer catégorie niveau 1",
                   "    const createLevel1 = {",
                   "        url: url + \"/\" + prefix + \"/categories/\",",
@@ -3633,14 +3605,14 @@
                   "            })",
                   "        }",
                   "    };",
-                  "    ",
-                  "    pm.sendRequest(createLevel1, function(err, res) {",
+                  "",
+                  "    pm.sendRequest(createLevel1, function (err, res) {",
                   "        if (err) {",
                   "            console.log(err);",
                   "            return;",
                   "        }",
                   "        const level1 = res.json();",
-                  "        ",
+                  "",
                   "        // Créer catégorie niveau 2",
                   "        const createLevel2 = {",
                   "            url: url + \"/\" + prefix + \"/categories/\",",
@@ -3658,42 +3630,18 @@
                   "                })",
                   "            }",
                   "        };",
-                  "        ",
-                  "        pm.sendRequest(createLevel2, function(err, res) {",
+                  "",
+                  "        pm.sendRequest(createLevel2, function (err, res) { ",
                   "            if (err) {",
-                  "                console.log(err);",
+                  "                console.err(err);",
                   "                return;",
                   "            }",
+                  "",
                   "            const level2 = res.json();",
-                  "            ",
-                  "            // Créer catégorie niveau 3",
-                  "            const createLevel3 = {",
-                  "                url: url + \"/\" + prefix + \"/categories/\",",
-                  "                method: \"POST\",",
-                  "                header: {",
-                  "                    \"Authorization\": \"Bearer \" + token,",
-                  "                    \"Content-Type\": \"application/json\"",
-                  "                },",
-                  "                body: {",
-                  "                    mode: \"raw\",",
-                  "                    raw: JSON.stringify({",
-                  "                        name: \"Catégorie Test Niveau 3 - All Cat\",",
-                  "                        level: 3,",
-                  "                        parent_id: level2.id",
-                  "                    })",
-                  "                }",
-                  "            };",
-                  "            ",
-                  "            pm.sendRequest(createLevel3, function(err, res) {",
-                  "                if (err) {",
-                  "                    console.log(err);",
-                  "                    return;",
-                  "                }",
-                  "                const level3 = res.json();",
-                  "                pm.variables.set(\"cat_level_1_id\", level1.id);",
-                  "                pm.variables.set(\"cat_level_2_id\", level2.id);",
-                  "                pm.variables.set(\"cat_level_3_id\", level3.id);",
-                  "            });",
+                  "",
+                  "            pm.variables.set(\"cat_level_1_id\", level0.id);",
+                  "            pm.variables.set(\"cat_level_2_id\", level1.id);",
+                  "            pm.variables.set(\"cat_level_3_id\", level2.id);",
                   "        });",
                   "    });",
                   "});"
@@ -3897,8 +3845,8 @@
                   "                    return;",
                   "                }",
                   "                const level2 = res.json();",
-                  "                pm.variables.set(\"cat_level_1_id\", level1.id);",
-                  "                pm.variables.set(\"cat_level_2_id\", level2.id);",
+                  "                pm.variables.set(\"cat_level_1_id\", level0.id);",
+                  "                pm.variables.set(\"cat_level_2_id\", level1.id);",
                   "            });",
                   "        });",
                   "    });",
@@ -3922,7 +3870,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id_to_update}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3\": null,\r\n    \"amount\": 35.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_to_update}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 35.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4052,7 +4000,7 @@
                   "                    to: \"Test\",",
                   "                    bank_date: \"2024-01-15\",",
                   "                    type: \"debit\",",
-                  "                    category1_id: oldLevel1.id,",
+                  "                    category1_id: oldLevel0.id,",
                   "                    category2_id: null,",
                   "                    category3_id: null,",
                   "                    amount: 40.00",
@@ -4117,7 +4065,7 @@
                   "                        return;",
                   "                    }",
                   "                    const newLevel1 = res.json();",
-                  "                    pm.variables.set(\"cat_level_1_id\", newLevel1.id);",
+                  "                    pm.variables.set(\"cat_level_1_id\", newLevel0.id);",
                   "                });",
                   "            });",
                   "        });",
@@ -4142,7 +4090,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id_to_change}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction avec nouvelles catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 45.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_to_change}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction avec nouvelles catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 45.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4164,15 +4112,15 @@
           "response": []
         },
         {
-          "name": "Create Transaction - Invalid Category Level (category1 with level 0)",
+          "name": "Create Transaction - category2 without category1",
           "event": [
             {
               "listen": "test",
               "script": {
-                "id": "create-transaction-invalid-level-0-test",
+                "id": "create-transaction-category2-without-category1-test",
                 "exec": [
-                  "pm.test(\"Status code is 500\", function () {",
-                  "    pm.response.to.have.status(500);",
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
                   "});",
                   "",
                   "pm.test(\"Response time is less than 2000ms\", function () {",
@@ -4185,12 +4133,21 @@
                   "    pm.expect(body).to.have.property(\"detail\");",
                   "});",
                   "",
-                  "pm.test(\"Error message indicates level mismatch\", function() {",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message indicates category1 required\", function() {",
                   "    const detail = body.detail;",
                   "    if (typeof detail === \"string\") {",
-                  "        pm.expect(detail.toLowerCase()).to.include(\"level\");",
+                  "        pm.expect(detail.toLowerCase()).to.include(\"category 1\");",
                   "    } else if (typeof detail === \"object\") {",
                   "        pm.expect(detail).to.have.property(\"dev\");",
+                  "        pm.expect(detail.dev.toLowerCase()).to.include(\"category 1\");",
                   "    }",
                   "});"
                 ],
@@ -4202,13 +4159,13 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "create-transaction-invalid-level-0-prerequest",
+                "id": "create-transaction-category2-without-category1-prerequest",
                 "exec": [
                   "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
                   "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
                   "const token = pm.globals.get(\"access_token\");",
                   "",
-                  "// Créer catégorie niveau 0 (qui ne devrait pas être utilisée pour category1)",
+                  "// Créer catégorie niveau 0 parente",
                   "const createLevel0 = {",
                   "    url: url + \"/\" + prefix + \"/categories/\",",
                   "    method: \"POST\",",
@@ -4219,7 +4176,7 @@
                   "    body: {",
                   "        mode: \"raw\",",
                   "        raw: JSON.stringify({",
-                  "            name: \"Catégorie Test Niveau 0 - Invalid\",",
+                  "            name: \"Catégorie Test Niveau 0 - Parent\",",
                   "            level: 0,",
                   "            parent_id: null",
                   "        })",
@@ -4232,7 +4189,33 @@
                   "        return;",
                   "    }",
                   "    const level0 = res.json();",
-                  "    pm.variables.set(\"cat_level_0_invalid_id\", level0.id);",
+                  "    ",
+                  "    // Créer catégorie niveau 1 (pour category2)",
+                  "    const createLevel1 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Catégorie Test Niveau 1 - Category2\",",
+                  "                level: 1,",
+                  "                parent_id: level0.id",
+                  "            })",
+                  "        }",
+                  "    };",
+                  "    ",
+                  "    pm.sendRequest(createLevel1, function(err, res) {",
+                  "        if (err) {",
+                  "            console.log(err);",
+                  "            return;",
+                  "        }",
+                  "        const level1 = res.json();",
+                  "        pm.variables.set(\"cat_level_2_id\", level1.id);",
+                  "    });",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -4241,7 +4224,7 @@
               }
             }
           ],
-          "id": "create-transaction-invalid-level-0-001",
+          "id": "create-transaction-category2-without-category1-001",
           "request": {
             "method": "POST",
             "header": [
@@ -4253,7 +4236,352 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec catégorie niveau invalide\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_0_invalid_id}}\",\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec category2 sans category1\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - category3 without category2",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-category3-without-category2-test",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Error has detail field\", function() {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message indicates category2 required\", function() {",
+                  "    const detail = body.detail;",
+                  "    if (typeof detail === \"string\") {",
+                  "        pm.expect(detail.toLowerCase()).to.include(\"category 2\");",
+                  "    } else if (typeof detail === \"object\") {",
+                  "        pm.expect(detail).to.have.property(\"dev\");",
+                  "        pm.expect(detail.dev.toLowerCase()).to.include(\"category 2\");",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-category3-without-category2-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer catégorie niveau 0 parente",
+                  "const createLevel0 = {",
+                  "    url: url + \"/\" + prefix + \"/categories/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            name: \"Catégorie Test Niveau 0 - Parent\",",
+                  "            level: 0,",
+                  "            parent_id: null",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createLevel0, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const level0 = res.json();",
+                  "    ",
+                  "    // Créer catégorie niveau 1",
+                  "    const createLevel1 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Catégorie Test Niveau 1 - Parent\",",
+                  "                level: 1,",
+                  "                parent_id: level0.id",
+                  "            })",
+                  "        }",
+                  "    };",
+                  "    ",
+                  "    pm.sendRequest(createLevel1, function(err, res) {",
+                  "        if (err) {",
+                  "            console.log(err);",
+                  "            return;",
+                  "        }",
+                  "        const level1 = res.json();",
+                  "        ",
+                  "        // Créer catégorie niveau 2 (pour category3)",
+                  "        const createLevel2 = {",
+                  "            url: url + \"/\" + prefix + \"/categories/\",",
+                  "            method: \"POST\",",
+                  "            header: {",
+                  "                \"Authorization\": \"Bearer \" + token,",
+                  "                \"Content-Type\": \"application/json\"",
+                  "            },",
+                  "            body: {",
+                  "                mode: \"raw\",",
+                  "                raw: JSON.stringify({",
+                  "                    name: \"Catégorie Test Niveau 2 - Category3\",",
+                  "                    level: 2,",
+                  "                    parent_id: level1.id",
+                  "                })",
+                  "            }",
+                  "        };",
+                  "        ",
+                  "        pm.sendRequest(createLevel2, function(err, res) {",
+                  "            if (err) {",
+                  "                console.log(err);",
+                  "                return;",
+                  "            }",
+                  "            const level2 = res.json();",
+                  "            pm.variables.set(\"cat_level_3_id\", level2.id);",
+                  "        });",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-category3-without-category2-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec category3 sans category2\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": \"{{cat_level_3_id}}\",\r\n    \"amount\": 50.00\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction - Wrong Parent ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "create-transaction-wrong-parent-id-test",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Error has detail field\", function() {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_title field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_title\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error has user_safe_description field\", function () {",
+                  "    pm.expect(body.detail).to.have.property(\"user_safe_description\");",
+                  "});",
+                  "",
+                  "pm.test(\"Error message indicates parent id mismatch\", function() {",
+                  "    const detail = body.detail;",
+                  "    if (typeof detail === \"string\") {",
+                  "        pm.expect(detail.toLowerCase()).to.include(\"parent\");",
+                  "    } else if (typeof detail === \"object\") {",
+                  "        pm.expect(detail).to.have.property(\"dev\");",
+                  "        pm.expect(detail.dev.toLowerCase()).to.include(\"parent\");",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "create-transaction-wrong-parent-id-prerequest",
+                "exec": [
+                  "const url = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+                  "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\");",
+                  "const token = pm.globals.get(\"access_token\");",
+                  "",
+                  "// Créer première catégorie niveau 0",
+                  "const createLevel0_1 = {",
+                  "    url: url + \"/\" + prefix + \"/categories/\",",
+                  "    method: \"POST\",",
+                  "    header: {",
+                  "        \"Authorization\": \"Bearer \" + token,",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: \"raw\",",
+                  "        raw: JSON.stringify({",
+                  "            name: \"Catégorie Test Niveau 0 - Parent 1\",",
+                  "            level: 0,",
+                  "            parent_id: null",
+                  "        })",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(createLevel0_1, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const level0_1 = res.json();",
+                  "    pm.variables.set(\"cat_level_1_id\", level0_1.id);",
+                  "    ",
+                  "    // Créer deuxième catégorie niveau 0",
+                  "    const createLevel0_2 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Catégorie Test Niveau 0 - Parent 2\",",
+                  "                level: 0,",
+                  "                parent_id: null",
+                  "            })",
+                  "        }",
+                  "    };",
+                  "    ",
+                  "    pm.sendRequest(createLevel0_2, function(err, res) {",
+                  "        if (err) {",
+                  "            console.log(err);",
+                  "            return;",
+                  "        }",
+                  "        const level0_2 = res.json();",
+                  "        ",
+                  "        // Créer catégorie niveau 1 avec le mauvais parent (level0_2 au lieu de level0_1)",
+                  "        const createLevel1 = {",
+                  "            url: url + \"/\" + prefix + \"/categories/\",",
+                  "            method: \"POST\",",
+                  "            header: {",
+                  "                \"Authorization\": \"Bearer \" + token,",
+                  "                \"Content-Type\": \"application/json\"",
+                  "            },",
+                  "            body: {",
+                  "                mode: \"raw\",",
+                  "                raw: JSON.stringify({",
+                  "                    name: \"Catégorie Test Niveau 1 - Wrong Parent\",",
+                  "                    level: 1,",
+                  "                    parent_id: level0_2.id",
+                  "                })",
+                  "            }",
+                  "        };",
+                  "        ",
+                  "        pm.sendRequest(createLevel1, function(err, res) {",
+                  "            if (err) {",
+                  "                console.log(err);",
+                  "                return;",
+                  "            }",
+                  "            const level1 = res.json();",
+                  "            pm.variables.set(\"cat_level_2_id\", level1.id);",
+                  "        });",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "create-transaction-wrong-parent-id-001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec parent_id incorrect\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4351,7 +4679,7 @@
                   "    const transaction = res.json();",
                   "    pm.variables.set(\"transaction_id_invalid_level\", transaction.id);",
                   "    ",
-                  "    // Créer catégorie niveau 0 (qui ne devrait pas être utilisée pour category1)",
+                  "    // Créer catégorie niveau 0 parente",
                   "    const createLevel0 = {",
                   "        url: url + \"/\" + prefix + \"/categories/\",",
                   "        method: \"POST\",",
@@ -4362,21 +4690,47 @@
                   "        body: {",
                   "            mode: \"raw\",",
                   "            raw: JSON.stringify({",
-                  "                name: \"Catégorie Test Niveau 0 - Update Invalid\",",
+                  "                name: \"Catégorie Test Niveau 0 - Update Parent\",",
                   "                level: 0,",
                   "                parent_id: null",
                   "            })",
                   "        }",
                   "    };",
                   "    ",
-                  "    pm.sendRequest(createLevel0, function(err, res) {",
-                  "        if (err) {",
-                  "            console.log(err);",
-                  "            return;",
+                  "pm.sendRequest(createLevel0, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const level0 = res.json();",
+                  "    ",
+                  "    // Créer catégorie niveau 1 (qui ne devrait pas être utilisée pour category1)",
+                  "    const createLevel1 = {",
+                  "        url: url + \"/\" + prefix + \"/categories/\",",
+                  "        method: \"POST\",",
+                  "        header: {",
+                  "            \"Authorization\": \"Bearer \" + token,",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: \"raw\",",
+                  "            raw: JSON.stringify({",
+                  "                name: \"Catégorie Test Niveau 1 - Update Invalid\",",
+                  "                level: 1,",
+                  "                parent_id: level0.id",
+                  "            })",
                   "        }",
-                  "        const level0 = res.json();",
-                  "        pm.variables.set(\"cat_level_0_invalid_update_id\", level0.id);",
-                  "    });",
+                  "    };",
+                  "",
+                  "pm.sendRequest(createLevel1, function(err, res) {",
+                  "    if (err) {",
+                  "        console.log(err);",
+                  "        return;",
+                  "    }",
+                  "    const level1 = res.json();",
+                  "    pm.variables.set(\"cat_level_0_invalid_update_id\", level1.id);",
+                  "});",
+                  "});",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -4397,7 +4751,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id_invalid_level}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégorie niveau invalide\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_0_invalid_update_id}}\",\r\n    \"category2\": null,\r\n    \"category3\": null,\r\n    \"amount\": 35.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_invalid_level}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégorie niveau invalide\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_0_invalid_update_id}}\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 35.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"

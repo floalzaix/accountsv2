@@ -1,5 +1,7 @@
+<p-toast />
+
 <div id="transactions-table-container">
-    @let ts = transactions();
+    @let ts = tableRows();
     @if (ts) {
         <form [formGroup]="editTransactionForm">
             <p-table [value]="ts">
@@ -12,14 +14,13 @@
                         <th>Catégorie 1</th>
                         <th>Catégorie 2</th>
                         <th>Catégorie 3</th>
-                        <th>Type</th>
                         <th>Montant</th>
                         <th>Actions</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-transaction>
-                    <tr>
-                        @if (state() === 'view') {
+                <ng-template pTemplate="body" let-transaction let-i="rowIndex">
+                    <tr [formGroupName]="transaction.id">
+                        @if (transaction.state === 'view' || transaction.state === 'delete') {
                             <td>{{ transaction.event_date }}</td>
                             <td>{{ transaction.motive }}</td>
                             <td>{{ transaction.to }}</td>
@@ -27,45 +28,120 @@
                             <td>{{ transaction.category1_id | idToName: categoriesMap() }}</td>
                             <td>{{ transaction.category2_id | idToName: categoriesMap() }}</td>
                             <td>{{ transaction.category3_id | idToName: categoriesMap() }}</td>
-                            <td>{{ transaction.type }}</td>
                             <td>{{ transaction.amount }} €</td>
+                            @if (transaction.state === 'view') {
+                                <td>
+                                    <button 
+                                        pButton
+                                        type="submit" 
+                                        icon="pi pi-pencil" 
+                                        (click)="transaction.state = 'edit'"
+                                    ></button>
+                                    <button 
+                                        pButton 
+                                        type="button" 
+                                        icon="pi pi-trash" 
+                                        (click)="transaction.state = 'delete'"
+                                    ></button>
+                                </td>
+                            } @else if (transaction.state === 'delete') {
+                                <td>
+                                    <button 
+                                        pButton 
+                                        type="submit" 
+                                        icon="pi pi-check" 
+                                        (click)="
+                                            transaction.state = 'delete';
+                                            deleteTransaction(transaction.id);
+                                        "
+                                    ></button>
+                                    <button 
+                                        pButton 
+                                        type="button" 
+                                        icon="pi pi-times" 
+                                        (click)="transaction.state = 'view'"
+                                    ></button>
+                                </td>
+                            }
+                        } @else if (transaction.state === 'edit') {
                             <td>
-                                <button pButton type="submit" icon="pi pi-pencil" (click)="state.set('view')"></button>
-                                <button pButton type="button" icon="pi pi-trash" (click)="state.set('delete')"></button>
+                                <input
+                                    type="date" 
+                                    formControlName="event_date" 
+                                />
                             </td>
-                        } @else if (state() === 'edit') {
                             <td>
-                                <input type="text" formControlName="event_date" [value]="transaction.event_date" />
+                                <input
+                                    type="text" 
+                                    formControlName="motive" 
+                                />
                             </td>
                             <td>
-                                <input type="text" formControlName="motive" [value]="transaction.motive" />
+                                <input
+                                    type="text"
+                                    formControlName="to"
+                                />
                             </td>
                             <td>
-                                <input type="text" formControlName="to" [value]="transaction.to" />
+                                <input
+                                    type="text"
+                                    formControlName="bank_date"
+                                />
                             </td>
                             <td>
-                                <input type="text" formControlName="bank_date" [value]="transaction.bank_date" />
+                                <select formControlName="category1_id">
+                                    <option [value]="null">Autre</option>
+                                    @for (item of categoriesMap() | keyvalue; track item.key) {
+                                        @if (item.value.level == 0) {
+                                            <option [value]="item.key">{{ item.value.name }}</option>
+                                        }
+                                    }
+                                </select>
                             </td>
                             <td>
-                                <input type="text" formControlName="category1_id" [value]="transaction.category1_id" />
+                                <select formControlName="category2_id">
+                                    <option [value]="null">Autre</option>
+                                    @for (item of categoriesMap() | keyvalue; track item.key) {
+                                        @if (item.value.level == 2) {
+                                            <option [value]="item.key">{{ item.value.name }}</option>
+                                        }
+                                    }
+                                </select>
                             </td>
                             <td>
-                                <input type="text" formControlName="category2_id" [value]="transaction.category2_id" />
+                                <select formControlName="category3_id">
+                                    <option [value]="null">Autre</option>
+                                    @for (item of categoriesMap() | keyvalue; track item.key) {
+                                        @if (item.value.level == 3) {
+                                            <option [value]="item.key">{{ item.value.name }}</option>
+                                        }
+                                    }
+                                </select>
                             </td>
                             <td>
-                                <input type="text" formControlName="category3_id" [value]="transaction.category3_id" />
+                                <input
+                                    type="number"
+                                    formControlName="amount"
+                                />
                             </td>
                             <td>
-                                <input type="text" formControlName="amount" [value]="transaction.amount" />
-                            </td>
-                            <td>
-                                <button pButton type="submit" icon="pi pi-save" (click)="state.set('view')"></button>
-                                <button pButton type="button" icon="pi pi-cancel" (click)="state.set('view')"></button>
-                            </td>
-                        } @else if (state() === 'delete') {
-                            <td>
-                                <button pButton type="submit" icon="pi pi-trash" (click)="state.set('view')"></button>
-                                <button pButton type="button" icon="pi pi-cancel" (click)="state.set('view')"></button>
+                                <button
+                                    pButton
+                                    type="submit"
+                                    icon="pi pi-save"
+                                    (click)="
+                                        transaction.state = 'view'; 
+                                        editTransaction(transaction);
+                                    "
+                                >
+                                </button>
+                                <button
+                                    pButton
+                                    type="button"
+                                    icon="pi pi-times"
+                                    (click)="transaction.state = 'view'"
+                                >
+                                </button>
                             </td>
                         }
                     </tr>

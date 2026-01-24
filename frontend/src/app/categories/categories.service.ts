@@ -1,8 +1,9 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { AsyncHttpClient } from '../shared/services/async-http-client';
-import { BehaviorSubject, catchError, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { Category } from './categories.model';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,11 @@ export class CategoriesService {
     //
     //   Preparing the observable
     //
-    const observable = this.http.get<Category[]>("/categories");
+    const observable = this.http.get<Category[]>("/categories").pipe(
+      tap((categories) => {
+        console.log(categories);
+      })
+    );
 
     return observable
   }
