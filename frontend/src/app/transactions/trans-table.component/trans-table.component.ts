@@ -75,10 +75,10 @@ export class TransactionsTable {
       if (!transaction.id) continue;
 
       const formGroup = new FormGroup({
-        event_date: new FormControl<string>(transaction.event_date, [Validators.required]),
+        event_date: new FormControl<Date>(transaction.event_date, [Validators.required]),
         motive: new FormControl<string>(transaction.motive, [Validators.required, Validators.minLength(1), Validators.maxLength(255)]),
         to: new FormControl<string>(transaction.to, [Validators.minLength(1), Validators.maxLength(255)]),
-        bank_date: new FormControl<string>(transaction.bank_date, [Validators.required]),
+        bank_date: new FormControl<Date>(transaction.bank_date, [Validators.required]),
         category1_id: new FormControl<string | null | undefined>(transaction.category1_id),
         category2_id: new FormControl<string | null | undefined>(transaction.category2_id),
         category3_id: new FormControl<string | null | undefined>(transaction.category3_id),

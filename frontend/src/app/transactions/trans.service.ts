@@ -24,11 +24,28 @@ export class TransactionsService {
     //
     const observable = this.http.get<object>("/transactions").pipe(
       map((response) => {
-        if (response instanceof Array) {
-          return response.map((item) => TransactionSchema.parse(item));
+        if (!(response instanceof Array)) {
+          throw new TypeError("Invalid response format !")
         }
 
-        throw new Error("Invalid response format");
+        // Sorting the transactions
+        const transactions = response.map((item) => {
+          return TransactionSchema.parse(item)
+        }).sort((a, b) => {
+          const event_date_diff = a.event_date.getTime() - b.event_date.getTime();
+          if (event_date_diff !== 0) return event_date_diff;
+
+          const bank_date_diff = a.bank_date.getTime() - b.bank_date.getTime();
+          if (bank_date_diff !== 0) return bank_date_diff;
+
+          const motive_diff = a.motive.localeCompare(b.motive);
+          if (motive_diff !== 0) return motive_diff;
+
+          const to_diff = a.to.localeCompare(b.to);
+          return to_diff;
+        });
+
+        return transactions;
       }),
     );
 
