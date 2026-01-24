@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { Transaction, TransactionSchema } from './trans.model';
 import { AsyncHttpClient } from '../shared/services/async-http-client';
 import { toSignal } from '@angular/core/rxjs-interop';

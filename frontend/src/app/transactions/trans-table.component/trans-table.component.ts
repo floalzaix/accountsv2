@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { TransactionsService } from '../trans.service';
 import { TableModule } from 'primeng/table';
 import { CategoriesService } from '../../categories/categories.service';
@@ -88,7 +88,7 @@ export class TransactionsTable {
       formGroups[transaction.id] = formGroup;
     }
 
-    return this.editTransactionForm = new FormGroup(formGroups);
+    this.editTransactionForm = new FormGroup(formGroups);
   }
 
   protected editTransaction(transaction: Transaction) {
