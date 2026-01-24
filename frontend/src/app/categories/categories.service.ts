@@ -1,7 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { AsyncHttpClient } from '../shared/services/async-http-client';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
-import { Category } from './categories.model';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
+import { Category, CategorySchema } from './categories.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -22,7 +22,25 @@ export class CategoriesService {
     //
     //   Preparing the observable
     //
-    const observable = this.http.get<Category[]>("/categories");
+    const observable = this.http.get<Category[]>("/categories").pipe(
+      map((response) => {
+        if (!(response instanceof Array)) {
+          throw new TypeError("Invalid response format !")
+        }
+
+        // Sorting the categories
+        const categories = response.map((item) => {
+          return CategorySchema.parse(item)
+        }).sort((a, b) => {
+          const name_diff = a.name.localeCompare(b.name);
+          if (name_diff !== 0) return name_diff;
+          return 0;
+        });
+
+        return categories;
+      }),
+    );
+
 
     return observable
   }
