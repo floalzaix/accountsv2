@@ -1,0 +1,12 @@
+<div id="options-container">
+    <p-listbox
+        [options]="optionsService.typeValues"
+        (onChange)="optionsService.types.set($event.value)"
+        [ngModel]="optionsService.types()"
+    />
+    
+    <p-listbox
+        [options]="YEARS"
+        [(ngModel)]="optionsService.year"
+    />
+</div>
