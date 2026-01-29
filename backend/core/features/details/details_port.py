@@ -3,14 +3,16 @@
 #
 
 import uuid
+
 from abc import ABC, abstractmethod
 
 # Perso
 
-from adapters.features.details.details_repo import DetailsTabType
+from core.shared.enums.details_tab_type import DetailsTabType
+
 
 #
-#   
+#   Ports
 #
 
 class DetailsDBPort(ABC):
@@ -23,4 +25,14 @@ class DetailsDBPort(ABC):
         user_id: uuid.UUID,
         tab_type: DetailsTabType
     ) -> None:
+        """
+            Gets the table that pending on the tab_typ (table type)
+            sums up the amount spent per category per month.
+            Its a table with a header row that are the month, the
+            header column with the name of the categories. The categories
+            are sorted alphabetically and displays the category with levels
+            0 first but each time there are childs to a category then the
+            sum up amount of the childs are displayed. Finally, there are
+            a total row and column at the end.
+        """
         pass

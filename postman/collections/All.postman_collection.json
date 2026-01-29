@@ -4973,6 +4973,42 @@
         }
       ],
       "id": "transactions-section-001"
+    },
+    {
+      "name": "Details",
+      "item": [
+        {
+          "name": "Detailed tab",
+          "id": "78d0904d-d2f0-4397-be32-48065674d411",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/details/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "details",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "18d41657-13a8-45f2-8ece-5f3ebaf46b3d"
     }
-  ]
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  }
 }

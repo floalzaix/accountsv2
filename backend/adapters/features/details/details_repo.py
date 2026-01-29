@@ -4,26 +4,21 @@
 
 import uuid
 
-from enum import Enum
 from sqlalchemy import extract, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # Perso
 
-from adapters.features.details.details_dto import DetailsTabDTO
 from adapters.features.transactions.transactions_orm import TransactionORM
-from backend.adapters.features.categories.category_orm import CategoryORM
+from adapters.features.categories.category_orm import CategoryORM
+from core.features.details.details_port import DetailsDBPort
+from core.shared.enums.details_tab_type import DetailsTabType
 
 #
 #   Repositories
 #
 
-class DetailsTabType(str, Enum):
-    REVENUES = "revenues"
-    EXPENSES = "expenses"
-    DIFFERENCES = "differences"
-
-class DetailsRepo:
+class DetailsRepo(DetailsDBPort):
     """
         Repository for details operations.
     """
@@ -37,6 +32,9 @@ class DetailsRepo:
         user_id: uuid.UUID,
         tab_type: DetailsTabType
     ) -> None:
+        #
+        #   Query to get the data from the category
+        #
         trans_month = extract("month", TransactionORM.event_date)
 
         query = (
@@ -55,10 +53,15 @@ class DetailsRepo:
             .where(extract("year", TransactionORM.event_date) == year)
             .where(TransactionORM.type == trans_type)
             .group_by(trans_month, CategoryORM.id)
+            .order_by(CategoryORM.name)
         )
 
         result = await self.session.execute(query)
 
         rows = result.all()
 
-        print(rows)
+        #
+        #   Process the data
+        #
+
+        for cat_id, month_number, sum in rows:
