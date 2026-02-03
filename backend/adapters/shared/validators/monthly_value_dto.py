@@ -19,45 +19,59 @@ class MonthlyValueDTO(BaseModel):
 
         Meant to be useed in the details tabs fo example.
     """
-    title: str = Field(
+    title: Optional[str] = Field(
+        default=None,
         description="The title of the monthly value"
     )
-    january: Any = Field(
+    january: Optional[Any] = Field(
+        default=None,
         description="The monthly value for January"
     )
-    february: Any = Field(
+    february: Optional[Any] = Field(
+        default=None,
         description="The monthly value for February"
     )
-    march: Any = Field(
+    march: Optional[Any] = Field(
+        default=None,
         description="The monthly value for March"
     )
-    april: Any = Field(
+    april: Optional[Any] = Field(
+        default=None,
         description="The monthly value for April"
     )
-    may: Any = Field(
+    may: Optional[Any] = Field(
+        default=None,
         description="The monthly value for May"
     )
-    june: Any = Field(
+    june: Optional[Any] = Field(
+        default=None,
         description="The monthly value for June"
     )
-    july: Any = Field(
+    july: Optional[Any] = Field(
+        default=None,
         description="The monthly value for July"
     )
-    august: Any = Field(
+    august: Optional[Any] = Field(
+        default=None,
         description="The monthly value for August"
     )
-    september: Any = Field(
+    september: Optional[Any] = Field(
+        default=None,
         description="The monthly value for September"
     )
-    october: Any = Field(
+    october: Optional[Any] = Field(
+        default=None,
         description="The monthly value for October"
     )
-    november: Any = Field(
+    november: Optional[Any] = Field(
+        default=None,
         description="The monthly value for November"
     )
-    december: Any = Field(
+    december: Optional[Any] = Field(
+        default=None,
         description="The monthly value for December"
     )
     total: Optional[Any] = Field(
+        default=None,
         description="The total value"
     )

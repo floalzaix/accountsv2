@@ -11,6 +11,7 @@ from adapters.shared.dependencies import get_db_session, get_user
 from core.shared.models.user import User
 from adapters.features.details.details_repo import DetailsRepo, DetailsTabType
 from core.features.details.details_service import DetailsService
+from adapters.features.details.details_dto import DetailsCategoryRowDTO
 
 
 #
@@ -22,6 +23,7 @@ details_routes = APIRouter(prefix="/details")
 
 @details_routes.get(
     "/",
+    response_model=DetailsCategoryRowDTO,
 )
 async def get_detailed_tab(
     user: User = Depends(get_user),

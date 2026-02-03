@@ -3,7 +3,7 @@
 #
 
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 # Perso
 
@@ -18,7 +18,7 @@ class DetailsCategoryRowDTO(BaseModel):
         Represents a row of a category in the details table.
     """
     values: MonthlyValueDTO
-    child_rows: List["DetailsCategoryRowDTO"]
+    child_rows: Optional[List["DetailsCategoryRowDTO"]] = None
 
 class DetailsTabDTO(BaseModel):
     """

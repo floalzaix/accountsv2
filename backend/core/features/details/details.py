@@ -3,7 +3,7 @@
 #
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 # Perso
 
@@ -16,14 +16,23 @@ from core.shared.models.monthly_value import MonthlyValue
 @dataclass
 class DetailsCategoryRow:
     values: MonthlyValue
-    child_rows: List["DetailsCategoryRow"]
+    child_rows: Optional[List["DetailsCategoryRow"]] = None
 
 @dataclass
 class DetailsTab:
     """
         Represents a details table.
     """
-    title_row: MonthlyValue
     rows: List[DetailsCategoryRow]
-    total_row: MonthlyValue
+    total_row: MonthlyValue = MonthlyValue(
+        title="Total",
+    )
+
+    #
+    #   Methods
+    #
+    
+    def append_row(self, row: DetailsCategoryRow) -> None:
+
+        self.rows.append(row)
 
