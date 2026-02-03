@@ -29,7 +29,6 @@ class DetailsTabDTO(BaseModel):
         - Expenses details tab
         - Difference details tab
     """
-    title_row: MonthlyValueDTO
     rows: List[DetailsCategoryRowDTO]
     total_row: MonthlyValueDTO
     

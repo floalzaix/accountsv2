@@ -73,12 +73,24 @@ class MonthlyValue():
     
     def set_month_value(self, month: int, value: Any) -> None:
         """
-            Sets a value for a given month (number of the month).
+            Sets a value for a given month (number from 1 to 12 of the month).
         """
-        setattr(self, MONTHS[int(month)], value)
+        setattr(self, MONTHS[int(month) - 1], value)
 
     def set_month_value_by_name(self, month: str, value: Any) -> None:
         """
-            Sets a value for a given month (name of the month).
+            Sets a value for a given month (name EN of the month).
         """
         setattr(self, month, value)
+
+    def get_month_value(self, month: int) -> Any:
+        """
+            Gets a value for a given month (number from 1 to 12 of the month).
+        """
+        return getattr(self, MONTHS[int(month) - 1])
+
+    def get_month_value_by_name(self, month: str) -> Any:
+        """
+            Gets a value for a given month (name EN of the month).
+        """
+        return getattr(self, month)

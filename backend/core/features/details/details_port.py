@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 # Perso
 
 from core.shared.enums.details_tab_type import DetailsTabType
-from core.features.details.details import DetailsCategoryRow
+from core.features.details.details import DetailsTab
 
 
 #
@@ -25,7 +25,7 @@ class DetailsDBPort(ABC):
         trans_type: str,
         user_id: uuid.UUID,
         tab_type: DetailsTabType
-    ) -> DetailsCategoryRow:
+    ) -> DetailsTab:
         """
             Gets the table that pending on the tab_typ (table type)
             sums up the amount spent per category per month.

@@ -64,9 +64,30 @@
       "enabled": true,
       "type": "any",
       "description": ""
+    },
+    {
+      "key": "details_category_level_0_id",
+      "value": "",
+      "enabled": true,
+      "type": "any",
+      "description": ""
+    },
+    {
+      "key": "details_category_level_1_id",
+      "value": "",
+      "enabled": true,
+      "type": "any",
+      "description": ""
+    },
+    {
+      "key": "details_category_level_1_id_2",
+      "value": "",
+      "enabled": true,
+      "type": "any",
+      "description": ""
     }
   ],
   "_postman_variable_scope": "globals",
-  "_postman_exported_at": "2026-01-08T19:46:45.084Z",
+  "_postman_exported_at": "2026-02-03T14:16:18.253Z",
   "_postman_exported_using": "Postman/11.0.0"
 }

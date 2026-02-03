@@ -4,7 +4,7 @@
 
 import uuid
 
-from typing import Dict, List
+from typing import Dict
 from sqlalchemy import extract, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -15,7 +15,7 @@ from adapters.features.categories.category_orm import CategoryORM
 from core.features.details.details_port import DetailsDBPort
 from core.shared.enums.details_tab_type import DetailsTabType
 from core.shared.models.monthly_value import MonthlyValue
-from core.features.details.details import DetailsCategoryRow
+from core.features.details.details import DetailsCategoryRow, DetailsTab
 
 #
 #   Repositories
@@ -34,7 +34,7 @@ class DetailsRepo(DetailsDBPort):
         trans_type: str,
         user_id: uuid.UUID,
         tab_type: DetailsTabType
-    ) -> DetailsCategoryRow:
+    ) -> DetailsTab:
         #
         #   Query to get the data from the category
         #
@@ -55,6 +55,11 @@ class DetailsRepo(DetailsDBPort):
             .where(TransactionORM.user_id == user_id)
             .where(extract("year", TransactionORM.event_date) == year)
             .where(TransactionORM.type == trans_type)
+            .where(
+                TransactionORM.amount > 0 if tab_type == DetailsTabType.REVENUES else
+                TransactionORM.amount < 0 if tab_type == DetailsTabType.EXPENSES else
+                TransactionORM.amount != 0
+            )
             .group_by(trans_month, CategoryORM.id)
             .order_by(CategoryORM.name)
         )
@@ -85,13 +90,13 @@ class DetailsRepo(DetailsDBPort):
             tab_rows[cat.id].values.set_month_value(month_number, sum)
 
         # Creating the list and apply hierarchy
-        tab_row_list: List[DetailsCategoryRow] = []
+        details_tab = DetailsTab()
         for cat_id, row in tab_rows.items():
 
             # If the category has no parent, add it to the list
             # as a root category
             if cat_id not in parent_dict:
-                tab_row_list.append(row)
+                details_tab.append_row(row)
 
             # If the category has a parent, add it to the parent's child rows
             else:
@@ -104,4 +109,4 @@ class DetailsRepo(DetailsDBPort):
 
                 parent_row.child_rows.append(row)
 
-        return tab_rows[list(tab_rows.keys())[0]]
+        return details_tab
