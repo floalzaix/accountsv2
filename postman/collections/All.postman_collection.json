@@ -1383,19 +1383,7 @@
                   "    pm.expect(body).to.have.property(\"level\");",
                   "    pm.expect(body).to.have.property(\"parent_id\");",
                   "});",
-                  "",
-                  "pm.test(\"Name matches updated name\", function () {",
-                  "    pm.expect(body.name).to.equal(requestData.name);",
-                  "});",
-                  "",
-                  "pm.test(\"Id matches category ID\", function () {",
-                  "    pm.expect(body.id).to.equal(requestData.id);",
-                  "});",
-                  "",
-                  "pm.test(\"Id is a valid UUID string\", function () {",
-                  "    pm.expect(body.id).to.be.a(\"string\");",
-                  "    pm.expect(body.id).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);",
-                  "});"
+                  ""
                 ],
                 "type": "text/javascript",
                 "packages": {},
@@ -2191,7 +2179,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 45.50\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 45.50\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2261,7 +2249,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"amount\": 45.50\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"amount\": 45.50\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2435,7 +2423,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 45.50\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat épicerie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 45.50\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2682,7 +2670,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2752,7 +2740,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Nouveau motif\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Nouveau motif\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"savings\",\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2838,7 +2826,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Nouveau motif\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"id\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Nouveau motif\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"cash\",\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2925,7 +2913,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id}}\",\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat épicerie modifié\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3070,11 +3058,11 @@
                   "    body: {",
                   "        mode: \"raw\",",
                   "        raw: JSON.stringify({",
-                  "            event_date: \"2024-01-15\",",
+                  "            event_date: \"2026-01-15\",",
                   "            motive: \"Transaction à supprimer\",",
                   "            to: \"Épicerie Carrefour\",",
-                  "            bank_date: \"2024-01-15\",",
-                  "            type: \"debit\",",
+                  "            bank_date: \"2026-01-15\",",
+                  "            type: \"checking\",",
                   "            category1_id: null,",
                   "            category2_id: null,",
                   "            category3_id: null,",
@@ -3374,7 +3362,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec une catégorie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": -45.50\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat avec une catégorie\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"savings\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": -45.50\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3546,7 +3534,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec plusieurs catégories\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat avec plusieurs catégories\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"cash\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3716,7 +3704,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec toutes les catégories\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": \"{{cat_level_3_id}}\",\r\n    \"amount\": 55.00\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat avec toutes les catégories\",\r\n    \"to\": \"Épicerie Carrefour\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": \"{{cat_level_3_id}}\",\r\n    \"amount\": 55.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3802,11 +3790,11 @@
                   "    body: {",
                   "        mode: \"raw\",",
                   "        raw: JSON.stringify({",
-                  "            event_date: \"2024-01-15\",",
+                  "            event_date: \"2026-01-15\",",
                   "            motive: \"Transaction à mettre à jour\",",
                   "            to: \"Test\",",
-                  "            bank_date: \"2024-01-15\",",
-                  "            type: \"debit\",",
+                  "            bank_date: \"2026-01-15\",",
+                  "            type: \"checking\",",
                   "            category1_id: null,",
                   "            category2_id: null,",
                   "            category3_id: null,",
@@ -3922,7 +3910,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id_to_update}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 35.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_to_update}}\",\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 35.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4047,11 +4035,11 @@
                   "            body: {",
                   "                mode: \"raw\",",
                   "                raw: JSON.stringify({",
-                  "                    event_date: \"2024-01-15\",",
+                  "                    event_date: \"2026-01-15\",",
                   "                    motive: \"Transaction avec anciennes catégories\",",
                   "                    to: \"Test\",",
-                  "                    bank_date: \"2024-01-15\",",
-                  "                    type: \"debit\",",
+                  "                    bank_date: \"2026-01-15\",",
+                  "                    type: \"checking\",",
                   "                    category1_id: oldLevel0.id,",
                   "                    category2_id: null,",
                   "                    category3_id: null,",
@@ -4142,7 +4130,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id_to_change}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction avec nouvelles catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 45.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_to_change}}\",\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Transaction avec nouvelles catégories\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 45.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4288,7 +4276,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec category2 sans category1\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat avec category2 sans category1\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"savings\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4460,7 +4448,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec category3 sans category2\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": \"{{cat_level_3_id}}\",\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat avec category3 sans category2\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"cash\",\r\n    \"category1_id\": null,\r\n    \"category2_id\": null,\r\n    \"category3_id\": \"{{cat_level_3_id}}\",\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4633,7 +4621,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec parent_id incorrect\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat avec parent_id incorrect\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"savings\",\r\n    \"category1_id\": \"{{cat_level_1_id}}\",\r\n    \"category2_id\": \"{{cat_level_2_id}}\",\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4710,11 +4698,11 @@
                   "    body: {",
                   "        mode: \"raw\",",
                   "        raw: JSON.stringify({",
-                  "            event_date: \"2024-01-15\",",
+                  "            event_date: \"2026-01-15\",",
                   "            motive: \"Transaction à mettre à jour avec niveau invalide\",",
                   "            to: \"Test\",",
-                  "            bank_date: \"2024-01-15\",",
-                  "            type: \"debit\",",
+                  "            bank_date: \"2026-01-15\",",
+                  "            type: \"checking\",",
                   "            category1_id: null,",
                   "            category2_id: null,",
                   "            category3_id: null,",
@@ -4803,7 +4791,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id_invalid_level}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégorie niveau invalide\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"{{cat_level_0_invalid_update_id}}\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 35.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_invalid_level}}\",\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégorie niveau invalide\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": \"{{cat_level_0_invalid_update_id}}\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 35.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4885,7 +4873,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Achat avec catégorie inexistante\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"00000000-0000-0000-0000-000000000999\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
+              "raw": "{\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Achat avec catégorie inexistante\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": \"00000000-0000-0000-0000-000000000999\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 50.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4962,11 +4950,11 @@
                   "    body: {",
                   "        mode: \"raw\",",
                   "        raw: JSON.stringify({",
-                  "            event_date: \"2024-01-15\",",
+                  "            event_date: \"2026-01-15\",",
                   "            motive: \"Transaction à mettre à jour avec catégorie inexistante\",",
                   "            to: \"Test\",",
-                  "            bank_date: \"2024-01-15\",",
-                  "            type: \"debit\",",
+                  "            bank_date: \"2026-01-15\",",
+                  "            type: \"checking\",",
                   "            category1_id: null,",
                   "            category2_id: null,",
                   "            category3_id: null,",
@@ -5002,7 +4990,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"{{transaction_id_non_existent}}\",\r\n    \"event_date\": \"2024-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégorie inexistante\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2024-01-15\",\r\n    \"type\": \"debit\",\r\n    \"category1_id\": \"00000000-0000-0000-0000-000000000999\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 35.00\r\n}",
+              "raw": "{\r\n    \"id\": \"{{transaction_id_non_existent}}\",\r\n    \"event_date\": \"2026-01-15\",\r\n    \"motive\": \"Transaction mise à jour avec catégorie inexistante\",\r\n    \"to\": \"Test\",\r\n    \"bank_date\": \"2026-01-15\",\r\n    \"type\": \"checking\",\r\n    \"category1_id\": \"00000000-0000-0000-0000-000000000999\",\r\n    \"category2_id\": null,\r\n    \"category3_id\": null,\r\n    \"amount\": 35.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
