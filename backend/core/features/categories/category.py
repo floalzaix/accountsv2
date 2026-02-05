@@ -21,4 +21,4 @@ class Category:
     name: str
     level: int
     user_id: uuid.UUID
-    parent_id: uuid.UUID
+    parent_id: uuid.UUID | None

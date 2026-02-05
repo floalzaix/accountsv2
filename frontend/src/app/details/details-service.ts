@@ -56,8 +56,6 @@ export class DetailsService {
           return this.toTreeNode(row);
         })
 
-        console.log(treeNode);
-
         return [detailsTab, treeNode]
       })
     );

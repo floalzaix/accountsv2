@@ -4,7 +4,7 @@
 
 import uuid
 
-from typing import Dict
+from typing import Any, Dict, List
 from sqlalchemy import extract, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -16,6 +16,7 @@ from core.features.details.details_port import DetailsDBPort
 from core.shared.enums.details_tab_type import DetailsTabType
 from core.shared.models.monthly_value import MonthlyValue
 from core.features.details.details import DetailsCategoryRow, DetailsTab
+from core.features.categories.category import Category
 
 #
 #   Repositories
@@ -27,6 +28,52 @@ class DetailsRepo(DetailsDBPort):
     """
     def __init__(self, session: AsyncSession):
         self.session = session
+
+    async def _get_other_category(
+        self,
+        user_id: uuid.UUID,
+        year: int,
+        trans_type: str,
+        tab_type: DetailsTabType
+    ) -> List[Any]:
+        """
+            Gets the other category when they don't have a category.
+        """
+        trans_month = extract("month", TransactionORM.event_date)
+
+        # Fetching the final row the other transactions with no category
+        query = (
+            select(
+                trans_month,
+                func.sum(TransactionORM.amount)
+            )
+            .where(TransactionORM.user_id == user_id)
+            .where(extract("year", TransactionORM.event_date) == year)
+            .where(TransactionORM.type == trans_type)
+            .where(
+                TransactionORM.amount > 0 if tab_type == DetailsTabType.REVENUES else
+                TransactionORM.amount < 0 if tab_type == DetailsTabType.EXPENSES else
+                TransactionORM.amount != 0
+            )
+            .where(TransactionORM.category1_id.is_(None))
+            .where(TransactionORM.category2_id.is_(None))
+            .where(TransactionORM.category3_id.is_(None))
+            .group_by(trans_month)
+        )
+
+        result = await self.session.execute(query)
+        other_row = result.all()
+
+        # Faking the other category
+        other_row = [(Category(
+            id=uuid.uuid4(),
+            name="Other",
+            parent_id=None,
+            level=0,
+            user_id=user_id
+        ), month_number, sum) for month_number, sum in other_row]
+
+        return other_row
 
     async def get_detailed_tab(
         self,
@@ -66,7 +113,12 @@ class DetailsRepo(DetailsDBPort):
 
         result = await self.session.execute(query)
 
-        db_rows = result.all()
+        cat_rows = result.all()
+
+        other_row = await self._get_other_category(user_id, year, trans_type, tab_type)
+
+        # Mergin the category rows and the other row
+        db_rows: List[Any] = [*cat_rows, *other_row]
 
         #
         #   Process the data
