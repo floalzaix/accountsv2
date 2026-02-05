@@ -131,6 +131,7 @@ export class TransactionsTable {
             severity: 'error',
             summary: error.userSafeTitle,
             detail: error.userSafeDescription,
+            life: 7000,
           });
         }
 

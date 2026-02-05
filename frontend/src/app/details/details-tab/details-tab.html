@@ -1,0 +1,68 @@
+<div id="details-tab-container">
+    @let details = detailsService.detailsTab();
+    @if (details) {
+        @let detailsTab = details[0];
+        @let treeNodes = details[1];
+        <p-treetable [value]="treeNodes">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th id="category-name">Nom de la catégorie</th>
+                    <th id="january">Janvier</th>
+                    <th id="february">Février</th>
+                    <th id="march">Mars</th>
+                    <th id="april">Avril</th>
+                    <th id="may">Mai</th>
+                    <th id="june">Juin</th>
+                    <th id="july">Juillet</th>
+                    <th id="august">Août</th>
+                    <th id="september">Septembre</th>
+                    <th id="october">Octobre</th>
+                    <th id="november">Novembre</th>
+                    <th id="december">Décembre</th>
+                    <th id="total">Total</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                <tr [ttRow]="rowNode">
+                    <td>
+                        <div class="details-tab-row-title">
+                            <p-treetable-toggler [rowNode]="rowNode" />
+                            {{ rowData?.title }}
+                        </div>
+                    </td>
+                    <td>{{ rowData?.january }}</td>
+                    <td>{{ rowData?.february }}</td>
+                    <td>{{ rowData?.march }}</td>
+                    <td>{{ rowData?.april }}</td>
+                    <td>{{ rowData?.may }}</td>
+                    <td>{{ rowData?.june }}</td>
+                    <td>{{ rowData?.july }}</td>
+                    <td>{{ rowData?.august }}</td>
+                    <td>{{ rowData?.september }}</td>
+                    <td>{{ rowData?.october }}</td>
+                    <td>{{ rowData?.november }}</td>
+                    <td>{{ rowData?.december }}</td>
+                    <td>{{ rowData?.total }}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td id="category-total">Total</td>
+                    <td id="january-total">{{ detailsTab.total_row?.january }}</td>
+                    <td id="february-total">{{ detailsTab.total_row?.february }}</td>
+                    <td id="march-total">{{ detailsTab.total_row?.march }}</td>
+                    <td id="april-total">{{ detailsTab.total_row?.april }}</td>
+                    <td id="may-total">{{ detailsTab.total_row?.may }}</td>
+                    <td id="june-total">{{ detailsTab.total_row?.june }}</td>
+                    <td id="july-total">{{ detailsTab.total_row?.july }}</td>
+                    <td id="august-total">{{ detailsTab.total_row?.august }}</td>
+                    <td id="september-total">{{ detailsTab.total_row?.september }}</td>
+                    <td id="october-total">{{ detailsTab.total_row?.october }}</td>
+                    <td id="november-total">{{ detailsTab.total_row?.november }}</td>
+                    <td id="december-total">{{ detailsTab.total_row?.december }}</td>
+                    <td id="total-total">{{ detailsTab.total_row?.total }}</td>
+                </tr>
+            </ng-template>
+        </p-treetable>
+    }
+</div>
