@@ -15,7 +15,6 @@
                         <th id="category2_id">Catégorie 2</th>
                         <th id="category3_id">Catégorie 3</th>
                         <th id="amount">Montant</th>
-                        <th id="type">Type</th>
                         <th id="actions">Actions</th>
                     </tr>
                 </ng-template>
@@ -30,7 +29,6 @@
                             <td>{{ transaction.category2_id | idToName: categoriesMap() }}</td>
                             <td>{{ transaction.category3_id | idToName: categoriesMap() }}</td>
                             <td>{{ transaction.amount }} €</td>
-                            <td>{{ transaction.type }}</td>
                             @if (transaction.state === 'view') {
                                 <td>
                                     <button 

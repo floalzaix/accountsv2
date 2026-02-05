@@ -1,11 +1,13 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { DetailsService } from '../details-service';
 import { TreeTableModule } from 'primeng/treetable';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-details-tab',
   imports: [
     TreeTableModule,
+    CurrencyPipe,
   ],
   templateUrl: './details-tab.html',
   styleUrl: './details-tab.css',

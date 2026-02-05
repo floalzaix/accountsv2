@@ -6,7 +6,13 @@
         <p-treetable [value]="treeNodes">
             <ng-template pTemplate="header">
                 <tr>
-                    <th id="category-name">Nom de la catégorie</th>
+                    @if (tab_type() === "revenues") {
+                        <th id="revenues">Revenus</th>
+                    } @else if (tab_type() === "expenses") {
+                        <th id="expenses">Dépenses</th>
+                    } @else if (tab_type() === "differences") {
+                        <th id="differences">Différences</th>
+                    }
                     <th id="january">Janvier</th>
                     <th id="february">Février</th>
                     <th id="march">Mars</th>
@@ -30,37 +36,37 @@
                             {{ rowData?.title }}
                         </div>
                     </td>
-                    <td>{{ rowData?.january }}</td>
-                    <td>{{ rowData?.february }}</td>
-                    <td>{{ rowData?.march }}</td>
-                    <td>{{ rowData?.april }}</td>
-                    <td>{{ rowData?.may }}</td>
-                    <td>{{ rowData?.june }}</td>
-                    <td>{{ rowData?.july }}</td>
-                    <td>{{ rowData?.august }}</td>
-                    <td>{{ rowData?.september }}</td>
-                    <td>{{ rowData?.october }}</td>
-                    <td>{{ rowData?.november }}</td>
-                    <td>{{ rowData?.december }}</td>
-                    <td>{{ rowData?.total }}</td>
+                    <td>{{ rowData?.january }} @if (rowData?.january) {€}</td>
+                    <td>{{ rowData?.february }} @if (rowData?.february) {€}</td>
+                    <td>{{ rowData?.march }} @if (rowData?.march) {€}</td>
+                    <td>{{ rowData?.april }} @if (rowData?.april) {€}</td>
+                    <td>{{ rowData?.may }} @if (rowData?.may) {€}</td>
+                    <td>{{ rowData?.june }} @if (rowData?.june) {€}</td>
+                    <td>{{ rowData?.july }} @if (rowData?.july) {€}</td>
+                    <td>{{ rowData?.august }} @if (rowData?.august) {€}</td>
+                    <td>{{ rowData?.september }} @if (rowData?.september) {€}</td>
+                    <td>{{ rowData?.october }} @if (rowData?.october) {€}</td>
+                    <td>{{ rowData?.november }} @if (rowData?.november) {€}</td>
+                    <td>{{ rowData?.december }} @if (rowData?.december) {€}</td>
+                    <td>{{ rowData?.total }} @if (rowData?.total) {€}</td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="footer">
                 <tr>
                     <td id="category-total">Total</td>
-                    <td id="january-total">{{ detailsTab.total_row?.january }}</td>
-                    <td id="february-total">{{ detailsTab.total_row?.february }}</td>
-                    <td id="march-total">{{ detailsTab.total_row?.march }}</td>
-                    <td id="april-total">{{ detailsTab.total_row?.april }}</td>
-                    <td id="may-total">{{ detailsTab.total_row?.may }}</td>
-                    <td id="june-total">{{ detailsTab.total_row?.june }}</td>
-                    <td id="july-total">{{ detailsTab.total_row?.july }}</td>
-                    <td id="august-total">{{ detailsTab.total_row?.august }}</td>
-                    <td id="september-total">{{ detailsTab.total_row?.september }}</td>
-                    <td id="october-total">{{ detailsTab.total_row?.october }}</td>
-                    <td id="november-total">{{ detailsTab.total_row?.november }}</td>
-                    <td id="december-total">{{ detailsTab.total_row?.december }}</td>
-                    <td id="total-total">{{ detailsTab.total_row?.total }}</td>
+                    <td id="january-total">{{ detailsTab.total_row?.january }} @if (detailsTab.total_row?.january) {€}</td>
+                    <td id="february-total">{{ detailsTab.total_row?.february }} @if (detailsTab.total_row?.february) {€}</td>
+                    <td id="march-total">{{ detailsTab.total_row?.march }} @if (detailsTab.total_row?.march) {€}</td>
+                    <td id="april-total">{{ detailsTab.total_row?.april }} @if (detailsTab.total_row?.april) {€}</td>
+                    <td id="may-total">{{ detailsTab.total_row?.may }} @if (detailsTab.total_row?.may) {€}</td>
+                    <td id="june-total">{{ detailsTab.total_row?.june }} @if (detailsTab.total_row?.june) {€}</td>
+                    <td id="july-total">{{ detailsTab.total_row?.july }} @if (detailsTab.total_row?.july) {€}</td>
+                    <td id="august-total">{{ detailsTab.total_row?.august }} @if (detailsTab.total_row?.august) {€}</td>
+                    <td id="september-total">{{ detailsTab.total_row?.september }} @if (detailsTab.total_row?.september) {€}</td>
+                    <td id="october-total">{{ detailsTab.total_row?.october }} @if (detailsTab.total_row?.october) {€}</td>
+                    <td id="november-total">{{ detailsTab.total_row?.november }} @if (detailsTab.total_row?.november) {€}</td>
+                    <td id="december-total">{{ detailsTab.total_row?.december }} @if (detailsTab.total_row?.december) {€}</td>
+                    <td id="total-total">{{ detailsTab.total_row?.total }} @if (detailsTab.total_row?.total) {€}</td>
                 </tr>
             </ng-template>
         </p-treetable>

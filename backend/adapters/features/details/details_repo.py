@@ -65,8 +65,9 @@ class DetailsRepo(DetailsDBPort):
         other_row = result.all()
 
         # Faking the other category
+        fake_id = uuid.uuid4()
         other_row = [(Category(
-            id=uuid.uuid4(),
+            id=fake_id,
             name="Other",
             parent_id=None,
             level=0,
