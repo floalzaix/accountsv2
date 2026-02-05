@@ -806,6 +806,9 @@
           ],
           "id": "5060c1e1-22f8-40cb-bec2-64392485fabd",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
             "body": {
@@ -1314,12 +1317,29 @@
                   "    pm.expect(body).to.have.property(\"detail\");",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "fac64cbb-94f6-4bf7-a719-cbfb687d1cc6",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
           "id": "52632982-a120-4e95-ad3a-3ab1938193e8",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -1470,6 +1490,9 @@
           ],
           "id": "c8105350-1219-4900-b003-b547aab1cd62",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "PUT",
             "header": [],
             "body": {
@@ -1882,6 +1905,9 @@
           ],
           "id": "5180fa73-1d84-45d6-b1f6-9e6a43662fc6",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "DELETE",
             "header": [],
             "url": {
@@ -2228,6 +2254,9 @@
           ],
           "id": "create-transaction-unauthorized-001",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
             "body": {
@@ -2547,12 +2576,29 @@
                   "    pm.expect(body).to.have.property(\"detail\");",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "754d3623-f79f-4151-ad68-dc9251b6923c",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
           "id": "list-transactions-unauthorized-001",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -2699,6 +2745,9 @@
           ],
           "id": "update-transaction-unauthorized-001",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "PUT",
             "header": [],
             "body": {
@@ -3115,6 +3164,9 @@
           ],
           "id": "delete-transaction-unauthorized-001",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "DELETE",
             "header": [],
             "url": {
@@ -5220,11 +5272,11 @@
                       "}",
                       "",
                       "const requestBody = {",
-                      "    event_date: \"2024-01-15\",",
+                      "    event_date: \"2026-01-15\",",
                       "    motive: \"Salaire janvier\",",
                       "    to: \"Employeur\",",
-                      "    bank_date: \"2024-01-15\",",
-                      "    type: \"credit\",",
+                      "    bank_date: \"2026-01-15\",",
+                      "    type: \"checking\",",
                       "    category1_id: category0Id,",
                       "    category2_id: null,",
                       "    category3_id: null,",
@@ -5303,11 +5355,11 @@
                       "}",
                       "",
                       "const requestBody = {",
-                      "    event_date: \"2024-02-20\",",
+                      "    event_date: \"2026-02-20\",",
                       "    motive: \"Salaire février\",",
                       "    to: \"Employeur\",",
-                      "    bank_date: \"2024-02-20\",",
-                      "    type: \"credit\",",
+                      "    bank_date: \"2026-02-20\",",
+                      "    type: \"savings\",",
                       "    category1_id: category0Id,",
                       "    category2_id: category1Id,",
                       "    category3_id: null,",
@@ -5380,11 +5432,11 @@
                       "}",
                       "",
                       "const requestBody = {",
-                      "    event_date: \"2024-03-10\",",
+                      "    event_date: \"2026-03-10\",",
                       "    motive: \"Salaire mars\",",
                       "    to: \"Employeur\",",
-                      "    bank_date: \"2024-03-10\",",
-                      "    type: \"credit\",",
+                      "    bank_date: \"2026-03-10\",",
+                      "    type: \"checking\",",
                       "    category1_id: category0Id,",
                       "    category2_id: category1Id2,",
                       "    category3_id: null,",
@@ -5457,11 +5509,11 @@
                       "}",
                       "",
                       "const requestBody = {",
-                      "    event_date: \"2024-01-25\",",
+                      "    event_date: \"2026-01-25\",",
                       "    motive: \"Achat épicerie\",",
                       "    to: \"Carrefour\",",
-                      "    bank_date: \"2024-01-25\",",
-                      "    type: \"debit\",",
+                      "    bank_date: \"2026-01-25\",",
+                      "    type: \"checking\",",
                       "    category1_id: category0Id,",
                       "    category2_id: category1Id,",
                       "    category3_id: null,",
@@ -5540,11 +5592,11 @@
                       "}",
                       "",
                       "const requestBody = {",
-                      "    event_date: \"2024-02-18\",",
+                      "    event_date: \"2026-02-18\",",
                       "    motive: \"Restaurant\",",
                       "    to: \"Le Bistrot\",",
-                      "    bank_date: \"2024-02-18\",",
-                      "    type: \"debit\",",
+                      "    bank_date: \"2026-02-18\",",
+                      "    type: \"cash\",",
                       "    category1_id: category0Id,",
                       "    category2_id: category1Id2,",
                       "    category3_id: null,",
@@ -5617,11 +5669,11 @@
                       "}",
                       "",
                       "const requestBody = {",
-                      "    event_date: \"2024-03-05\",",
+                      "    event_date: \"2026-03-05\",",
                       "    motive: \"Courses\",",
                       "    to: \"Super U\",",
-                      "    bank_date: \"2024-03-05\",",
-                      "    type: \"debit\",",
+                      "    bank_date: \"2026-03-05\",",
+                      "    type: \"checking\",",
                       "    category1_id: category0Id,",
                       "    category2_id: category1Id,",
                       "    category3_id: null,",
@@ -5693,11 +5745,11 @@
                       "}",
                       "",
                       "const requestBody = {",
-                      "    event_date: \"2024-01-20\",",
+                      "    event_date: \"2026-01-20\",",
                       "    motive: \"Remboursement\",",
                       "    to: \"Amis\",",
-                      "    bank_date: \"2024-01-20\",",
-                      "    type: \"debit\",",
+                      "    bank_date: \"2026-01-20\",",
+                      "    type: \"savings\",",
                       "    category1_id: category0Id,",
                       "    category2_id: null,",
                       "    category3_id: null,",
@@ -5775,11 +5827,11 @@
                       "}",
                       "",
                       "const requestBody = {",
-                      "    event_date: \"2024-02-22\",",
+                      "    event_date: \"2026-02-22\",",
                       "    motive: \"Vente\",",
                       "    to: \"Client\",",
-                      "    bank_date: \"2024-02-22\",",
-                      "    type: \"debit\",",
+                      "    bank_date: \"2026-02-22\",",
+                      "    type: \"cash\",",
                       "    category1_id: category0Id,",
                       "    category2_id: category1Id,",
                       "    category3_id: null,",
@@ -5852,11 +5904,11 @@
                       "}",
                       "",
                       "const requestBody = {",
-                      "    event_date: \"2024-03-12\",",
+                      "    event_date: \"2026-03-12\",",
                       "    motive: \"Remboursement\",",
                       "    to: \"Famille\",",
-                      "    bank_date: \"2024-03-12\",",
-                      "    type: \"debit\",",
+                      "    bank_date: \"2026-03-12\",",
+                      "    type: \"checking\",",
                       "    category1_id: category0Id,",
                       "    category2_id: category1Id2,",
                       "    category3_id: null,",
@@ -5954,10 +6006,9 @@
                   "    pm.expect(totalRow).to.have.property(\"march\");",
                   "});",
                   "",
-                  "// Calculer les sommes attendues",
-                  "// Revenues créées: janvier=100, février=200, mars=150",
-                  "// Toutes dans la catégorie Alimentation Details (level 0)",
-                  "// Février avec sous-catégorie Épicerie, mars avec Restaurant",
+                  "// Calculer les sommes attendues pour trans_type=checking et tab_type=revenues",
+                  "// Revenues créées (2026) avec type checking et amount > 0:",
+                  "// janvier=100 (revenue checking), février=0 (pas de revenue checking), mars=150 (revenue) + 150 (mixed checking) = 300",
                   "",
                   "pm.test(\"January total matches expected revenue\", function () {",
                   "    const janTotal = body.total_row.january || 0;",
@@ -5966,17 +6017,17 @@
                   "",
                   "pm.test(\"February total matches expected revenue\", function () {",
                   "    const febTotal = body.total_row.february || 0;",
-                  "    pm.expect(febTotal).to.equal(200);",
+                  "    pm.expect(febTotal).to.equal(0);",
                   "});",
                   "",
                   "pm.test(\"March total matches expected revenue\", function () {",
                   "    const marTotal = body.total_row.march || 0;",
-                  "    pm.expect(marTotal).to.equal(150);",
+                  "    pm.expect(marTotal).to.equal(300);",
                   "});",
                   "",
                   "pm.test(\"Total sum matches expected\", function () {",
                   "    const total = body.total_row.total || 0;",
-                  "    pm.expect(total).to.equal(450);",
+                  "    pm.expect(total).to.equal(400);",
                   "});",
                   "",
                   "pm.test(\"Rows contain category data\", function () {",
@@ -6016,7 +6067,7 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2024&trans_type=credit&tab_type=revenues",
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_type=checking&tab_type=revenues",
               "host": [
                 "{{URL}}"
               ],
@@ -6028,11 +6079,11 @@
               "query": [
                 {
                   "key": "year",
-                  "value": "2024"
+                  "value": "2026"
                 },
                 {
                   "key": "trans_type",
-                  "value": "credit"
+                  "value": "checking"
                 },
                 {
                   "key": "tab_type",
@@ -6072,8 +6123,9 @@
                   "    pm.expect(body.total_row.title).to.equal(\"Total\");",
                   "});",
                   "",
-                  "// Calculer les sommes attendues",
-                  "// Expenses créées: janvier=-50, février=-75, mars=-30",
+                  "// Calculer les sommes attendues pour trans_type=checking",
+                  "// Expenses créées (2026) avec type checking:",
+                  "// janvier=-50 (checking), février=0 (cash, pas checking), mars=-30 (checking)",
                   "",
                   "pm.test(\"January total matches expected expense\", function () {",
                   "    const janTotal = body.total_row.january || 0;",
@@ -6082,7 +6134,7 @@
                   "",
                   "pm.test(\"February total matches expected expense\", function () {",
                   "    const febTotal = body.total_row.february || 0;",
-                  "    pm.expect(febTotal).to.equal(-75);",
+                  "    pm.expect(febTotal).to.equal(0);",
                   "});",
                   "",
                   "pm.test(\"March total matches expected expense\", function () {",
@@ -6092,7 +6144,7 @@
                   "",
                   "pm.test(\"Total sum matches expected\", function () {",
                   "    const total = body.total_row.total || 0;",
-                  "    pm.expect(total).to.equal(-155);",
+                  "    pm.expect(total).to.equal(-80);",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -6110,7 +6162,7 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2024&trans_type=debit&tab_type=expenses",
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_type=checking&tab_type=expenses",
               "host": [
                 "{{URL}}"
               ],
@@ -6122,12 +6174,12 @@
               "query": [
                 {
                   "key": "year",
-                  "value": "2024",
+                  "value": "2026",
                   "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
                 },
                 {
                   "key": "trans_type",
-                  "value": "debit",
+                  "value": "checking",
                   "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
                 },
                 {
@@ -6169,11 +6221,11 @@
                   "    pm.expect(body.total_row.title).to.equal(\"Total\");",
                   "});",
                   "",
-                  "// Calculer les différences attendues",
-                  "// Transactions debit (pour tab_type=differences avec trans_type=debit):",
-                  "// janvier: -50 (expense) + 100 (mixed) = 50",
-                  "// février: -75 (expense) + 200 (mixed) = 125",
-                  "// mars: -30 (expense) + 150 (mixed) = 120",
+                  "// Calculer les différences attendues pour trans_type=checking",
+                  "// Transactions checking (pour tab_type=differences avec trans_type=checking):",
+                  "// janvier: -50 (expense checking) + 100 (revenue checking) = 50",
+                  "// février: 0 (pas de transaction checking)",
+                  "// mars: -30 (expense checking) + 150 (revenue checking) + 150 (mixed checking) = 270",
                   "",
                   "pm.test(\"January difference matches expected\", function () {",
                   "    const janTotal = body.total_row.january || 0;",
@@ -6182,17 +6234,17 @@
                   "",
                   "pm.test(\"February difference matches expected\", function () {",
                   "    const febTotal = body.total_row.february || 0;",
-                  "    pm.expect(febTotal).to.equal(125);",
+                  "    pm.expect(febTotal).to.equal(0);",
                   "});",
                   "",
                   "pm.test(\"March difference matches expected\", function () {",
                   "    const marTotal = body.total_row.march || 0;",
-                  "    pm.expect(marTotal).to.equal(120);",
+                  "    pm.expect(marTotal).to.equal(270);",
                   "});",
                   "",
                   "pm.test(\"Total difference matches expected\", function () {",
                   "    const total = body.total_row.total || 0;",
-                  "    pm.expect(total).to.equal(295);",
+                  "    pm.expect(total).to.equal(320);",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -6210,7 +6262,7 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2024&trans_type=debit&tab_type=differences",
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_type=checking&tab_type=differences",
               "host": [
                 "{{URL}}"
               ],
@@ -6222,12 +6274,12 @@
               "query": [
                 {
                   "key": "year",
-                  "value": "2024",
+                  "value": "2026",
                   "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
                 },
                 {
                   "key": "trans_type",
-                  "value": "debit",
+                  "value": "checking",
                   "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
                 },
                 {
@@ -6341,7 +6393,7 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2024&trans_type=debit&tab_type=invalid_type",
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_type=checking&tab_type=invalid_type",
               "host": [
                 "{{URL}}"
               ],
@@ -6353,12 +6405,12 @@
               "query": [
                 {
                   "key": "year",
-                  "value": "2024",
+                  "value": "2026",
                   "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
                 },
                 {
                   "key": "trans_type",
-                  "value": "debit",
+                  "value": "checking",
                   "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
                 },
                 {
