@@ -9,7 +9,11 @@ export class OptionsService {
   //   Constants
   //
   
-  public readonly typeValues = Object.values(Type);
+  public readonly typeValues = [
+    { label: "Courant", value: Type.CHECKING },
+    { label: "Epargne", value: Type.SAVINGS },
+    { label: "Espèces", value: Type.CASH },
+  ];
   
   //
   //   Global attributes

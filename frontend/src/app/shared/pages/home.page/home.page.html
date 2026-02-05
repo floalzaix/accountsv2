@@ -1,7 +1,7 @@
 <div id="home-page">
     <app-categories-component />
     <app-transactions-table />
-    <app-transaction-add-bar [year]="2026" [type]="'EXPENSE'" />
+    <app-transaction-add-bar [year]="optionsService.year()" [type]="optionsService.types()" />
     <app-options />
-    <app-details-tab />
+    <app-details-tab [tab_type]="'revenues'" />
 </div>

@@ -40,13 +40,15 @@ export class DetailsService {
     return treeNode
   }
   
-  public getDetailsTabAndNodes(): Observable<[DetailsTab, TreeNode[]]> {
+  public getDetailsTabAndNodes(
+    tab_type: "revenues" | "expenses" | "differences",
+  ): Observable<[DetailsTab, TreeNode[]]> {
     return this.client.get<DetailsTab>(
       "/details",
       {
-        "year": 2024,
-        "tab_type": "revenues",
-        "trans_type": "debit",
+        "year": this.opionsService.year(),
+        "tab_type": tab_type,
+        "trans_type": this.opionsService.types(),
       }
     ).pipe(
       map((response) => {
@@ -71,9 +73,21 @@ export class DetailsService {
     this.refreshTrigger.next();
   }
 
-  public detailsTab = toSignal(
+  public revenuesTab = toSignal(
     this.refreshTrigger.pipe(
-      switchMap(() => this.getDetailsTabAndNodes())
+      switchMap(() => this.getDetailsTabAndNodes("revenues"))
+    )
+  );
+
+  public expensesTab = toSignal(
+    this.refreshTrigger.pipe(
+      switchMap(() => this.getDetailsTabAndNodes("expenses"))
+    )
+  );
+
+  public differencesTab = toSignal(
+    this.refreshTrigger.pipe(
+      switchMap(() => this.getDetailsTabAndNodes("differences"))
     )
   );
 }

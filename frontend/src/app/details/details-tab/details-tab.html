@@ -1,8 +1,8 @@
 <div id="details-tab-container">
-    @let details = detailsService.detailsTab();
-    @if (details) {
-        @let detailsTab = details[0];
-        @let treeNodes = details[1];
+    @let d = details();
+    @if (d) {
+        @let detailsTab = d[0];
+        @let treeNodes = d[1];
         <p-treetable [value]="treeNodes">
             <ng-template pTemplate="header">
                 <tr>

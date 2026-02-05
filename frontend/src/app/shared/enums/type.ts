@@ -1,5 +1,5 @@
 export enum Type {
-    CHECKING = "Courant",
-    SAVINGS = "Epargne",
-    CASH = "Espèces",
+    CHECKING = "checking",
+    SAVINGS = "savings",
+    CASH = "cash",
 }
