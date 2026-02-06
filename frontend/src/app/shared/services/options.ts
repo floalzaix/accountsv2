@@ -18,6 +18,8 @@ export class OptionsService {
   //
   //   Global attributes
   //
+
+  public readonly multipleTypes = signal<Type[]>([Type.CHECKING]);
   
   public readonly types = signal<Type>(Type.CHECKING);
   public readonly year = signal<number>(new Date().getFullYear());
@@ -25,6 +27,17 @@ export class OptionsService {
   //
   //   Effects
   //
+
+  private previousMultipleTypes = this.multipleTypes();
+  private readonly multipleTypesValidator = effect(() => {
+    if (this.multipleTypes().length > 0) {
+      this.previousMultipleTypes = this.multipleTypes();
+    } else {
+      setTimeout(() => {
+        this.multipleTypes.set(this.previousMultipleTypes);
+      }, 10);
+    }
+  });
 
   private previousType = this.types();
   private readonly typeValidator = effect(() => {

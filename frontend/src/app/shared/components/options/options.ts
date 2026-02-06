@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { OptionsService } from '../../services/options';
 import { ListboxModule } from 'primeng/listbox';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,10 @@ export class Options {
   
   protected readonly optionsService = inject(OptionsService);
   protected readonly detailsService = inject(DetailsService);
+
+  // INPUTS
+
+  public readonly multiple = input<boolean>(false);
   
   //
   //   Data

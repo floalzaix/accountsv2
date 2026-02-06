@@ -3,7 +3,6 @@ import { CategoriesComponent } from '../../../categories/categories.component/ca
 import { TransactionsTable } from '../../../transactions/trans-table.component/trans-table.component';
 import { TransactionAddBar } from '../../../transactions/trans-add-bar.component/trans-add-bar.component';
 import { Options } from '../../components/options/options';
-import { DetailsTab } from '../../../details/details-tab/details-tab';
 import { OptionsService } from '../../services/options';
 
 @Component({
@@ -13,7 +12,6 @@ import { OptionsService } from '../../services/options';
     TransactionsTable,
     TransactionAddBar,
     Options,
-    DetailsTab
   ],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css',

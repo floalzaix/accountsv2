@@ -1,10 +1,19 @@
 <div id="options-container">
-    <p-listbox
-        [options]="optionsService.typeValues"
-        (onChange)="optionsService.types.set($event.value); detailsService.refresh();"
-        [ngModel]="optionsService.types()"
-    />
-    
+    @if (multiple()) {
+        <p-listbox
+            [options]="optionsService.typeValues"
+            [(ngModel)]="optionsService.multipleTypes"
+            [multiple]="multiple()"
+            [checkbox]="multiple()"
+        />
+    } @else {
+        <p-listbox
+            [options]="optionsService.typeValues"
+            (onChange)="optionsService.types.set($event.value); detailsService.refresh();"
+            [ngModel]="optionsService.types()"
+        />
+    }
+
     <p-listbox
         [options]="YEARS"
         [(ngModel)]="optionsService.year"
