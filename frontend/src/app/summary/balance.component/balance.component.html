@@ -1,0 +1,8 @@
+<div id="balance-container">
+    <p-knob 
+        [ngModel]="summaryService.balance()"
+        [min]="-abs()"
+        [max]="abs()"
+        [readonly]="true"
+    />
+</div>

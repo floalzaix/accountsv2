@@ -3,6 +3,7 @@ import { OptionsService } from '../../services/options';
 import { ListboxModule } from 'primeng/listbox';
 import { FormsModule } from '@angular/forms';
 import { DetailsService } from '../../../details/details-service';
+import { SummaryService } from '../../../summary/summary.service';
 
 @Component({
   selector: 'app-options',
@@ -20,6 +21,7 @@ export class Options {
   
   protected readonly optionsService = inject(OptionsService);
   protected readonly detailsService = inject(DetailsService);
+  protected readonly summaryService = inject(SummaryService);
 
   // INPUTS
 

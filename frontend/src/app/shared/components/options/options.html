@@ -3,6 +3,7 @@
         <p-listbox
             [options]="optionsService.typeValues"
             [(ngModel)]="optionsService.multipleTypes"
+            (onChange)="summaryService.refresh();"
             [multiple]="multiple()"
             [checkbox]="multiple()"
         />
