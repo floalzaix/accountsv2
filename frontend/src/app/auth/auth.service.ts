@@ -5,6 +5,7 @@ import { ValidationError } from '../shared/errors/validation-error';
 import { ErrorWrapper } from '../shared/errors/error-wrapper';
 import { catchError, map, Observable, of } from 'rxjs';
 import { LoginResponse, LoginResponseSchema } from './login-response.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class AuthService {
   //
   
   private readonly asyncHttpClient = inject(AsyncHttpClient);
+  private readonly router = inject(Router);
 
   //
   //   Methods
@@ -111,5 +113,10 @@ export class AuthService {
     );
 
     return observable;
+  }
+
+  public logout(): void {
+    localStorage.removeItem('access_token');
+    this.router.navigate(['/login']);
   }
 }

@@ -4,6 +4,8 @@ import { TransactionsTable } from '../../../transactions/trans-table.component/t
 import { TransactionAddBar } from '../../../transactions/trans-add-bar.component/trans-add-bar.component';
 import { Options } from '../../components/options/options';
 import { OptionsService } from '../../services/options';
+import { MenuBar } from '../../components/menu-bar/menu-bar';
+import { MenuCol } from '../../components/menu-col/menu-col';
 
 @Component({
   selector: 'app-home-page',
@@ -12,6 +14,8 @@ import { OptionsService } from '../../services/options';
     TransactionsTable,
     TransactionAddBar,
     Options,
+    MenuBar,
+    MenuCol,
   ],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css',
