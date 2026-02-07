@@ -3,14 +3,13 @@
         <p-listbox
             [options]="optionsService.typeValues"
             [(ngModel)]="optionsService.multipleTypes"
-            (onChange)="summaryService.refresh();"
             [multiple]="multiple()"
             [checkbox]="multiple()"
         />
     } @else {
         <p-listbox
             [options]="optionsService.typeValues"
-            (onChange)="optionsService.types.set($event.value); detailsService.refresh();"
+            (onChange)="optionsService.types.set($event.value);"
             [ngModel]="optionsService.types()"
         />
     }
@@ -18,6 +17,5 @@
     <p-listbox
         [options]="YEARS"
         [(ngModel)]="optionsService.year"
-        (onChange)="detailsService.refresh();"
     />
 </div>

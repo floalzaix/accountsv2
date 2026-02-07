@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AsyncHttpClient } from '../shared/services/async-http-client';
-import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { OptionsService } from '../shared/services/options';
 import { toSignal } from '@angular/core/rxjs-interop';
 

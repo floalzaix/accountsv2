@@ -1,9 +1,9 @@
-import { Component, inject, input } from '@angular/core';
-import { OptionsService } from '../../services/options';
+import { Component, effect, inject, input } from '@angular/core';
 import { ListboxModule } from 'primeng/listbox';
 import { FormsModule } from '@angular/forms';
-import { DetailsService } from '../../../details/details-service';
+import { OptionsService } from '../../services/options';
 import { SummaryService } from '../../../summary/summary.service';
+import { DetailsService } from '../../../details/details-service';
 
 @Component({
   selector: 'app-options',
@@ -18,11 +18,11 @@ export class Options {
   //
   //   Interfaces
   //
-  
-  protected readonly optionsService = inject(OptionsService);
-  protected readonly detailsService = inject(DetailsService);
-  protected readonly summaryService = inject(SummaryService);
 
+  protected readonly optionsService = inject(OptionsService);
+  protected readonly summaryService = inject(SummaryService);
+  protected readonly detailsService = inject(DetailsService);
+  
   // INPUTS
 
   public readonly multiple = input<boolean>(false);
@@ -35,4 +35,18 @@ export class Options {
     { length: new Date().getFullYear() + 1 - 2026 },
     (_, index) => new Date().getFullYear() + index
   );
+
+  //
+  //   Effects
+  //
+  
+  private readonly refreshEffect = effect(() => {
+    if (this.optionsService.multipleTypes().length > 0) {
+      this.summaryService.refresh();
+    }
+
+    if (this.optionsService.types() && this.optionsService.year()) {
+      this.detailsService.refresh();
+    }
+  });
 }
