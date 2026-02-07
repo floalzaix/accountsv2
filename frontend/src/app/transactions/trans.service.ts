@@ -3,6 +3,7 @@ import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { Transaction, TransactionSchema } from './trans.model';
 import { AsyncHttpClient } from '../shared/services/async-http-client';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { OptionsService } from '../shared/services/options';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,8 @@ export class TransactionsService {
   //
   //   Interfaces
   //
+
+  private readonly opionsService = inject(OptionsService);
   
   private readonly http = inject(AsyncHttpClient);
 
@@ -22,7 +25,12 @@ export class TransactionsService {
     //
     //   Prepare the observable
     //
-    const observable = this.http.get<object>("/transactions").pipe(
+    const observable = this.http.get<object>(
+      "/transactions",
+      {
+        "trans_type": this.opionsService.types(),
+      }
+    ).pipe(
       map((response) => {
         if (!(response instanceof Array)) {
           throw new TypeError("Invalid response format !")

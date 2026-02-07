@@ -48,7 +48,7 @@ export class DetailsService {
       {
         "year": this.opionsService.year(),
         "tab_type": tab_type,
-        "trans_type": this.opionsService.types(),
+        "trans_types": this.opionsService.multipleTypes() ?? [],
       }
     ).pipe(
       map((response) => {

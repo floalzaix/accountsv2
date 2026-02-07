@@ -2548,7 +2548,8 @@
               "query": [
                 {
                   "key": "trans_type",
-                  "value": "checking"
+                  "value": "checking",
+                  "uuid": "32fb6dd6-e4d4-48fa-b374-07ca332f7184"
                 }
               ]
             }
