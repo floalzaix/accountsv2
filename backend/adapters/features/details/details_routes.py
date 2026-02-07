@@ -2,6 +2,7 @@
 #   Imports
 #
 
+from typing import List
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -28,7 +29,7 @@ details_routes = APIRouter(prefix="/details")
 )
 async def get_detailed_tab(
     year: int = Query(..., description="The year of the transactions"),
-    trans_type: str = Query(..., description="The type of the transactions"),
+    trans_types: List[str] = Query(..., description="The types of the transactions"),
     tab_type: DetailsTabType = Query(..., description="The type of the tab"),
     user: User = Depends(get_user),
     db_session: AsyncSession = Depends(get_db_session),
@@ -38,7 +39,7 @@ async def get_detailed_tab(
 
     details_tab = await service.get_detailed_tab(
         year=year,
-        trans_type=trans_type,
+        trans_types=trans_types,
         user_id=user.id,
         tab_type=tab_type
     )

@@ -33,7 +33,7 @@ class DetailsRepo(DetailsDBPort):
         self,
         user_id: uuid.UUID,
         year: int,
-        trans_type: str,
+        trans_types: List[str],
         tab_type: DetailsTabType
     ) -> List[Any]:
         """
@@ -49,7 +49,7 @@ class DetailsRepo(DetailsDBPort):
             )
             .where(TransactionORM.user_id == user_id)
             .where(extract("year", TransactionORM.event_date) == year)
-            .where(TransactionORM.type == trans_type)
+            .where(TransactionORM.type.in_(trans_types))
             .where(
                 TransactionORM.amount > 0 if tab_type == DetailsTabType.REVENUES else
                 TransactionORM.amount < 0 if tab_type == DetailsTabType.EXPENSES else
@@ -79,7 +79,7 @@ class DetailsRepo(DetailsDBPort):
     async def get_detailed_tab(
         self,
         year: int,
-        trans_type: str,
+        trans_types: List[str],
         user_id: uuid.UUID,
         tab_type: DetailsTabType
     ) -> DetailsTab:
@@ -102,7 +102,7 @@ class DetailsRepo(DetailsDBPort):
             )
             .where(TransactionORM.user_id == user_id)
             .where(extract("year", TransactionORM.event_date) == year)
-            .where(TransactionORM.type == trans_type)
+            .where(TransactionORM.type.in_(trans_types))
             .where(
                 TransactionORM.amount > 0 if tab_type == DetailsTabType.REVENUES else
                 TransactionORM.amount < 0 if tab_type == DetailsTabType.EXPENSES else
@@ -116,7 +116,7 @@ class DetailsRepo(DetailsDBPort):
 
         cat_rows = result.all()
 
-        other_row = await self._get_other_category(user_id, year, trans_type, tab_type)
+        other_row = await self._get_other_category(user_id, year, trans_types, tab_type)
 
         # Mergin the category rows and the other row
         db_rows: List[Any] = [*cat_rows, *other_row]

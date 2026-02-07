@@ -6127,8 +6127,8 @@
                   "    pm.expect(totalRow).to.have.property(\"march\");",
                   "});",
                   "",
-                  "// Calculer les sommes attendues pour trans_type=checking et tab_type=revenues",
-                  "// Revenues créées (2026) avec type checking et amount > 0:",
+                  "// Sommes attendues pour trans_types=[checking] et tab_type=revenues",
+                  "// Revenues (2026) avec type checking et amount > 0:",
                   "// janvier=100 (revenue checking), février=0 (pas de revenue checking), mars=150 (revenue) + 150 (mixed checking) = 300",
                   "",
                   "pm.test(\"January total matches expected revenue\", function () {",
@@ -6188,7 +6188,7 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_type=checking&tab_type=revenues",
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=revenues",
               "host": [
                 "{{URL}}"
               ],
@@ -6203,7 +6203,7 @@
                   "value": "2026"
                 },
                 {
-                  "key": "trans_type",
+                  "key": "trans_types",
                   "value": "checking"
                 },
                 {
@@ -6244,8 +6244,8 @@
                   "    pm.expect(body.total_row.title).to.equal(\"Total\");",
                   "});",
                   "",
-                  "// Calculer les sommes attendues pour trans_type=checking",
-                  "// Expenses créées (2026) avec type checking:",
+                  "// Sommes attendues pour trans_types=[checking]",
+                  "// Expenses (2026) avec type checking:",
                   "// janvier=-50 (checking), février=0 (cash, pas checking), mars=-30 (checking)",
                   "",
                   "pm.test(\"January total matches expected expense\", function () {",
@@ -6283,7 +6283,7 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_type=checking&tab_type=expenses",
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=expenses",
               "host": [
                 "{{URL}}"
               ],
@@ -6299,7 +6299,7 @@
                   "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
                 },
                 {
-                  "key": "trans_type",
+                  "key": "trans_types",
                   "value": "checking",
                   "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
                 },
@@ -6342,8 +6342,8 @@
                   "    pm.expect(body.total_row.title).to.equal(\"Total\");",
                   "});",
                   "",
-                  "// Calculer les différences attendues pour trans_type=checking",
-                  "// Transactions checking (pour tab_type=differences avec trans_type=checking):",
+                  "// Différences attendues pour trans_types=[checking]",
+                  "// Transactions checking (tab_type=differences):",
                   "// janvier: -50 (expense checking) + 100 (revenue checking) = 50",
                   "// février: 0 (pas de transaction checking)",
                   "// mars: -30 (expense checking) + 150 (revenue checking) + 150 (mixed checking) = 270",
@@ -6383,7 +6383,7 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_type=checking&tab_type=differences",
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=differences",
               "host": [
                 "{{URL}}"
               ],
@@ -6399,7 +6399,7 @@
                   "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
                 },
                 {
-                  "key": "trans_type",
+                  "key": "trans_types",
                   "value": "checking",
                   "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
                 },
@@ -6514,7 +6514,7 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_type=checking&tab_type=invalid_type",
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=invalid_type",
               "host": [
                 "{{URL}}"
               ],
@@ -6530,7 +6530,7 @@
                   "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
                 },
                 {
-                  "key": "trans_type",
+                  "key": "trans_types",
                   "value": "checking",
                   "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
                 },
@@ -6538,6 +6538,93 @@
                   "key": "tab_type",
                   "value": "invalid_type",
                   "uuid": "3ada6b8d-3ede-46ca-87d8-52c699e4c107"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Details - Revenues Tab (multiple trans_types)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "get-details-revenues-multiple-trans-types-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has rows field\", function () {",
+                  "    pm.expect(body).to.have.property(\"rows\");",
+                  "    pm.expect(body.rows).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response has total_row field\", function () {",
+                  "    pm.expect(body).to.have.property(\"total_row\");",
+                  "    pm.expect(body.total_row).to.have.property(\"title\");",
+                  "    pm.expect(body.total_row.title).to.equal(\"Total\");",
+                  "});",
+                  "",
+                  "pm.test(\"Total row has monthly values\", function () {",
+                  "    const totalRow = body.total_row;",
+                  "    pm.expect(totalRow).to.have.property(\"january\");",
+                  "    pm.expect(totalRow).to.have.property(\"february\");",
+                  "    pm.expect(totalRow).to.have.property(\"march\");",
+                  "    pm.expect(totalRow.january).to.be.a(\"number\");",
+                  "    pm.expect(totalRow.february).to.be.a(\"number\");",
+                  "    pm.expect(totalRow.march).to.be.a(\"number\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "get-details-revenues-multiple-trans-types-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&trans_types=savings&tab_type=revenues",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "details",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "checking"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "savings"
+                },
+                {
+                  "key": "tab_type",
+                  "value": "revenues"
                 }
               ]
             }

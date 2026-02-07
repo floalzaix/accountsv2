@@ -3,6 +3,7 @@
 #
 
 import uuid
+from typing import List
 
 # Perso
 
@@ -21,13 +22,13 @@ class DetailsService:
     async def get_detailed_tab(
         self,
         year: int,
-        trans_type: str,
+        trans_types: List[str],
         user_id: uuid.UUID,
         tab_type: DetailsTabType
     ) -> DetailsTab:
         return await self.details_repo.get_detailed_tab(
             year=year,
-            trans_type=trans_type,
+            trans_types=trans_types,
             user_id=user_id,
             tab_type=tab_type
         )

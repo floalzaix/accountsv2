@@ -4,6 +4,7 @@
 
 import uuid
 
+from typing import List
 from abc import ABC, abstractmethod
 
 # Perso
@@ -22,7 +23,7 @@ class DetailsDBPort(ABC):
     async def get_detailed_tab(
         self,
         year: int,
-        trans_type: str,
+        trans_types: List[str],
         user_id: uuid.UUID,
         tab_type: DetailsTabType
     ) -> DetailsTab:
