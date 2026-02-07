@@ -1,9 +1,15 @@
 @import "primeicons/primeicons.css";
 
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-color) transparent;
+}
+
 .html, body {
     width: 100vw;
     height: 100vh;
     margin: 0;
+    padding-right: 10px;
 
     background-color: var(--background-color);
 }

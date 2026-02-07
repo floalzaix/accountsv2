@@ -1,16 +1,19 @@
 <p-toast />
 
-<p-select-button
-  [options]="
-    [
-      { label: 'Connexion', value: 'login'},
-      { label: 'Inscription', value: 'register' },
-    ]
-  "
-  [(ngModel)]="stateSelect",
-  optionLabel="label",
-  optionValue="value"
-/>  
+<div id="auth-component-container">
+
+  <p-select-button
+    [options]="
+      [
+        { label: 'Connexion', value: 'login'},
+        { label: 'Inscription', value: 'register' },
+      ]
+    "
+    [(ngModel)]="stateSelect",
+    optionLabel="label",
+    optionValue="value",
+    fluid
+  />  
 
 @if (state() === "register") {
   <!--
@@ -63,3 +66,4 @@
     <button pButton type="submit" label="Connexion"></button>
   </form>
 }
+</div>

@@ -1,4 +1,21 @@
 :root {
-    --background-color: rgb(236, 236, 236);
-    --surface-color: rgb(244, 244, 244);
+
+    --primary-color: rgb(0, 247, 255);
+    --secondary-color: rgb(0, 94, 122);
+    --accent-color: rgb(6, 192, 0);
+
+    --black-color: rgb(0, 0, 0);
+
+    --grey1-color: rgb(17, 17, 17);
+    --grey2-color: rgb(92, 92, 92);
+    --grey3-color: rgb(185, 185, 185);
+
+    --white-color: rgb(255, 255, 255);
+
+    --background-color: var(--black-color);
+    --surface-color: var(--grey1-color);
+
+    --p-button-primary-background: var(--primary-color) !important;
+    --p-button-primary-border-color: var(--primary-color) !important;
+    
 }

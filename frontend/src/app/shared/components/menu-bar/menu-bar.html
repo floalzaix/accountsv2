@@ -1,4 +1,9 @@
 <div id="menu-bar-container">
+    <div id="menu-bar-left">
+        Bonjour,  
+        {{ authService.getUser().pseudo }}
+        :)
+    </div>
     <button 
         pButton 
         type="button" 
@@ -6,5 +11,4 @@
         (click)="authService.logout()"
     >
     </button>
-    <app-options [multiple]="multipleOptions()" />
 </div>

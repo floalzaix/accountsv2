@@ -88,6 +88,7 @@ export class AuthService {
         const user = loginResponse.user;
 
         localStorage.setItem('access_token', loginResponse.access_token);
+        localStorage.setItem('user', JSON.stringify(user));
 
         return user;
       })
@@ -96,10 +97,22 @@ export class AuthService {
     return observable;
   }
 
+  public getUser(): User {
+    const user = localStorage.getItem('user');
+
+    if (!user) {
+      this.logout();
+      this.router.navigate(['/login']);
+    }
+
+    return JSON.parse(user as string);
+  }
+
   public isAuthenticated(): Observable<boolean> {
     const token = localStorage.getItem('access_token');
+    const user = localStorage.getItem('user');
 
-    if (!token) {
+    if (!token || !user) {
       return of(false);
     }
 
@@ -117,6 +130,7 @@ export class AuthService {
 
   public logout(): void {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 }
