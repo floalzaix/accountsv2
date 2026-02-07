@@ -32,9 +32,10 @@ class TransactionDBPort(ABC):
         pass
 
     @abstractmethod
-    async def get_transactions(self, user_id: uuid.UUID) -> list[Transaction]:
+    async def get_transactions(self, user_id: uuid.UUID, trans_type: str) -> list[Transaction]:
         """
-            Gets all transactions for a user.
+            Gets all transactions for a user. It can be filtered by
+            transaction type meaning which accounts is targeted.
 
             If there are no transactions, returns an empty list.
         """

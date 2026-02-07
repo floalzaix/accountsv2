@@ -20,11 +20,11 @@ class TransactionsService:
     def __init__(self, transaction_db_port: TransactionDBPort):
         self._transaction_db_port = transaction_db_port
 
-    async def get_transactions(self, user_id: uuid.UUID) -> list[Transaction]:
+    async def get_transactions(self, user_id: uuid.UUID, trans_type: str) -> list[Transaction]:
         """
             Gets all transactions for a user.
         """
-        return await self._transaction_db_port.get_transactions(user_id)
+        return await self._transaction_db_port.get_transactions(user_id, trans_type)
 
     async def create_transaction(self, transaction: Transaction) -> Transaction:
         """

@@ -2498,6 +2498,13 @@
                   "            pm.expect(transaction.type).to.be.a(\"string\");",
                   "        });",
                   "    });",
+                  "",
+                  "    pm.test(\"All transactions match requested trans_type (checking)\", ",
+                  "        function () {",
+                  "        body.forEach(function(transaction) {",
+                  "            pm.expect(transaction.type).to.equal(\"checking\");",
+                  "        });",
+                  "    });",
                   "}"
                 ],
                 "type": "text/javascript",
@@ -2529,7 +2536,7 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "raw": "{{URL}}/{{PREFIX}}/transactions/?trans_type=checking",
               "host": [
                 "{{URL}}"
               ],
@@ -2537,6 +2544,12 @@
                 "{{PREFIX}}",
                 "transactions",
                 ""
+              ],
+              "query": [
+                {
+                  "key": "trans_type",
+                  "value": "checking"
+                }
               ]
             }
           },
@@ -2590,7 +2603,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{URL}}/{{PREFIX}}/transactions/",
+              "raw": "{{URL}}/{{PREFIX}}/transactions/?trans_type=checking",
               "host": [
                 "{{URL}}"
               ],
@@ -2598,6 +2611,126 @@
                 "{{PREFIX}}",
                 "transactions",
                 ""
+              ],
+              "query": [
+                {
+                  "key": "trans_type",
+                  "value": "checking"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Transactions - Success (trans_type savings)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "list-transactions-success-savings-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.expect(body).to.be.an(\"array\");",
+                  "",
+                  "pm.test(\"All transactions have type savings\", function () {",
+                  "    body.forEach(function(transaction) {",
+                  "        pm.expect(transaction.type).to.equal(\"savings\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "list-transactions-success-savings-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/?trans_type=savings",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "trans_type",
+                  "value": "savings"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Transactions - Success (trans_type cash)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "list-transactions-success-cash-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.expect(body).to.be.an(\"array\");",
+                  "",
+                  "pm.test(\"All transactions have type cash\", function () {",
+                  "    body.forEach(function(transaction) {",
+                  "        pm.expect(transaction.type).to.equal(\"cash\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "list-transactions-success-cash-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/transactions/?trans_type=cash",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "transactions",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "trans_type",
+                  "value": "cash"
+                }
               ]
             }
           },

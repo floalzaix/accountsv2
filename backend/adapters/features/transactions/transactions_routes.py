@@ -3,7 +3,7 @@
 #
 
 import uuid
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # Perso
@@ -31,6 +31,7 @@ transactions_routes = APIRouter(prefix="/transactions")
 async def get_transactions(
     db_session: AsyncSession = Depends(get_db_session),
     user: User = Depends(get_user),
+    trans_type: str = Query(default="checking"),
 ):
     """
         Gets all transactions for a user.
@@ -38,7 +39,7 @@ async def get_transactions(
     repo = TransactionsRepo(db_session)
     service = TransactionsService(repo)
 
-    return await service.get_transactions(user.id)
+    return await service.get_transactions(user.id, trans_type)
 
 @transactions_routes.post(
     "/",

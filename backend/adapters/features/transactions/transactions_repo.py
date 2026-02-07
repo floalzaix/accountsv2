@@ -48,10 +48,11 @@ class TransactionsRepo(TransactionDBPort):
     
         return orm_to_model(transaction_orm, Transaction)
 
-    async def get_transactions(self, user_id: uuid.UUID) -> list[Transaction]:
+    async def get_transactions(self, user_id: uuid.UUID, trans_type: str) -> list[Transaction]:
         query = (
             select(TransactionORM)
             .where(TransactionORM.user_id == user_id)
+            .where(TransactionORM.type == trans_type)
         )
         result = await self.session.execute(query)
         transactions_orm = result.scalars().all()
