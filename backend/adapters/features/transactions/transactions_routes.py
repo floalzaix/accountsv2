@@ -107,10 +107,9 @@ async def update_transaction(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail={
-                "user_safe_title": "La transaction existe peut-être déjà ou problème de catégories",
-                "user_safe_description": "La transaction avec les même "
-                "date, motif, destinataire, catégories et montant "
-                "existe peut-être déjà ou problème de catégories.",
+                "user_safe_title": "Erreur de modification",
+                "user_safe_description": "La transaction est dupliquée "
+                "ou une catégorie n'est pas enfant de l'autre.",
                 "dev": str(e)
             }
         )
