@@ -1,0 +1,19 @@
+#menu-col-container {
+    width: 215px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#menu-col-container #menu-col-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#menu-col-container .p-button {
+    display: flex;
+    justify-content: flex-start;
+}

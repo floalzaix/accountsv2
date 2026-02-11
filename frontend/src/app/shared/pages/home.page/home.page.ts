@@ -3,8 +3,6 @@ import { CategoriesComponent } from '../../../categories/categories.component/ca
 import { TransactionsTable } from '../../../transactions/trans-table.component/trans-table.component';
 import { TransactionAddBar } from '../../../transactions/trans-add-bar.component/trans-add-bar.component';
 import { OptionsService } from '../../services/options';
-import { MenuBar } from '../../components/menu-bar/menu-bar';
-import { MenuCol } from '../../components/menu-col/menu-col';
 
 @Component({
   selector: 'app-home-page',
@@ -12,8 +10,6 @@ import { MenuCol } from '../../components/menu-col/menu-col';
     CategoriesComponent,
     TransactionsTable,
     TransactionAddBar,
-    MenuBar,
-    MenuCol,
   ],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css',

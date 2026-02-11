@@ -13,3 +13,10 @@ html {
 
     background-color: var(--background-color);
 }
+
+.surface {
+    padding: 20px !important;
+
+    background-color: var(--surface-color) !important;
+    border-radius: 6px !important;
+}

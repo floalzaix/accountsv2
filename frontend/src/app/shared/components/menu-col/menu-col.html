@@ -1,27 +1,33 @@
-<div id="menu-col-container">
-    <button 
-    pButton 
-    type="button" 
-    icon="pi pi-home" 
-    (click)="router.navigate(['/home'])"
-    >
-        Transations
-    </button>
-    <button 
-    pButton 
-    type="button" 
-    icon="pi pi-chart-line" 
-    (click)="router.navigate(['/summary'])"
-    >
-        Résumé
-    </button>
-    <button 
-    pButton 
-    type="button" 
-    icon="pi pi-search" 
-    (click)="router.navigate(['/details'])"
-    >
-        Détails
-    </button>
+<div class="surface" id="menu-col-container">
+
+    <div id="menu-col-buttons">
+        <button 
+            pButton 
+            type="button" 
+            icon="pi pi-home" 
+            (click)="router.navigate(['/home'])"
+        >
+            Transations
+        </button>
+
+        <button 
+            pButton 
+            type="button" 
+            icon="pi pi-chart-line" 
+            (click)="router.navigate(['/summary'])"
+        >
+            Résumé
+        </button>
+
+        <button 
+            pButton 
+            type="button" 
+            icon="pi pi-search" 
+            (click)="router.navigate(['/details'])"
+        >
+            Détails
+        </button>
+    </div>
+
     <app-options [multiple]="multipleOptions()" />
 </div>
