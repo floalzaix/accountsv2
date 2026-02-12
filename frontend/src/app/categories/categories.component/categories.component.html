@@ -1,6 +1,8 @@
 <p-toast />
 
-<div id="categories-container">
+<div class="surface" id="categories-container">
+  <h3>CATEGORIES</h3>
+
   @let categories = categoriesService.categories();
   @if (categories && categories.length > 0) {
     @for (category of categories; track category.id) {

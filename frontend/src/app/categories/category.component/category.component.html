@@ -1,6 +1,9 @@
 <p-toast />
 
-<div id="category-container">
+<div 
+  [style.margin-top]="state() === 'disabled' ? '0' : '10px'"
+  id="category-container"
+>
   <p-card 
     [style.background-color]="color()"
     [style.display]="state() === 'disabled' ? 'none' : 'block'"
@@ -27,7 +30,7 @@
         />
       </div>
     } @else if (isEditing()) {
-      <form 
+      <form
         [formGroup]="editCategoryForm"
         (ngSubmit)="editCategory()"
       >
@@ -44,21 +47,22 @@
         />
       </form>
     } @else if (isDeleting()) {
-      <form>
-        <button
-          pButton
-          icon="pi pi-trash"
-          (blur)="closeInplaceForm(isDeleting.set, false)"
-          [pAutoFocus]="true"
-          (click)="deleteCategory(); isDeleting.set(false); $event.preventDefault();"
-        ></button>
+      <form id="category-delete-form">
+        <div id="category-delete-buttons">
+          <button
+            pButton
+            icon="pi pi-trash"
+            (blur)="closeInplaceForm(isDeleting.set, false)"
+            [pAutoFocus]="true"
+            (click)="deleteCategory(); isDeleting.set(false); $event.preventDefault();"
+          ></button>
 
-        <button
-          pButton
-          icon="pi pi-times"
-          severity="danger"
-          (click)="isDeleting.set(false); $event.preventDefault();"
-        ></button>
+          <button
+            pButton
+            icon="pi pi-times"
+            (click)="isDeleting.set(false); $event.preventDefault();"
+          ></button>
+        </div>
       </form>
     }
   </p-card>

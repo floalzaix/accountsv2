@@ -113,6 +113,16 @@ export class CategoriesService {
     )
   );
 
+  /**
+   * Gets the categories but filtered by levels
+   * 
+   * @param level The level of the categories wanted in the list
+   * @returns The list of categories with the specified level
+   */
+  public categoriesLevelFiltered(level: number) {
+    return this.categories()?.filter(c => c.level == level);
+  }
+
   public categoriesMap = computed<Record<string, Category>>(() => {
     const categories = this.categories();
 

@@ -1,152 +1,166 @@
-<p-toast />
+    <p-toast />
 
-<div id="transactions-table-container">
-    @let ts = tableRows();
-    @if (ts) {
-        <form [formGroup]="editTransactionForm">
-            <p-table [value]="ts">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th id="event_date">Date</th>
-                        <th id="motive">Motif</th>
-                        <th id="to">Destinataire</th>
-                        <th id="bank_date">Date en banque</th>
-                        <th id="category1_id">Catégorie 1</th>
-                        <th id="category2_id">Catégorie 2</th>
-                        <th id="category3_id">Catégorie 3</th>
-                        <th id="amount">Montant</th>
-                        <th id="actions">Actions</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-transaction let-i="rowIndex">
-                    <tr [formGroupName]="transaction.id">
-                        @if (transaction.state === 'view' || transaction.state === 'delete') {
-                            <td>{{ transaction.event_date }}</td>
-                            <td>{{ transaction.motive }}</td>
-                            <td>{{ transaction.to }}</td>
-                            <td>{{ transaction.bank_date }}</td>
-                            <td>{{ transaction.category1_id | idToName: categoriesMap() }}</td>
-                            <td>{{ transaction.category2_id | idToName: categoriesMap() }}</td>
-                            <td>{{ transaction.category3_id | idToName: categoriesMap() }}</td>
-                            <td>{{ transaction.amount }} €</td>
-                            @if (transaction.state === 'view') {
+    <div class="surface" id="transactions-table-container">
+        <h3>TRANSACTIONS</h3>
+
+        @let ts = tableRows();
+        @if (ts) {
+            <form [formGroup]="editTransactionForm">
+                <p-table [value]="ts">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th id="event_date">Date</th>
+                            <th id="motive">Motif</th>
+                            <th id="to">Destinataire</th>
+                            <th id="bank_date">Date en banque</th>
+                            <th id="category1_id">Catégorie 1</th>
+                            <th id="category2_id">Catégorie 2</th>
+                            <th id="category3_id">Catégorie 3</th>
+                            <th id="amount">Montant</th>
+                            <th id="actions">Actions</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-transaction let-i="rowIndex">
+                        <tr [formGroupName]="transaction.id">
+                            @if (transaction.state === 'view' || transaction.state === 'delete') {
+                                <td>{{ transaction.event_date | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ transaction.motive }}</td>
+                                <td>{{ transaction.to }}</td>
+                                <td>{{ transaction.bank_date | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ transaction.category1_id | idToName: categoriesMap() }}</td>
+                                <td>{{ transaction.category2_id | idToName: categoriesMap() }}</td>
+                                <td>{{ transaction.category3_id | idToName: categoriesMap() }}</td>
+                                <td>{{ transaction.amount }} €</td>
+                                @if (transaction.state === 'view') {
+                                    <td>
+                                        <button 
+                                            pButton
+                                            type="submit" 
+                                            icon="pi pi-pencil" 
+                                            (click)="transaction.state = 'edit'"
+                                        ></button>
+                                        <button 
+                                            pButton 
+                                            type="button" 
+                                            icon="pi pi-trash" 
+                                            (click)="transaction.state = 'delete'"
+                                        ></button>
+                                    </td>
+                                } @else if (transaction.state === 'delete') {
+                                    <td>
+                                        <button 
+                                            pButton 
+                                            type="submit" 
+                                            icon="pi pi-check" 
+                                            (click)="
+                                                transaction.state = 'delete';
+                                                deleteTransaction(transaction.id);
+                                            "
+                                        ></button>
+                                        <button 
+                                            pButton 
+                                            type="button" 
+                                            icon="pi pi-times" 
+                                            (click)="transaction.state = 'view'"
+                                        ></button>
+                                    </td>
+                                }
+                            } @else if (transaction.state === 'edit') {
                                 <td>
-                                    <button 
-                                        pButton
-                                        type="submit" 
-                                        icon="pi pi-pencil" 
-                                        (click)="transaction.state = 'edit'"
-                                    ></button>
-                                    <button 
-                                        pButton 
-                                        type="button" 
-                                        icon="pi pi-trash" 
-                                        (click)="transaction.state = 'delete'"
-                                    ></button>
+                                    <p-datepicker 
+                                        formControlName="event_date" 
+                                        [view]="'date'" 
+                                        [dateFormat]="'dd/mm'"
+                                        inputId="event_date"
+                                        iconDisplay="input"
+                                        [showIcon]="true"
+                                        [minDate]="minDate()"
+                                        [maxDate]="maxDate()"
+                                    />
                                 </td>
-                            } @else if (transaction.state === 'delete') {
                                 <td>
-                                    <button 
-                                        pButton 
-                                        type="submit" 
-                                        icon="pi pi-check" 
+                                    <input
+                                        type="text" 
+                                        formControlName="motive" 
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        formControlName="to"
+                                    />
+                                </td>
+                                <td>
+                                    <p-datepicker 
+                                        formControlName="bank_date" 
+                                        [view]="'date'" 
+                                        [dateFormat]="'dd/mm'"
+                                        inputId="bank_date"
+                                        iconDisplay="input"
+                                        [showIcon]="true"
+                                        [minDate]="minDate()"
+                                        [maxDate]="maxDate()"
+                                    />
+                                </td>
+                                <td>
+                                    <p-select
+                                        formControlName="category1_id"
+                                        [options]="categoriesService.categoriesLevelFiltered(0)"
+                                        [showClear]="true"
+                                        placeholder="Autre"
+                                        optionLabel="name"
+                                        optionValue="id"
+                                    />
+                                </td>
+                                <td>
+                                    <p-select
+                                        formControlName="category2_id"
+                                        [options]="categoriesService.categoriesLevelFiltered(1)"
+                                        [showClear]="true"
+                                        placeholder="Autre"
+                                        optionLabel="name"
+                                        optionValue="id"
+                                    />
+                                </td>
+                                <td>
+                                    <p-select
+                                        formControlName="category3_id"
+                                        [options]="categoriesService.categoriesLevelFiltered(2)"
+                                        [showClear]="true"
+                                        placeholder="Autre"
+                                        optionLabel="name"
+                                        optionValue="id"
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        formControlName="amount"
+                                    />
+                                </td>
+                                <td>
+                                    <button
+                                        pButton
+                                        type="submit"
+                                        icon="pi pi-save"
                                         (click)="
-                                            transaction.state = 'delete';
-                                            deleteTransaction(transaction.id);
+                                            transaction.state = 'view'; 
+                                            editTransaction(transaction);
                                         "
-                                    ></button>
-                                    <button 
-                                        pButton 
-                                        type="button" 
-                                        icon="pi pi-times" 
+                                    >
+                                    </button>
+                                    <button
+                                        pButton
+                                        type="button"
+                                        icon="pi pi-times"
                                         (click)="transaction.state = 'view'"
-                                    ></button>
+                                    >
+                                    </button>
                                 </td>
                             }
-                        } @else if (transaction.state === 'edit') {
-                            <td>
-                                <input
-                                    type="date" 
-                                    formControlName="event_date" 
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text" 
-                                    formControlName="motive" 
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    formControlName="to"
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    formControlName="bank_date"
-                                />
-                            </td>
-                            <td>
-                                <select formControlName="category1_id">
-                                    <option [value]="null">Autre</option>
-                                    @for (item of categoriesMap() | keyvalue; track item.key) {
-                                        @if (item.value.level == 0) {
-                                            <option [value]="item.key">{{ item.value.name }}</option>
-                                        }
-                                    }
-                                </select>
-                            </td>
-                            <td>
-                                <select formControlName="category2_id">
-                                    <option [value]="null">Autre</option>
-                                    @for (item of categoriesMap() | keyvalue; track item.key) {
-                                        @if (item.value.level == 1) {
-                                            <option [value]="item.key">{{ item.value.name }}</option>
-                                        }
-                                    }
-                                </select>
-                            </td>
-                            <td>
-                                <select formControlName="category3_id">
-                                    <option [value]="null">Autre</option>
-                                    @for (item of categoriesMap() | keyvalue; track item.key) {
-                                        @if (item.value.level == 2) {
-                                            <option [value]="item.key">{{ item.value.name }}</option>
-                                        }
-                                    }
-                                </select>
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    formControlName="amount"
-                                />
-                            </td>
-                            <td>
-                                <button
-                                    pButton
-                                    type="submit"
-                                    icon="pi pi-save"
-                                    (click)="
-                                        transaction.state = 'view'; 
-                                        editTransaction(transaction);
-                                    "
-                                >
-                                </button>
-                                <button
-                                    pButton
-                                    type="button"
-                                    icon="pi pi-times"
-                                    (click)="transaction.state = 'view'"
-                                >
-                                </button>
-                            </td>
-                        }
-                    </tr>
-                </ng-template>
-            </p-table>
-        </form>
-    }
-</div>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </form>
+        }
+    </div>

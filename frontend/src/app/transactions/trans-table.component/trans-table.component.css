@@ -1,0 +1,18 @@
+#transactions-table-container {
+    max-height: 100%;
+
+    overflow: auto;
+}
+
+#transactions-table-container h3 {
+    text-align: center;
+}
+
+#transactions-table-container ::ng-deep input {
+    all: unset;
+    max-width: 75px !important;
+}
+
+#transactions-table-container p-select {
+    max-width: 200px !important;
+}

@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { TransactionsService } from '../trans.service';
 import { TableModule } from 'primeng/table';
 import { CategoriesService } from '../../categories/categories.service';
@@ -9,7 +9,9 @@ import { Transaction, TransactionSchema } from '../trans.model';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ErrorWrapper } from '../../shared/errors/error-wrapper';
-import { KeyValuePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-transactions-table',
@@ -19,7 +21,9 @@ import { KeyValuePipe } from '@angular/common';
     ButtonModule,
     ReactiveFormsModule,
     ToastModule,
-    KeyValuePipe,
+    DatePipe,
+    DatePickerModule,
+    SelectModule,
   ],
   templateUrl: './trans-table.component.html',
   styleUrl: './trans-table.component.css',
@@ -31,8 +35,10 @@ export class TransactionsTable {
   //
   
   private readonly transactionsService = inject(TransactionsService);
-  private readonly categoriesService = inject(CategoriesService);
   private readonly messageService = inject(MessageService);
+  protected readonly categoriesService = inject(CategoriesService);
+
+  public readonly year = input.required<number | null>();
 
   //
   //   Data
@@ -57,6 +63,9 @@ export class TransactionsTable {
       }
     })
   });
+
+  protected readonly minDate = computed(() => new Date(this.year()!, 0, 1));
+  protected readonly maxDate = computed(() => new Date(this.year()!, 11, 31));
 
   //
   //   Forms

@@ -1,5 +1,14 @@
-<div id="home-page">
-    <app-categories-component />
-    <app-transactions-table />
-    <app-transaction-add-bar [year]="optionsService.year()" [type]="optionsService.types()" />
+<div id="home-page-container">
+    <app-categories-component 
+        id="categories-component"
+    />
+    <app-transactions-table 
+        id="transactions-table"
+        [year]="optionsService.year()"
+    />
+    <app-transaction-add-bar 
+        id="transaction-add-bar"
+        [year]="optionsService.year()"
+        [type]="optionsService.types()"
+    />
 </div>

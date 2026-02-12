@@ -1,7 +1,11 @@
 <p-toast />
 
 <div id="transaction-add-bar">
-    <form [formGroup]="transactionAddForm" (ngSubmit)="addTransaction()">
+    <form
+        class="surface"
+        [formGroup]="transactionAddForm"
+        (ngSubmit)="addTransaction()"
+    >
         <p-floatLabel variant="on">
             <p-datepicker 
                 formControlName="event_date" 

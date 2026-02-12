@@ -22,4 +22,5 @@
 
 #app-container #page {
     grid-area: page;
+    overflow: hidden;
 }

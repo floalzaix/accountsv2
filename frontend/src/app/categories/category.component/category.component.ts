@@ -54,11 +54,11 @@ export class CategoryComponent {
   public readonly color = computed(() => {
     switch (this.category().level) {
       case 0:
-        return "blue";
-      case 1:
         return "black";
+      case 1:
+        return "var(--secondary-color)";
       case 2:
-        return "red";
+        return "var(--primary-color-darker)";
       default:
         throw new Error('Invalid category level');
     };

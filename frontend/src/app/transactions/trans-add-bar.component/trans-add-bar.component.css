@@ -1,0 +1,8 @@
+#transaction-add-bar form {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    overflow-x: auto;
+}

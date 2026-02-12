@@ -1,3 +1,15 @@
+#categories-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: auto;
+}
+
+#categories-add-category-card {
+    margin-top: 20px;
+}
+
 #categories-add-category-card ::ng-deep .p-inplace {
     height: 100%;
 }

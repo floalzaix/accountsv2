@@ -1,4 +1,4 @@
-<div id="details-tab-container">
+<div class="surface" id="details-tab-container">
     @let d = details();
     @if (d) {
         @let detailsTab = d[0];
@@ -7,11 +7,17 @@
             <ng-template pTemplate="header">
                 <tr>
                     @if (tab_type() === "revenues") {
-                        <th id="revenues">Revenus</th>
+                        <th id="revenues">
+                            <h3>REVENUS</h3>
+                        </th>
                     } @else if (tab_type() === "expenses") {
-                        <th id="expenses">Dépenses</th>
+                        <th id="expenses">
+                            <h3>DEPENSES</h3>
+                        </th>
                     } @else if (tab_type() === "differences") {
-                        <th id="differences">Différences</th>
+                        <th id="differences">
+                            <h3>DIFFERENCES</h3>
+                        </th>
                     }
                     <th id="january">Janvier</th>
                     <th id="february">Février</th>

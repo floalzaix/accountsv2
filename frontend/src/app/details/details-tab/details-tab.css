@@ -1,5 +1,19 @@
-.details-tab-row-title {
+#details-tab-container {
+    overflow: auto;
+}
+
+#details-tab-container .details-tab-row-title {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
+#details-tab-container h3 {
+    justify-self: center;
+    margin: 0;
+}
+  
+#details-tab-container ::ng-deep .p-treetable table th:first-child {
+    width: 200px;
+}
+  

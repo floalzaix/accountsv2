@@ -20,3 +20,10 @@ html {
     background-color: var(--surface-color) !important;
     border-radius: 6px !important;
 }
+
+.surface h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+
+    color: var(--surface-title-color) !important;
+}
