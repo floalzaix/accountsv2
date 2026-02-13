@@ -13,6 +13,8 @@ import { TransactionSchema } from '../trans.model';
 import { ErrorWrapper } from '../../shared/errors/error-wrapper';
 import { ToastModule } from 'primeng/toast';
 import { formatDate } from '../../shared/utils/other';
+import { DetailsService } from '../../details/details-service';
+import { SummaryService } from '../../summary/summary.service';
 
 @Component({
   selector: 'app-transaction-add-bar',
@@ -45,13 +47,15 @@ export class TransactionAddBar {
   public readonly type = input.required<string | null>();
   
   private readonly transactionsService = inject(TransactionsService);
+  private readonly detailsService = inject(DetailsService);
+  private readonly summaryService = inject(SummaryService);
   private readonly messageService = inject(MessageService);
 
   //
   //   Computed values
   //
   
-  protected readonly minDate = computed(() => new Date(this.year()!, 0, 1));
+  protected readonly minDate = computed(() => new Date(this.year()!, 0, 0));
   protected readonly maxDate = computed(() => new Date(this.year()!, 11, 31));
 
   //
@@ -71,6 +75,9 @@ export class TransactionAddBar {
   //
   
   public addTransaction(): void {
+    console.log(formatDate(
+      this.transactionAddForm.value?.event_date!
+    ));
     // Validating the form
     if (this.transactionAddForm.invalid) {
       this.messageService.add({
@@ -81,6 +88,7 @@ export class TransactionAddBar {
 
       return;
     }
+
 
     // Preparing hte transaction
     const transaction = TransactionSchema.parse(
@@ -110,6 +118,8 @@ export class TransactionAddBar {
 
         // Refreshing the transactions service to actualise the front
         this.transactionsService.refresh();
+        this.detailsService.refresh();
+        this.summaryService.refresh();
       },
       error: (error) => {
         if (error instanceof ErrorWrapper) {

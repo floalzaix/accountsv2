@@ -1,6 +1,10 @@
 <div id="home-page-container">
     <app-categories-component 
         id="categories-component"
+        [(level1SelectedCategory)]="categories_id1"
+        [(level2SelectedCategory)]="categories_id2"
+        [(level3SelectedCategory)]="categories_id3"
+        
     />
     <app-transactions-table 
         id="transactions-table"
@@ -10,5 +14,8 @@
         id="transaction-add-bar"
         [year]="optionsService.year()"
         [type]="optionsService.types()"
+        [level1SelectedCategory]="categories_id1()"
+        [level2SelectedCategory]="categories_id2()"
+        [level3SelectedCategory]="categories_id3()"
     />
 </div>

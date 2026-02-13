@@ -1,5 +1,7 @@
 #details-tab-container {
     height: 100%;
+    min-height: 0;
+
     overflow: auto;
 }
 

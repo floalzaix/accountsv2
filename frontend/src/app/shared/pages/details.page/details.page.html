@@ -1,5 +1,19 @@
-<div id="details-page-container">
-    <app-details-tab [tab_type]="'revenues'" />
-    <app-details-tab [tab_type]="'expenses'" />
-    <app-details-tab [tab_type]="'differences'" />
+<div class="surface" id="details-page-container">
+    <p-selectbutton 
+        [options]="[
+            { label: 'Revenues', value: 'revenues' },
+            { label: 'Dépenses', value: 'expenses' },
+            { label: 'Ecarts', value: 'differences' },
+        ]"
+        [(ngModel)]="selectedTab"
+    />
+    @if (selectedTab === 'revenues') {
+        <app-details-tab class="details-tab" [tab_type]="'revenues'" />
+    } @else if (selectedTab === 'expenses') {
+        <app-details-tab class="details-tab" [tab_type]="'expenses'" />
+    } @else if (selectedTab === 'differences') {
+        <app-details-tab class="details-tab" [tab_type]="'differences'" />
+    } @else {
+        <app-details-tab class="details-tab" [tab_type]="'revenues'" />
+    }
 </div>

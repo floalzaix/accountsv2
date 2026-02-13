@@ -1,6 +1,4 @@
 #home-page-container {
-    position: relative;
-
     height: 100%;
 
     display: grid;
@@ -9,29 +7,22 @@
     grid-template-areas:
         "categories-component transactions-table"
         "transaction-add-bar transaction-add-bar";
+    gap: 20px;
 }
 
 #home-page-container #categories-component {
-    margin-right: 20px;
-    margin-bottom: 100px;
-
     grid-area: categories-component;
 
     overflow: auto;
 }
 
 #home-page-container #transactions-table {
-    margin-bottom: 100px;
-
     grid-area: transactions-table;
     
     overflow: hidden;
 }
 
 #home-page-container #transaction-add-bar {
-    position: absolute;
-    bottom: 0;
-
     width: 100%;
 
     grid-area: transaction-add-bar;

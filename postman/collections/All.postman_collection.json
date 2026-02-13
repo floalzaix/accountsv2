@@ -471,6 +471,2118 @@
       "id": "27ad3ce7-2a19-45d8-a6ba-19c5509882c4"
     },
     {
+      "name": "Details",
+      "item": [
+        {
+          "name": "Details Setup",
+          "item": [
+            {
+              "name": "Create Categories for Details Tests",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-categories-details-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "const body = pm.response.json();",
+                      "",
+                      "pm.test(\"Response has id field\", function () {",
+                      "    pm.expect(body).to.have.property(\"id\");",
+                      "});",
+                      "",
+                      "const requestBody = pm.request.body.raw;",
+                      "const requestData = JSON.parse(requestBody);",
+                      "",
+                      "if (requestData.level === 0) {",
+                      "    pm.globals.set(\"details_category_level_0_id\", body.id);",
+                      "} else if (requestData.level === 1) {",
+                      "    if (!pm.globals.get(\"details_category_level_1_id\")) {",
+                      "        pm.globals.set(\"details_category_level_1_id\", body.id);",
+                      "    } else {",
+                      "        pm.globals.set(\"details_category_level_1_id_2\", body.id);",
+                      "    }",
+                      "} else if (requestData.level === 2) {",
+                      "    pm.globals.set(\"details_category_level_2_id\", body.id);",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-categories-details-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Alimentation Details\",\r\n    \"level\": 0,\r\n    \"parent_id\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/categories/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "categories",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Category Level 1 for Details",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-category-level1-prerequest",
+                    "exec": [
+                      "const parentId = pm.globals.get(\"details_category_level_0_id\");",
+                      "if (!parentId) {",
+                      "    throw new Error(\"details_category_level_0_id not found. Please run 'Create Categories for Details Tests' first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    name: \"Épicerie Details\",",
+                      "    level: 1,",
+                      "    parent_id: parentId",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-category-level1-details-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "const body = pm.response.json();",
+                      "",
+                      "pm.test(\"Response has id field\", function () {",
+                      "    pm.expect(body).to.have.property(\"id\");",
+                      "});",
+                      "",
+                      "pm.globals.set(\"details_category_level_1_id\", body.id);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-category-level1-details-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Épicerie Details\",\r\n    \"level\": 1,\r\n    \"parent_id\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/categories/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "categories",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Category Level 1 (Second) for Details",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-category-level1-2-prerequest",
+                    "exec": [
+                      "const parentId = pm.globals.get(\"details_category_level_0_id\");",
+                      "if (!parentId) {",
+                      "    throw new Error(\"details_category_level_0_id not found. Please run 'Create Categories for Details Tests' first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    name: \"Restaurant Details\",",
+                      "    level: 1,",
+                      "    parent_id: parentId",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-category-level1-2-details-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "const body = pm.response.json();",
+                      "",
+                      "pm.test(\"Response has id field\", function () {",
+                      "    pm.expect(body).to.have.property(\"id\");",
+                      "});",
+                      "",
+                      "pm.globals.set(\"details_category_level_1_id_2\", body.id);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-category-level1-2-details-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Restaurant Details\",\r\n    \"level\": 1,\r\n    \"parent_id\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/categories/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "categories",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Transactions - Revenues",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-transactions-revenues-prerequest",
+                    "exec": [
+                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
+                      "if (!category0Id) {",
+                      "    throw new Error(\"details_category_level_0_id not found. Please run category setup tests first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    event_date: \"2026-01-15\",",
+                      "    motive: \"Salaire janvier\",",
+                      "    to: \"Employeur\",",
+                      "    bank_date: \"2026-01-15\",",
+                      "    type: \"checking\",",
+                      "    category1_id: category0Id,",
+                      "    category2_id: null,",
+                      "    category3_id: null,",
+                      "    amount: 100.00",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-transactions-revenues-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "const body = pm.response.json();",
+                      "pm.test(\"Transaction created successfully\", function () {",
+                      "    pm.expect(body).to.have.property(\"id\");",
+                      "    pm.expect(body.amount).to.be.above(0);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-transactions-revenues-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "transactions",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Transaction - Revenue February",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-transaction-revenue-feb-prerequest",
+                    "exec": [
+                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
+                      "const category1Id = pm.globals.get(\"details_category_level_1_id\");",
+                      "if (!category0Id || !category1Id) {",
+                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    event_date: \"2026-02-20\",",
+                      "    motive: \"Salaire février\",",
+                      "    to: \"Employeur\",",
+                      "    bank_date: \"2026-02-20\",",
+                      "    type: \"savings\",",
+                      "    category1_id: category0Id,",
+                      "    category2_id: category1Id,",
+                      "    category3_id: null,",
+                      "    amount: 200.00",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-transaction-revenue-feb-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-transaction-revenue-feb-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "transactions",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Transaction - Revenue March",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-transaction-revenue-mar-prerequest",
+                    "exec": [
+                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
+                      "const category1Id2 = pm.globals.get(\"details_category_level_1_id_2\");",
+                      "if (!category0Id || !category1Id2) {",
+                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    event_date: \"2026-03-10\",",
+                      "    motive: \"Salaire mars\",",
+                      "    to: \"Employeur\",",
+                      "    bank_date: \"2026-03-10\",",
+                      "    type: \"checking\",",
+                      "    category1_id: category0Id,",
+                      "    category2_id: category1Id2,",
+                      "    category3_id: null,",
+                      "    amount: 150.00",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-transaction-revenue-mar-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-transaction-revenue-mar-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "transactions",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Transactions - Expenses",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-transactions-expenses-prerequest",
+                    "exec": [
+                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
+                      "const category1Id = pm.globals.get(\"details_category_level_1_id\");",
+                      "if (!category0Id || !category1Id) {",
+                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    event_date: \"2026-01-25\",",
+                      "    motive: \"Achat épicerie\",",
+                      "    to: \"Carrefour\",",
+                      "    bank_date: \"2026-01-25\",",
+                      "    type: \"checking\",",
+                      "    category1_id: category0Id,",
+                      "    category2_id: category1Id,",
+                      "    category3_id: null,",
+                      "    amount: -50.00",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-transactions-expenses-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "const body = pm.response.json();",
+                      "pm.test(\"Transaction created with negative amount\", function () {",
+                      "    pm.expect(body).to.have.property(\"id\");",
+                      "    pm.expect(body.amount).to.be.below(0);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-transactions-expenses-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "transactions",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Transaction - Expense February",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-transaction-expense-feb-prerequest",
+                    "exec": [
+                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
+                      "const category1Id2 = pm.globals.get(\"details_category_level_1_id_2\");",
+                      "if (!category0Id || !category1Id2) {",
+                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    event_date: \"2026-02-18\",",
+                      "    motive: \"Restaurant\",",
+                      "    to: \"Le Bistrot\",",
+                      "    bank_date: \"2026-02-18\",",
+                      "    type: \"cash\",",
+                      "    category1_id: category0Id,",
+                      "    category2_id: category1Id2,",
+                      "    category3_id: null,",
+                      "    amount: -75.00",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-transaction-expense-feb-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-transaction-expense-feb-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "transactions",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Transaction - Expense March",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-transaction-expense-mar-prerequest",
+                    "exec": [
+                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
+                      "const category1Id = pm.globals.get(\"details_category_level_1_id\");",
+                      "if (!category0Id || !category1Id) {",
+                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    event_date: \"2026-03-05\",",
+                      "    motive: \"Courses\",",
+                      "    to: \"Super U\",",
+                      "    bank_date: \"2026-03-05\",",
+                      "    type: \"checking\",",
+                      "    category1_id: category0Id,",
+                      "    category2_id: category1Id,",
+                      "    category3_id: null,",
+                      "    amount: -30.00",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-transaction-expense-mar-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-transaction-expense-mar-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "transactions",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Transactions - Mixed (for Differences)",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-transactions-mixed-prerequest",
+                    "exec": [
+                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
+                      "if (!category0Id) {",
+                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    event_date: \"2026-01-20\",",
+                      "    motive: \"Remboursement\",",
+                      "    to: \"Amis\",",
+                      "    bank_date: \"2026-01-20\",",
+                      "    type: \"savings\",",
+                      "    category1_id: category0Id,",
+                      "    category2_id: null,",
+                      "    category3_id: null,",
+                      "    amount: 100.00",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-transactions-mixed-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "const body = pm.response.json();",
+                      "pm.test(\"Transaction created successfully\", function () {",
+                      "    pm.expect(body).to.have.property(\"id\");",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-transactions-mixed-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "transactions",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Transaction - Mixed February",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-transaction-mixed-feb-prerequest",
+                    "exec": [
+                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
+                      "const category1Id = pm.globals.get(\"details_category_level_1_id\");",
+                      "if (!category0Id || !category1Id) {",
+                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    event_date: \"2026-02-22\",",
+                      "    motive: \"Vente\",",
+                      "    to: \"Client\",",
+                      "    bank_date: \"2026-02-22\",",
+                      "    type: \"cash\",",
+                      "    category1_id: category0Id,",
+                      "    category2_id: category1Id,",
+                      "    category3_id: null,",
+                      "    amount: 200.00",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-transaction-mixed-feb-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-transaction-mixed-feb-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "transactions",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Transaction - Mixed March",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "create-transaction-mixed-mar-prerequest",
+                    "exec": [
+                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
+                      "const category1Id2 = pm.globals.get(\"details_category_level_1_id_2\");",
+                      "if (!category0Id || !category1Id2) {",
+                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
+                      "}",
+                      "",
+                      "const requestBody = {",
+                      "    event_date: \"2026-03-12\",",
+                      "    motive: \"Remboursement\",",
+                      "    to: \"Famille\",",
+                      "    bank_date: \"2026-03-12\",",
+                      "    type: \"checking\",",
+                      "    category1_id: category0Id,",
+                      "    category2_id: category1Id2,",
+                      "    category3_id: null,",
+                      "    amount: 150.00",
+                      "};",
+                      "",
+                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "create-transaction-mixed-mar-test",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "create-transaction-mixed-mar-001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "{{PREFIX}}",
+                    "transactions",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "details-setup-001"
+        },
+        {
+          "name": "Get Details - Revenues Tab",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "get-details-revenues-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has rows field\", function () {",
+                  "    pm.expect(body).to.have.property(\"rows\");",
+                  "    pm.expect(body.rows).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response has total_row field\", function () {",
+                  "    pm.expect(body).to.have.property(\"total_row\");",
+                  "    pm.expect(body.total_row).to.be.an(\"object\");",
+                  "    pm.expect(body.total_row).to.have.property(\"title\");",
+                  "    pm.expect(body.total_row.title).to.equal(\"Total\");",
+                  "});",
+                  "",
+                  "pm.test(\"Total row has monthly values\", function () {",
+                  "    const totalRow = body.total_row;",
+                  "    pm.expect(totalRow).to.have.property(\"january\");",
+                  "    pm.expect(totalRow).to.have.property(\"february\");",
+                  "    pm.expect(totalRow).to.have.property(\"march\");",
+                  "});",
+                  "",
+                  "// Sommes attendues pour trans_types=[checking] et tab_type=revenues",
+                  "// Revenues (2026) avec type checking et amount > 0:",
+                  "// janvier=100 (revenue checking), février=0 (pas de revenue checking), mars=150 (revenue) + 150 (mixed checking) = 300",
+                  "",
+                  "pm.test(\"January total matches expected revenue\", function () {",
+                  "    const janTotal = body.total_row.january || 0;",
+                  "    pm.expect(janTotal).to.equal(100);",
+                  "});",
+                  "",
+                  "pm.test(\"February total matches expected revenue\", function () {",
+                  "    const febTotal = body.total_row.february || 0;",
+                  "    pm.expect(febTotal).to.equal(0);",
+                  "});",
+                  "",
+                  "pm.test(\"March total matches expected revenue\", function () {",
+                  "    const marTotal = body.total_row.march || 0;",
+                  "    pm.expect(marTotal).to.equal(300);",
+                  "});",
+                  "",
+                  "pm.test(\"Total sum matches expected\", function () {",
+                  "    const total = body.total_row.total || 0;",
+                  "    pm.expect(total).to.equal(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Rows contain category data\", function () {",
+                  "    if (body.rows.length > 0) {",
+                  "        const firstRow = body.rows[0];",
+                  "        pm.expect(firstRow).to.have.property(\"values\");",
+                  "        pm.expect(firstRow.values).to.have.property(\"title\");",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "bcdaab6e-d921-4244-9ba8-cfdb87869ab6",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "get-details-revenues-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=revenues",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "details",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "checking"
+                },
+                {
+                  "key": "tab_type",
+                  "value": "revenues"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Details - Expenses Tab",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "get-details-expenses-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has rows field\", function () {",
+                  "    pm.expect(body).to.have.property(\"rows\");",
+                  "    pm.expect(body.rows).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response has total_row field\", function () {",
+                  "    pm.expect(body).to.have.property(\"total_row\");",
+                  "    pm.expect(body.total_row).to.have.property(\"title\");",
+                  "    pm.expect(body.total_row.title).to.equal(\"Total\");",
+                  "});",
+                  "",
+                  "// Sommes attendues pour trans_types=[checking]",
+                  "// Expenses (2026) avec type checking:",
+                  "// janvier=-50 (checking), février=0 (cash, pas checking), mars=-30 (checking)",
+                  "",
+                  "pm.test(\"January total matches expected expense\", function () {",
+                  "    const janTotal = body.total_row.january || 0;",
+                  "    pm.expect(janTotal).to.equal(-50);",
+                  "});",
+                  "",
+                  "pm.test(\"February total matches expected expense\", function () {",
+                  "    const febTotal = body.total_row.february || 0;",
+                  "    pm.expect(febTotal).to.equal(0);",
+                  "});",
+                  "",
+                  "pm.test(\"March total matches expected expense\", function () {",
+                  "    const marTotal = body.total_row.march || 0;",
+                  "    pm.expect(marTotal).to.equal(-30);",
+                  "});",
+                  "",
+                  "pm.test(\"Total sum matches expected\", function () {",
+                  "    const total = body.total_row.total || 0;",
+                  "    pm.expect(total).to.equal(-80);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "get-details-expenses-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=expenses",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "details",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026",
+                  "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "checking",
+                  "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
+                },
+                {
+                  "key": "tab_type",
+                  "value": "expenses",
+                  "uuid": "3ada6b8d-3ede-46ca-87d8-52c699e4c107"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Details - Differences Tab",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "get-details-differences-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has rows field\", function () {",
+                  "    pm.expect(body).to.have.property(\"rows\");",
+                  "    pm.expect(body.rows).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response has total_row field\", function () {",
+                  "    pm.expect(body).to.have.property(\"total_row\");",
+                  "    pm.expect(body.total_row).to.have.property(\"title\");",
+                  "    pm.expect(body.total_row.title).to.equal(\"Total\");",
+                  "});",
+                  "",
+                  "// Différences attendues pour trans_types=[checking]",
+                  "// Transactions checking (tab_type=differences):",
+                  "// janvier: -50 (expense checking) + 100 (revenue checking) = 50",
+                  "// février: 0 (pas de transaction checking)",
+                  "// mars: -30 (expense checking) + 150 (revenue checking) + 150 (mixed checking) = 270",
+                  "",
+                  "pm.test(\"January difference matches expected\", function () {",
+                  "    const janTotal = body.total_row.january || 0;",
+                  "    pm.expect(janTotal).to.equal(50);",
+                  "});",
+                  "",
+                  "pm.test(\"February difference matches expected\", function () {",
+                  "    const febTotal = body.total_row.february || 0;",
+                  "    pm.expect(febTotal).to.equal(0);",
+                  "});",
+                  "",
+                  "pm.test(\"March difference matches expected\", function () {",
+                  "    const marTotal = body.total_row.march || 0;",
+                  "    pm.expect(marTotal).to.equal(270);",
+                  "});",
+                  "",
+                  "pm.test(\"Total difference matches expected\", function () {",
+                  "    const total = body.total_row.total || 0;",
+                  "    pm.expect(total).to.equal(320);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "get-details-differences-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=differences",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "details",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026",
+                  "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "checking",
+                  "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
+                },
+                {
+                  "key": "tab_type",
+                  "value": "differences",
+                  "uuid": "3ada6b8d-3ede-46ca-87d8-52c699e4c107"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Details - Missing Parameters",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "get-details-missing-params-test",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail is an array of validation errors\", function () {",
+                  "    pm.expect(body.detail).to.be.an(\"array\");",
+                  "    pm.expect(body.detail.length).to.be.above(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "get-details-missing-params-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/details/",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "details",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Details - Invalid Tab Type",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "get-details-invalid-tab-type-test",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has detail field\", function () {",
+                  "    pm.expect(body).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Detail contains validation error\", function () {",
+                  "    if (Array.isArray(body.detail)) {",
+                  "        const hasTabTypeError = body.detail.some(function(error) {",
+                  "            return error.loc && error.loc.includes(\"tab_type\");",
+                  "        });",
+                  "        pm.expect(hasTabTypeError).to.be.true;",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "get-details-invalid-tab-type-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=invalid_type",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "details",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026",
+                  "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "checking",
+                  "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
+                },
+                {
+                  "key": "tab_type",
+                  "value": "invalid_type",
+                  "uuid": "3ada6b8d-3ede-46ca-87d8-52c699e4c107"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Details - Revenues Tab (multiple trans_types)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "get-details-revenues-multiple-trans-types-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has rows field\", function () {",
+                  "    pm.expect(body).to.have.property(\"rows\");",
+                  "    pm.expect(body.rows).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response has total_row field\", function () {",
+                  "    pm.expect(body).to.have.property(\"total_row\");",
+                  "    pm.expect(body.total_row).to.have.property(\"title\");",
+                  "    pm.expect(body.total_row.title).to.equal(\"Total\");",
+                  "});",
+                  "",
+                  "pm.test(\"Total row has monthly values\", function () {",
+                  "    const totalRow = body.total_row;",
+                  "    pm.expect(totalRow).to.have.property(\"january\");",
+                  "    pm.expect(totalRow).to.have.property(\"february\");",
+                  "    pm.expect(totalRow).to.have.property(\"march\");",
+                  "    pm.expect(totalRow.january).to.be.a(\"number\");",
+                  "    pm.expect(totalRow.february).to.be.a(\"number\");",
+                  "    pm.expect(totalRow.march).to.be.a(\"number\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "get-details-revenues-multiple-trans-types-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&trans_types=savings&tab_type=revenues",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "details",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "checking"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "savings"
+                },
+                {
+                  "key": "tab_type",
+                  "value": "revenues"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "18d41657-13a8-45f2-8ece-5f3ebaf46b3d"
+    },
+    {
+      "name": "Summary",
+      "item": [
+        {
+          "name": "Balance - Success (année spécifique, un type checking)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "balance-success-checking-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is a number\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response is a valid float\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "    pm.expect(isFinite(body)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "91bc089a-ee2a-4293-b525-f99ab510f0fd",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026&trans_types=checking",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "summary",
+                "balance"
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026",
+                  "uuid": "0bdea85d-7da2-41ea-bb7d-c29048e86898"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "checking",
+                  "uuid": "747b60eb-c952-4637-8c0f-255d20a52ca8"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Balance - Success (année spécifique, un type savings)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "balance-success-savings-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is a number\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response is a valid float\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "    pm.expect(isFinite(body)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "balance-success-savings-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026&trans_types=savings",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "summary",
+                "balance"
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "savings"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Balance - Success (année spécifique, un type cash)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "balance-success-cash-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is a number\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response is a valid float\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "    pm.expect(isFinite(body)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "balance-success-cash-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026&trans_types=cash",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "summary",
+                "balance"
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "cash"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Balance - Success (année spécifique, plusieurs types)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "balance-success-multiple-types-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is a number\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response is a valid float\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "    pm.expect(isFinite(body)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "balance-success-multiple-types-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026&trans_types=checking&trans_types=savings",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "summary",
+                "balance"
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "checking"
+                },
+                {
+                  "key": "trans_types",
+                  "value": "savings"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Balance - Success (année spécifique, tous les types)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "balance-success-all-types-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is a number\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response is a valid float\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "    pm.expect(isFinite(body)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "balance-success-all-types-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "summary",
+                "balance"
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Balance - Success (année par défaut, tous les types)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "balance-success-default-year-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is a number\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response is a valid float\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "    pm.expect(isFinite(body)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "balance-success-default-year-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/summary/balance",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "summary",
+                "balance"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Balance - Success (année sans transactions)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "balance-success-empty-year-test",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test(\"Response is a number\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response is a valid float\", function () {",
+                  "    pm.expect(body).to.be.a(\"number\");",
+                  "    pm.expect(isFinite(body)).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"Response is 0.0 for year with no transactions\", function () {",
+                  "    pm.expect(body).to.equal(0.0);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "balance-success-empty-year-001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2000",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "{{PREFIX}}",
+                "summary",
+                "balance"
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2000"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "3f787066-3073-4536-8fd4-bbb43038e238",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "2c477ca0-d247-4518-8f32-4e55d56f4bc4",
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              "// Script de pré-requête pour la collection Summary",
+              "// Création des transactions de test pour les tests de balance",
+              "",
+              "const baseUrl = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
+              "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\") || \"api\";",
+              "const token = pm.globals.get(\"access_token\");",
+              "",
+              "if (!token) {",
+              "    console.log('Warning: access_token not found in globals. Please login first.');",
+              "    return;",
+              "}",
+              "",
+              "// Fonction pour créer une transaction de manière synchrone",
+              "function createTransactionSync(token, transactionData, callback) {",
+              "    const request = {",
+              "        url: `${baseUrl}/${prefix}/transactions/`,",
+              "        method: 'POST',",
+              "        header: {",
+              "            'Content-Type': 'application/json',",
+              "            'Authorization': `Bearer ${token}`",
+              "        },",
+              "        body: {",
+              "            mode: 'raw',",
+              "            raw: JSON.stringify(transactionData)",
+              "        }",
+              "    };",
+              "    ",
+              "    pm.sendRequest(request, function (err, res) {",
+              "        // Ignorer les erreurs 409 (transaction déjà existante)",
+              "        if (err && res && res.code !== 409) {",
+              "            console.log('Error creating transaction:', err, res.code);",
+              "        }",
+              "        // Toujours appeler le callback même en cas d'erreur 409",
+              "        if (callback) callback(err && res && res.code !== 409 ? err : null, res);",
+              "    });",
+              "}",
+              "",
+              "// Fonction pour créer toutes les transactions de manière séquentielle",
+              "function createAllTransactions(token, transactions, index, callback) {",
+              "    if (index >= transactions.length) {",
+              "        if (callback) callback();",
+              "        return;",
+              "    }",
+              "    ",
+              "    createTransactionSync(token, transactions[index], function(err, res) {",
+              "        if (err) {",
+              "            console.log('Error creating transaction at index', index, err);",
+              "        }",
+              "        createAllTransactions(token, transactions, index + 1, callback);",
+              "    });",
+              "}",
+              "",
+              "// Créer les transactions de test avec des montants cohérents",
+              "// Soldes attendus pour 2026 :",
+              "// - checking uniquement : 100.50 + (-30.00) = 70.50",
+              "// - savings uniquement : 250.75",
+              "// - cash uniquement : 50.25",
+              "// - checking + savings : 100.50 + (-30.00) + 250.75 = 321.25",
+              "// - tous types : 100.50 + 250.75 + 50.25 + (-30.00) = 371.50",
+              "const transactions = [",
+              "    // Année 2026",
+              "    {",
+              "        event_date: '2026-01-15',",
+              "        motive: 'Test transaction checking 2026-1',",
+              "        to: 'Test Receiver Checking 1',",
+              "        bank_date: '2026-01-15',",
+              "        type: 'checking',",
+              "        category1_id: null,",
+              "        category2_id: null,",
+              "        category3_id: null,",
+              "        amount: 100.50",
+              "    },",
+              "    {",
+              "        event_date: '2026-02-20',",
+              "        motive: 'Test transaction savings 2026',",
+              "        to: 'Test Receiver Savings',",
+              "        bank_date: '2026-02-20',",
+              "        type: 'savings',",
+              "        category1_id: null,",
+              "        category2_id: null,",
+              "        category3_id: null,",
+              "        amount: 250.75",
+              "    },",
+              "    {",
+              "        event_date: '2026-03-10',",
+              "        motive: 'Test transaction cash 2026',",
+              "        to: 'Test Receiver Cash',",
+              "        bank_date: '2026-03-10',",
+              "        type: 'cash',",
+              "        category1_id: null,",
+              "        category2_id: null,",
+              "        category3_id: null,",
+              "        amount: 50.25",
+              "    },",
+              "    {",
+              "        event_date: '2026-04-05',",
+              "        motive: 'Test transaction checking 2026-2',",
+              "        to: 'Test Receiver Checking 2',",
+              "        bank_date: '2026-04-05',",
+              "        type: 'checking',",
+              "        category1_id: null,",
+              "        category2_id: null,",
+              "        category3_id: null,",
+              "        amount: -30.00",
+              "    },",
+              "    // Année 2025",
+              "    {",
+              "        event_date: '2025-06-15',",
+              "        motive: 'Test transaction checking 2025',",
+              "        to: 'Test Receiver Checking 2025',",
+              "        bank_date: '2025-06-15',",
+              "        type: 'checking',",
+              "        category1_id: null,",
+              "        category2_id: null,",
+              "        category3_id: null,",
+              "        amount: 200.00",
+              "    },",
+              "    {",
+              "        event_date: '2025-07-20',",
+              "        motive: 'Test transaction savings 2025',",
+              "        to: 'Test Receiver Savings 2025',",
+              "        bank_date: '2025-07-20',",
+              "        type: 'savings',",
+              "        category1_id: null,",
+              "        category2_id: null,",
+              "        category3_id: null,",
+              "        amount: 150.00",
+              "    }",
+              "];",
+              "",
+              "createAllTransactions(token, transactions, 0, function() {",
+              "    console.log('All test transactions created');",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "ce0929ca-0c6c-43d6-a600-087725ec3917",
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Categories",
       "item": [
         {
@@ -5147,2118 +7259,6 @@
         }
       ],
       "id": "transactions-section-001"
-    },
-    {
-      "name": "Details",
-      "item": [
-        {
-          "name": "Details Setup",
-          "item": [
-            {
-              "name": "Create Categories for Details Tests",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-categories-details-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});",
-                      "",
-                      "const body = pm.response.json();",
-                      "",
-                      "pm.test(\"Response has id field\", function () {",
-                      "    pm.expect(body).to.have.property(\"id\");",
-                      "});",
-                      "",
-                      "const requestBody = pm.request.body.raw;",
-                      "const requestData = JSON.parse(requestBody);",
-                      "",
-                      "if (requestData.level === 0) {",
-                      "    pm.globals.set(\"details_category_level_0_id\", body.id);",
-                      "} else if (requestData.level === 1) {",
-                      "    if (!pm.globals.get(\"details_category_level_1_id\")) {",
-                      "        pm.globals.set(\"details_category_level_1_id\", body.id);",
-                      "    } else {",
-                      "        pm.globals.set(\"details_category_level_1_id_2\", body.id);",
-                      "    }",
-                      "} else if (requestData.level === 2) {",
-                      "    pm.globals.set(\"details_category_level_2_id\", body.id);",
-                      "}"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-categories-details-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n    \"name\": \"Alimentation Details\",\r\n    \"level\": 0,\r\n    \"parent_id\": null\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/categories/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "categories",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Category Level 1 for Details",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-category-level1-prerequest",
-                    "exec": [
-                      "const parentId = pm.globals.get(\"details_category_level_0_id\");",
-                      "if (!parentId) {",
-                      "    throw new Error(\"details_category_level_0_id not found. Please run 'Create Categories for Details Tests' first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    name: \"Épicerie Details\",",
-                      "    level: 1,",
-                      "    parent_id: parentId",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-category-level1-details-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});",
-                      "",
-                      "const body = pm.response.json();",
-                      "",
-                      "pm.test(\"Response has id field\", function () {",
-                      "    pm.expect(body).to.have.property(\"id\");",
-                      "});",
-                      "",
-                      "pm.globals.set(\"details_category_level_1_id\", body.id);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-category-level1-details-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n    \"name\": \"Épicerie Details\",\r\n    \"level\": 1,\r\n    \"parent_id\": null\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/categories/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "categories",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Category Level 1 (Second) for Details",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-category-level1-2-prerequest",
-                    "exec": [
-                      "const parentId = pm.globals.get(\"details_category_level_0_id\");",
-                      "if (!parentId) {",
-                      "    throw new Error(\"details_category_level_0_id not found. Please run 'Create Categories for Details Tests' first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    name: \"Restaurant Details\",",
-                      "    level: 1,",
-                      "    parent_id: parentId",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-category-level1-2-details-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});",
-                      "",
-                      "const body = pm.response.json();",
-                      "",
-                      "pm.test(\"Response has id field\", function () {",
-                      "    pm.expect(body).to.have.property(\"id\");",
-                      "});",
-                      "",
-                      "pm.globals.set(\"details_category_level_1_id_2\", body.id);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-category-level1-2-details-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n    \"name\": \"Restaurant Details\",\r\n    \"level\": 1,\r\n    \"parent_id\": null\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/categories/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "categories",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Transactions - Revenues",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-transactions-revenues-prerequest",
-                    "exec": [
-                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
-                      "if (!category0Id) {",
-                      "    throw new Error(\"details_category_level_0_id not found. Please run category setup tests first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    event_date: \"2026-01-15\",",
-                      "    motive: \"Salaire janvier\",",
-                      "    to: \"Employeur\",",
-                      "    bank_date: \"2026-01-15\",",
-                      "    type: \"checking\",",
-                      "    category1_id: category0Id,",
-                      "    category2_id: null,",
-                      "    category3_id: null,",
-                      "    amount: 100.00",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-transactions-revenues-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});",
-                      "",
-                      "const body = pm.response.json();",
-                      "pm.test(\"Transaction created successfully\", function () {",
-                      "    pm.expect(body).to.have.property(\"id\");",
-                      "    pm.expect(body.amount).to.be.above(0);",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-transactions-revenues-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "transactions",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Transaction - Revenue February",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-transaction-revenue-feb-prerequest",
-                    "exec": [
-                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
-                      "const category1Id = pm.globals.get(\"details_category_level_1_id\");",
-                      "if (!category0Id || !category1Id) {",
-                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    event_date: \"2026-02-20\",",
-                      "    motive: \"Salaire février\",",
-                      "    to: \"Employeur\",",
-                      "    bank_date: \"2026-02-20\",",
-                      "    type: \"savings\",",
-                      "    category1_id: category0Id,",
-                      "    category2_id: category1Id,",
-                      "    category3_id: null,",
-                      "    amount: 200.00",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-transaction-revenue-feb-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-transaction-revenue-feb-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "transactions",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Transaction - Revenue March",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-transaction-revenue-mar-prerequest",
-                    "exec": [
-                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
-                      "const category1Id2 = pm.globals.get(\"details_category_level_1_id_2\");",
-                      "if (!category0Id || !category1Id2) {",
-                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    event_date: \"2026-03-10\",",
-                      "    motive: \"Salaire mars\",",
-                      "    to: \"Employeur\",",
-                      "    bank_date: \"2026-03-10\",",
-                      "    type: \"checking\",",
-                      "    category1_id: category0Id,",
-                      "    category2_id: category1Id2,",
-                      "    category3_id: null,",
-                      "    amount: 150.00",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-transaction-revenue-mar-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-transaction-revenue-mar-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "transactions",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Transactions - Expenses",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-transactions-expenses-prerequest",
-                    "exec": [
-                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
-                      "const category1Id = pm.globals.get(\"details_category_level_1_id\");",
-                      "if (!category0Id || !category1Id) {",
-                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    event_date: \"2026-01-25\",",
-                      "    motive: \"Achat épicerie\",",
-                      "    to: \"Carrefour\",",
-                      "    bank_date: \"2026-01-25\",",
-                      "    type: \"checking\",",
-                      "    category1_id: category0Id,",
-                      "    category2_id: category1Id,",
-                      "    category3_id: null,",
-                      "    amount: -50.00",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-transactions-expenses-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});",
-                      "",
-                      "const body = pm.response.json();",
-                      "pm.test(\"Transaction created with negative amount\", function () {",
-                      "    pm.expect(body).to.have.property(\"id\");",
-                      "    pm.expect(body.amount).to.be.below(0);",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-transactions-expenses-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "transactions",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Transaction - Expense February",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-transaction-expense-feb-prerequest",
-                    "exec": [
-                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
-                      "const category1Id2 = pm.globals.get(\"details_category_level_1_id_2\");",
-                      "if (!category0Id || !category1Id2) {",
-                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    event_date: \"2026-02-18\",",
-                      "    motive: \"Restaurant\",",
-                      "    to: \"Le Bistrot\",",
-                      "    bank_date: \"2026-02-18\",",
-                      "    type: \"cash\",",
-                      "    category1_id: category0Id,",
-                      "    category2_id: category1Id2,",
-                      "    category3_id: null,",
-                      "    amount: -75.00",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-transaction-expense-feb-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-transaction-expense-feb-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "transactions",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Transaction - Expense March",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-transaction-expense-mar-prerequest",
-                    "exec": [
-                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
-                      "const category1Id = pm.globals.get(\"details_category_level_1_id\");",
-                      "if (!category0Id || !category1Id) {",
-                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    event_date: \"2026-03-05\",",
-                      "    motive: \"Courses\",",
-                      "    to: \"Super U\",",
-                      "    bank_date: \"2026-03-05\",",
-                      "    type: \"checking\",",
-                      "    category1_id: category0Id,",
-                      "    category2_id: category1Id,",
-                      "    category3_id: null,",
-                      "    amount: -30.00",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-transaction-expense-mar-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-transaction-expense-mar-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "transactions",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Transactions - Mixed (for Differences)",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-transactions-mixed-prerequest",
-                    "exec": [
-                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
-                      "if (!category0Id) {",
-                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    event_date: \"2026-01-20\",",
-                      "    motive: \"Remboursement\",",
-                      "    to: \"Amis\",",
-                      "    bank_date: \"2026-01-20\",",
-                      "    type: \"savings\",",
-                      "    category1_id: category0Id,",
-                      "    category2_id: null,",
-                      "    category3_id: null,",
-                      "    amount: 100.00",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-transactions-mixed-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});",
-                      "",
-                      "const body = pm.response.json();",
-                      "pm.test(\"Transaction created successfully\", function () {",
-                      "    pm.expect(body).to.have.property(\"id\");",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-transactions-mixed-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "transactions",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Transaction - Mixed February",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-transaction-mixed-feb-prerequest",
-                    "exec": [
-                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
-                      "const category1Id = pm.globals.get(\"details_category_level_1_id\");",
-                      "if (!category0Id || !category1Id) {",
-                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    event_date: \"2026-02-22\",",
-                      "    motive: \"Vente\",",
-                      "    to: \"Client\",",
-                      "    bank_date: \"2026-02-22\",",
-                      "    type: \"cash\",",
-                      "    category1_id: category0Id,",
-                      "    category2_id: category1Id,",
-                      "    category3_id: null,",
-                      "    amount: 200.00",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-transaction-mixed-feb-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-transaction-mixed-feb-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "transactions",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "Create Transaction - Mixed March",
-              "event": [
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "id": "create-transaction-mixed-mar-prerequest",
-                    "exec": [
-                      "const category0Id = pm.globals.get(\"details_category_level_0_id\");",
-                      "const category1Id2 = pm.globals.get(\"details_category_level_1_id_2\");",
-                      "if (!category0Id || !category1Id2) {",
-                      "    throw new Error(\"Category IDs not found. Please run category setup tests first.\");",
-                      "}",
-                      "",
-                      "const requestBody = {",
-                      "    event_date: \"2026-03-12\",",
-                      "    motive: \"Remboursement\",",
-                      "    to: \"Famille\",",
-                      "    bank_date: \"2026-03-12\",",
-                      "    type: \"checking\",",
-                      "    category1_id: category0Id,",
-                      "    category2_id: category1Id2,",
-                      "    category3_id: null,",
-                      "    amount: 150.00",
-                      "};",
-                      "",
-                      "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
-                    ],
-                    "type": "text/javascript"
-                  }
-                },
-                {
-                  "listen": "test",
-                  "script": {
-                    "id": "create-transaction-mixed-mar-test",
-                    "exec": [
-                      "pm.test(\"Status code is 201\", function () {",
-                      "    pm.response.to.have.status(201);",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "id": "create-transaction-mixed-mar-001",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{URL}}/{{PREFIX}}/transactions/",
-                  "host": [
-                    "{{URL}}"
-                  ],
-                  "path": [
-                    "{{PREFIX}}",
-                    "transactions",
-                    ""
-                  ]
-                }
-              },
-              "response": []
-            }
-          ],
-          "id": "details-setup-001"
-        },
-        {
-          "name": "Get Details - Revenues Tab",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "get-details-revenues-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has rows field\", function () {",
-                  "    pm.expect(body).to.have.property(\"rows\");",
-                  "    pm.expect(body.rows).to.be.an(\"array\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response has total_row field\", function () {",
-                  "    pm.expect(body).to.have.property(\"total_row\");",
-                  "    pm.expect(body.total_row).to.be.an(\"object\");",
-                  "    pm.expect(body.total_row).to.have.property(\"title\");",
-                  "    pm.expect(body.total_row.title).to.equal(\"Total\");",
-                  "});",
-                  "",
-                  "pm.test(\"Total row has monthly values\", function () {",
-                  "    const totalRow = body.total_row;",
-                  "    pm.expect(totalRow).to.have.property(\"january\");",
-                  "    pm.expect(totalRow).to.have.property(\"february\");",
-                  "    pm.expect(totalRow).to.have.property(\"march\");",
-                  "});",
-                  "",
-                  "// Sommes attendues pour trans_types=[checking] et tab_type=revenues",
-                  "// Revenues (2026) avec type checking et amount > 0:",
-                  "// janvier=100 (revenue checking), février=0 (pas de revenue checking), mars=150 (revenue) + 150 (mixed checking) = 300",
-                  "",
-                  "pm.test(\"January total matches expected revenue\", function () {",
-                  "    const janTotal = body.total_row.january || 0;",
-                  "    pm.expect(janTotal).to.equal(100);",
-                  "});",
-                  "",
-                  "pm.test(\"February total matches expected revenue\", function () {",
-                  "    const febTotal = body.total_row.february || 0;",
-                  "    pm.expect(febTotal).to.equal(0);",
-                  "});",
-                  "",
-                  "pm.test(\"March total matches expected revenue\", function () {",
-                  "    const marTotal = body.total_row.march || 0;",
-                  "    pm.expect(marTotal).to.equal(300);",
-                  "});",
-                  "",
-                  "pm.test(\"Total sum matches expected\", function () {",
-                  "    const total = body.total_row.total || 0;",
-                  "    pm.expect(total).to.equal(400);",
-                  "});",
-                  "",
-                  "pm.test(\"Rows contain category data\", function () {",
-                  "    if (body.rows.length > 0) {",
-                  "        const firstRow = body.rows[0];",
-                  "        pm.expect(firstRow).to.have.property(\"values\");",
-                  "        pm.expect(firstRow.values).to.have.property(\"title\");",
-                  "    }",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "id": "bcdaab6e-d921-4244-9ba8-cfdb87869ab6",
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "get-details-revenues-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=revenues",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "details",
-                ""
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "checking"
-                },
-                {
-                  "key": "tab_type",
-                  "value": "revenues"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Details - Expenses Tab",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "get-details-expenses-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has rows field\", function () {",
-                  "    pm.expect(body).to.have.property(\"rows\");",
-                  "    pm.expect(body.rows).to.be.an(\"array\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response has total_row field\", function () {",
-                  "    pm.expect(body).to.have.property(\"total_row\");",
-                  "    pm.expect(body.total_row).to.have.property(\"title\");",
-                  "    pm.expect(body.total_row.title).to.equal(\"Total\");",
-                  "});",
-                  "",
-                  "// Sommes attendues pour trans_types=[checking]",
-                  "// Expenses (2026) avec type checking:",
-                  "// janvier=-50 (checking), février=0 (cash, pas checking), mars=-30 (checking)",
-                  "",
-                  "pm.test(\"January total matches expected expense\", function () {",
-                  "    const janTotal = body.total_row.january || 0;",
-                  "    pm.expect(janTotal).to.equal(-50);",
-                  "});",
-                  "",
-                  "pm.test(\"February total matches expected expense\", function () {",
-                  "    const febTotal = body.total_row.february || 0;",
-                  "    pm.expect(febTotal).to.equal(0);",
-                  "});",
-                  "",
-                  "pm.test(\"March total matches expected expense\", function () {",
-                  "    const marTotal = body.total_row.march || 0;",
-                  "    pm.expect(marTotal).to.equal(-30);",
-                  "});",
-                  "",
-                  "pm.test(\"Total sum matches expected\", function () {",
-                  "    const total = body.total_row.total || 0;",
-                  "    pm.expect(total).to.equal(-80);",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "id": "get-details-expenses-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=expenses",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "details",
-                ""
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026",
-                  "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "checking",
-                  "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
-                },
-                {
-                  "key": "tab_type",
-                  "value": "expenses",
-                  "uuid": "3ada6b8d-3ede-46ca-87d8-52c699e4c107"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Details - Differences Tab",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "get-details-differences-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has rows field\", function () {",
-                  "    pm.expect(body).to.have.property(\"rows\");",
-                  "    pm.expect(body.rows).to.be.an(\"array\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response has total_row field\", function () {",
-                  "    pm.expect(body).to.have.property(\"total_row\");",
-                  "    pm.expect(body.total_row).to.have.property(\"title\");",
-                  "    pm.expect(body.total_row.title).to.equal(\"Total\");",
-                  "});",
-                  "",
-                  "// Différences attendues pour trans_types=[checking]",
-                  "// Transactions checking (tab_type=differences):",
-                  "// janvier: -50 (expense checking) + 100 (revenue checking) = 50",
-                  "// février: 0 (pas de transaction checking)",
-                  "// mars: -30 (expense checking) + 150 (revenue checking) + 150 (mixed checking) = 270",
-                  "",
-                  "pm.test(\"January difference matches expected\", function () {",
-                  "    const janTotal = body.total_row.january || 0;",
-                  "    pm.expect(janTotal).to.equal(50);",
-                  "});",
-                  "",
-                  "pm.test(\"February difference matches expected\", function () {",
-                  "    const febTotal = body.total_row.february || 0;",
-                  "    pm.expect(febTotal).to.equal(0);",
-                  "});",
-                  "",
-                  "pm.test(\"March difference matches expected\", function () {",
-                  "    const marTotal = body.total_row.march || 0;",
-                  "    pm.expect(marTotal).to.equal(270);",
-                  "});",
-                  "",
-                  "pm.test(\"Total difference matches expected\", function () {",
-                  "    const total = body.total_row.total || 0;",
-                  "    pm.expect(total).to.equal(320);",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "id": "get-details-differences-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=differences",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "details",
-                ""
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026",
-                  "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "checking",
-                  "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
-                },
-                {
-                  "key": "tab_type",
-                  "value": "differences",
-                  "uuid": "3ada6b8d-3ede-46ca-87d8-52c699e4c107"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Details - Missing Parameters",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "get-details-missing-params-test",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {",
-                  "    pm.response.to.have.status(422);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has detail field\", function () {",
-                  "    pm.expect(body).to.have.property(\"detail\");",
-                  "});",
-                  "",
-                  "pm.test(\"Detail is an array of validation errors\", function () {",
-                  "    pm.expect(body.detail).to.be.an(\"array\");",
-                  "    pm.expect(body.detail.length).to.be.above(0);",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "id": "get-details-missing-params-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "details",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Details - Invalid Tab Type",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "get-details-invalid-tab-type-test",
-                "exec": [
-                  "pm.test(\"Status code is 422\", function () {",
-                  "    pm.response.to.have.status(422);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has detail field\", function () {",
-                  "    pm.expect(body).to.have.property(\"detail\");",
-                  "});",
-                  "",
-                  "pm.test(\"Detail contains validation error\", function () {",
-                  "    if (Array.isArray(body.detail)) {",
-                  "        const hasTabTypeError = body.detail.some(function(error) {",
-                  "            return error.loc && error.loc.includes(\"tab_type\");",
-                  "        });",
-                  "        pm.expect(hasTabTypeError).to.be.true;",
-                  "    }",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "id": "get-details-invalid-tab-type-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&tab_type=invalid_type",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "details",
-                ""
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026",
-                  "uuid": "181980a4-7185-4c67-b645-d358ce2518c9"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "checking",
-                  "uuid": "9ec19771-0a21-4b60-8d7a-acccba48ddb6"
-                },
-                {
-                  "key": "tab_type",
-                  "value": "invalid_type",
-                  "uuid": "3ada6b8d-3ede-46ca-87d8-52c699e4c107"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Details - Revenues Tab (multiple trans_types)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "get-details-revenues-multiple-trans-types-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response has rows field\", function () {",
-                  "    pm.expect(body).to.have.property(\"rows\");",
-                  "    pm.expect(body.rows).to.be.an(\"array\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response has total_row field\", function () {",
-                  "    pm.expect(body).to.have.property(\"total_row\");",
-                  "    pm.expect(body.total_row).to.have.property(\"title\");",
-                  "    pm.expect(body.total_row.title).to.equal(\"Total\");",
-                  "});",
-                  "",
-                  "pm.test(\"Total row has monthly values\", function () {",
-                  "    const totalRow = body.total_row;",
-                  "    pm.expect(totalRow).to.have.property(\"january\");",
-                  "    pm.expect(totalRow).to.have.property(\"february\");",
-                  "    pm.expect(totalRow).to.have.property(\"march\");",
-                  "    pm.expect(totalRow.january).to.be.a(\"number\");",
-                  "    pm.expect(totalRow.february).to.be.a(\"number\");",
-                  "    pm.expect(totalRow.march).to.be.a(\"number\");",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "get-details-revenues-multiple-trans-types-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/details/?year=2026&trans_types=checking&trans_types=savings&tab_type=revenues",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "details",
-                ""
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "checking"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "savings"
-                },
-                {
-                  "key": "tab_type",
-                  "value": "revenues"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ],
-      "id": "18d41657-13a8-45f2-8ece-5f3ebaf46b3d"
-    },
-    {
-      "name": "Summary",
-      "item": [
-        {
-          "name": "Balance - Success (année spécifique, un type checking)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "balance-success-checking-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response is a number\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response is a valid float\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "    pm.expect(isFinite(body)).to.be.true;",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "91bc089a-ee2a-4293-b525-f99ab510f0fd",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026&trans_types=checking",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "summary",
-                "balance"
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026",
-                  "uuid": "0bdea85d-7da2-41ea-bb7d-c29048e86898"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "checking",
-                  "uuid": "747b60eb-c952-4637-8c0f-255d20a52ca8"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Balance - Success (année spécifique, un type savings)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "balance-success-savings-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response is a number\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response is a valid float\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "    pm.expect(isFinite(body)).to.be.true;",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "balance-success-savings-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026&trans_types=savings",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "summary",
-                "balance"
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "savings"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Balance - Success (année spécifique, un type cash)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "balance-success-cash-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response is a number\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response is a valid float\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "    pm.expect(isFinite(body)).to.be.true;",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "balance-success-cash-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026&trans_types=cash",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "summary",
-                "balance"
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "cash"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Balance - Success (année spécifique, plusieurs types)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "balance-success-multiple-types-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response is a number\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response is a valid float\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "    pm.expect(isFinite(body)).to.be.true;",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "balance-success-multiple-types-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026&trans_types=checking&trans_types=savings",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "summary",
-                "balance"
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "checking"
-                },
-                {
-                  "key": "trans_types",
-                  "value": "savings"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Balance - Success (année spécifique, tous les types)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "balance-success-all-types-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response is a number\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response is a valid float\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "    pm.expect(isFinite(body)).to.be.true;",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "balance-success-all-types-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2026",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "summary",
-                "balance"
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2026"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Balance - Success (année par défaut, tous les types)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "balance-success-default-year-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response is a number\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response is a valid float\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "    pm.expect(isFinite(body)).to.be.true;",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "balance-success-default-year-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/summary/balance",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "summary",
-                "balance"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Balance - Success (année sans transactions)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "balance-success-empty-year-test",
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response time is less than 2000ms\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
-                  "});",
-                  "",
-                  "const body = pm.response.json();",
-                  "",
-                  "pm.test(\"Response is a number\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "});",
-                  "",
-                  "pm.test(\"Response is a valid float\", function () {",
-                  "    pm.expect(body).to.be.a(\"number\");",
-                  "    pm.expect(isFinite(body)).to.be.true;",
-                  "});",
-                  "",
-                  "pm.test(\"Response is 0.0 for year with no transactions\", function () {",
-                  "    pm.expect(body).to.equal(0.0);",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "balance-success-empty-year-001",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/{{PREFIX}}/summary/balance?year=2000",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "{{PREFIX}}",
-                "summary",
-                "balance"
-              ],
-              "query": [
-                {
-                  "key": "year",
-                  "value": "2000"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ],
-      "id": "3f787066-3073-4536-8fd4-bbb43038e238",
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "id": "2c477ca0-d247-4518-8f32-4e55d56f4bc4",
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {},
-            "exec": [
-              "// Script de pré-requête pour la collection Summary",
-              "// Création des transactions de test pour les tests de balance",
-              "",
-              "const baseUrl = pm.globals.get(\"URL\") || pm.environment.get(\"URL\");",
-              "const prefix = pm.globals.get(\"PREFIX\") || pm.environment.get(\"PREFIX\") || \"api\";",
-              "const token = pm.globals.get(\"access_token\");",
-              "",
-              "if (!token) {",
-              "    console.log('Warning: access_token not found in globals. Please login first.');",
-              "    return;",
-              "}",
-              "",
-              "// Fonction pour créer une transaction de manière synchrone",
-              "function createTransactionSync(token, transactionData, callback) {",
-              "    const request = {",
-              "        url: `${baseUrl}/${prefix}/transactions/`,",
-              "        method: 'POST',",
-              "        header: {",
-              "            'Content-Type': 'application/json',",
-              "            'Authorization': `Bearer ${token}`",
-              "        },",
-              "        body: {",
-              "            mode: 'raw',",
-              "            raw: JSON.stringify(transactionData)",
-              "        }",
-              "    };",
-              "    ",
-              "    pm.sendRequest(request, function (err, res) {",
-              "        // Ignorer les erreurs 409 (transaction déjà existante)",
-              "        if (err && res && res.code !== 409) {",
-              "            console.log('Error creating transaction:', err, res.code);",
-              "        }",
-              "        // Toujours appeler le callback même en cas d'erreur 409",
-              "        if (callback) callback(err && res && res.code !== 409 ? err : null, res);",
-              "    });",
-              "}",
-              "",
-              "// Fonction pour créer toutes les transactions de manière séquentielle",
-              "function createAllTransactions(token, transactions, index, callback) {",
-              "    if (index >= transactions.length) {",
-              "        if (callback) callback();",
-              "        return;",
-              "    }",
-              "    ",
-              "    createTransactionSync(token, transactions[index], function(err, res) {",
-              "        if (err) {",
-              "            console.log('Error creating transaction at index', index, err);",
-              "        }",
-              "        createAllTransactions(token, transactions, index + 1, callback);",
-              "    });",
-              "}",
-              "",
-              "// Créer les transactions de test avec des montants cohérents",
-              "// Soldes attendus pour 2026 :",
-              "// - checking uniquement : 100.50 + (-30.00) = 70.50",
-              "// - savings uniquement : 250.75",
-              "// - cash uniquement : 50.25",
-              "// - checking + savings : 100.50 + (-30.00) + 250.75 = 321.25",
-              "// - tous types : 100.50 + 250.75 + 50.25 + (-30.00) = 371.50",
-              "const transactions = [",
-              "    // Année 2026",
-              "    {",
-              "        event_date: '2026-01-15',",
-              "        motive: 'Test transaction checking 2026-1',",
-              "        to: 'Test Receiver Checking 1',",
-              "        bank_date: '2026-01-15',",
-              "        type: 'checking',",
-              "        category1_id: null,",
-              "        category2_id: null,",
-              "        category3_id: null,",
-              "        amount: 100.50",
-              "    },",
-              "    {",
-              "        event_date: '2026-02-20',",
-              "        motive: 'Test transaction savings 2026',",
-              "        to: 'Test Receiver Savings',",
-              "        bank_date: '2026-02-20',",
-              "        type: 'savings',",
-              "        category1_id: null,",
-              "        category2_id: null,",
-              "        category3_id: null,",
-              "        amount: 250.75",
-              "    },",
-              "    {",
-              "        event_date: '2026-03-10',",
-              "        motive: 'Test transaction cash 2026',",
-              "        to: 'Test Receiver Cash',",
-              "        bank_date: '2026-03-10',",
-              "        type: 'cash',",
-              "        category1_id: null,",
-              "        category2_id: null,",
-              "        category3_id: null,",
-              "        amount: 50.25",
-              "    },",
-              "    {",
-              "        event_date: '2026-04-05',",
-              "        motive: 'Test transaction checking 2026-2',",
-              "        to: 'Test Receiver Checking 2',",
-              "        bank_date: '2026-04-05',",
-              "        type: 'checking',",
-              "        category1_id: null,",
-              "        category2_id: null,",
-              "        category3_id: null,",
-              "        amount: -30.00",
-              "    },",
-              "    // Année 2025",
-              "    {",
-              "        event_date: '2025-06-15',",
-              "        motive: 'Test transaction checking 2025',",
-              "        to: 'Test Receiver Checking 2025',",
-              "        bank_date: '2025-06-15',",
-              "        type: 'checking',",
-              "        category1_id: null,",
-              "        category2_id: null,",
-              "        category3_id: null,",
-              "        amount: 200.00",
-              "    },",
-              "    {",
-              "        event_date: '2025-07-20',",
-              "        motive: 'Test transaction savings 2025',",
-              "        to: 'Test Receiver Savings 2025',",
-              "        bank_date: '2025-07-20',",
-              "        type: 'savings',",
-              "        category1_id: null,",
-              "        category2_id: null,",
-              "        category3_id: null,",
-              "        amount: 150.00",
-              "    }",
-              "];",
-              "",
-              "createAllTransactions(token, transactions, 0, function() {",
-              "    console.log('All test transactions created');",
-              "});"
-            ]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "id": "ce0929ca-0c6c-43d6-a600-087725ec3917",
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {},
-            "exec": [
-              ""
-            ]
-          }
-        }
-      ]
     }
   ],
   "auth": {

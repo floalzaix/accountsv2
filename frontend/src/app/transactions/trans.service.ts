@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { Transaction, TransactionSchema } from './trans.model';
 import { AsyncHttpClient } from '../shared/services/async-http-client';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -61,6 +61,20 @@ export class TransactionsService {
   }
 
   public addTransaction(transaction: Transaction): Observable<unknown> {
+    //
+    //   Preparing the params
+    //
+    
+    if (transaction.category1_id == "null" || transaction.category1_id == "") {
+      transaction.category1_id = null;
+    }
+    if (transaction.category2_id == "null" || transaction.category2_id == "") {
+      transaction.category2_id = null;
+    }
+    if (transaction.category3_id == "null" || transaction.category3_id == "") {
+      transaction.category3_id = null;
+    }
+
     //
     //   Prepare the observable
     //

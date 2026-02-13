@@ -3,9 +3,10 @@ import { AsyncHttpClient } from '../shared/services/async-http-client';
 import { User } from './user.model';
 import { ValidationError } from '../shared/errors/validation-error';
 import { ErrorWrapper } from '../shared/errors/error-wrapper';
-import { catchError, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, switchMap } from 'rxjs';
 import { LoginResponse, LoginResponseSchema } from './login-response.model';
 import { Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -90,6 +91,8 @@ export class AuthService {
         localStorage.setItem('access_token', loginResponse.access_token);
         localStorage.setItem('user', JSON.stringify(user));
 
+        this.refresh();
+
         return user;
       })
     );
@@ -131,6 +134,23 @@ export class AuthService {
   public logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+    this.refresh();
+    this.router.navigate(['/auth']);
   }
+
+  //
+  //   Refreshable signals
+  //
+  
+  private readonly refreshTrigger = new BehaviorSubject<void>(undefined);
+
+  public refresh(): void {
+    this.refreshTrigger.next();
+  }
+
+  public readonly authenticated = toSignal(
+    this.refreshTrigger.asObservable().pipe(
+      switchMap(() => this.isAuthenticated())
+    )
+  );
 }

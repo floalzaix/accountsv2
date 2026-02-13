@@ -14,6 +14,12 @@ export class OptionsService {
     { label: "Epargne", value: Type.SAVINGS },
     { label: "Espèces", value: Type.CASH },
   ];
+
+  //
+  //   Status
+  //
+  
+  public readonly multiple = signal<boolean>(false);
   
   //
   //   Global attributes

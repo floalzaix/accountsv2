@@ -1,6 +1,8 @@
 <div id="app-container">
-    <app-menu-bar id="menu-bar" />
-    <app-menu-col id="menu-col" />
+    @if (authService.authenticated()) {
+        <app-menu-bar id="menu-bar" />
+        <app-menu-col id="menu-col" [multipleOptions]="optionsService.multiple()" />
+    }
     <div id="page">
         <router-outlet id="router-outlet" />
     </div>

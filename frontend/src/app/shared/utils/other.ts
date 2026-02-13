@@ -23,5 +23,14 @@ export function closeInplaceForm(
  * @returns The formatted date to the format YYYY-MM-DD.
  */
 export function formatDate(date: Date): string {
-  return date.toISOString().split('T')[0];
+  let y: number | string = date.getFullYear();
+  let m: number | string = date.getMonth() + 1;
+  let d: number | string = date.getDate();
+  if (m < 10) {
+    m = `0${m}`;
+  }
+  if (d < 10) {
+    d = `0${d}`;
+  }
+  return `${y}-${m}-${d}`;
 }
