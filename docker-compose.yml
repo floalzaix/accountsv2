@@ -1,24 +1,4 @@
 services:
-  frontend:
-    image: floalzaix/accounts-v2:frontend
-    build: ./frontend
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    networks:
-      - accounts-v2-network
-
-  backend:
-    image: floalzaix/accounts-v2:backend
-    build: ./backend
-    restart: unless-stopped
-    volumes:
-      - .env:/app/.env:ro
-    ports:
-      - "5050:5050"
-    networks:
-      - accounts-v2-network
-
   db:
     image: postgres:16
     restart: unless-stopped
@@ -27,14 +7,41 @@ services:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=accounts_v2
     volumes:
-      - pgsql-volume-accounts-v2:/var/lib/postgresql/data
+      - pgsql-volume:/var/lib/postgresql/data
+    networks:
+      - accounts-v2-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d accounts_v2 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      
+  frontend:
+    image: floalzaix/accounts-v2:frontend
+    build: ./frontend
+    restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "8084:8080"
+    networks:
+      - accounts-v2-network
+
+  backend:
+    image: floalzaix/accounts-v2:backend
+    depends_on:
+      db:
+        condition: service_healthy
+    build: ./backend
+    restart: unless-stopped
+    volumes:
+      - ./.env:/app/.env:ro
+
+    ports:
+      - "5054:5050"
     networks:
       - accounts-v2-network
 
 volumes:
-  pgsql-volume-accounts-v2:
+  pgsql-volume:
 
 networks:
   accounts-v2-network:

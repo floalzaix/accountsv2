@@ -75,9 +75,6 @@ export class TransactionAddBar {
   //
   
   public addTransaction(): void {
-    console.log(formatDate(
-      this.transactionAddForm.value?.event_date!
-    ));
     // Validating the form
     if (this.transactionAddForm.invalid) {
       this.messageService.add({

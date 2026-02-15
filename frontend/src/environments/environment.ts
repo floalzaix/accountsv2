@@ -1,3 +1,3 @@
 export const environment = {
-    apiBaseUrl: "http://localhost:500/api",
+    apiBaseUrl: "https://accountsv2.floalz.fr/api",
 };
