@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm run build -- --configuration production
 
-FROM nginx:1.28.0-alpine as frontend
+FROM nginx:1.28.0-alpine AS frontend
 
 WORKDIR /app
 
