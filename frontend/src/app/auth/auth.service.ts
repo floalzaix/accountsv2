@@ -37,8 +37,8 @@ export class AuthService {
 
     if (password !== confirmPassword) {
       throw new ErrorWrapper(
-        "Passwords do not match",
-        "The passwords do not match",
+        "Erreur",
+        "Les mots de passe ne correspondent pas",
         new ValidationError("Passwords do not match")
       );
     }

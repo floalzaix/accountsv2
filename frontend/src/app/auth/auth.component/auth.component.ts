@@ -74,25 +74,36 @@ export class AuthComponent {
   //
   
   protected register(): void {
-    this.authService.register(this.registerForm.value).subscribe({
-      next: (user: User) => {
-        this.toastService.add({
-          severity: "success",
-          summary: "Inscription réussie",
-          detail: "Bienvenue " + user.pseudo + " !",
-        });
-      },
-      error: (error: ErrorWrapper) => {
+    try {
+      this.authService.register(this.registerForm.value).subscribe({
+        next: (user: User) => {
+          this.toastService.add({
+            severity: "success",
+            summary: "Inscription réussie",
+            detail: "Bienvenue " + user.pseudo + " !",
+          });
+        },
+        error: (error: ErrorWrapper) => {
+          this.toastService.add({
+            severity: "error",
+            summary: error.userSafeTitle,
+            detail: error.userSafeDescription,
+            life: 2000,
+          });
+        },
+      });
+    } catch (error) {
+      if (error instanceof ErrorWrapper) {
         this.toastService.add({
           severity: "error",
           summary: error.userSafeTitle,
           detail: error.userSafeDescription,
           life: 2000,
         });
-      },
-    });
+      }
+    }
   }
-
+  
   protected login(): void {
     this.authService.login(this.loginForm.value).subscribe({
       next: (user) => {
