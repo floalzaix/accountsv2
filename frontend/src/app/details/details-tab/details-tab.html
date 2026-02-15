@@ -3,7 +3,7 @@
     @if (d) {
         @let detailsTab = d[0];
         @let treeNodes = d[1];
-        <p-treetable [value]="treeNodes">
+        <p-treetable [value]="treeNodes" showGridlines>
             <ng-template pTemplate="header">
                 <tr>
                     @if (tab_type() === "revenues") {

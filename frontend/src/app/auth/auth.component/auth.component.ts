@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
     ButtonModule,
     SelectButtonModule,
     ToastModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css',
@@ -36,36 +36,10 @@ export class AuthComponent {
   private readonly router: Router = inject(Router);
   
   //
-  //   State Machine
+  //   State
   //
-
-  protected readonly state = signal<"register" | "login">("login");
-
-  // Bindings
   
-  protected readonly stateSelect = signal<"register" | "login">("login");
-
-  // States handlers
-
-  private readonly registerHandler = effect(() => {
-    if (this.state() !== "register") {
-      return;
-    }
-    
-    if (this.stateSelect() === "login") {
-      this.state.set("login");
-    }
-  });
-
-  private readonly loginHandler = effect(() => {
-    if (this.state() !== "login") {
-      return;
-    }
-    
-    if (this.stateSelect() === "register") {
-      this.state.set("register");
-    }
-  });
+  protected stateSelect: string = "login";
 
   //
   //   Forms

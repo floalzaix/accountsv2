@@ -9,13 +9,10 @@
         { label: 'Inscription', value: 'register' },
       ]
     "
-    [(ngModel)]="stateSelect",
-    optionLabel="label",
-    optionValue="value",
-    fluid
+    [(ngModel)]="stateSelect"
   />  
 
-@if (state() === "register") {
+@if (stateSelect === "register") {
   <!--
   
     Register form
@@ -45,7 +42,7 @@
 
     <button pButton type="submit" label="S'inscrire"></button>
   </form>
-} @else if (state() === "login") {
+} @else if (stateSelect === "login") {
   <!--
   
     Login form

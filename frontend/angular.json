@@ -35,7 +35,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -69,7 +69,8 @@
               "buildTarget": "accounts-v2:build:production"
             },
             "development": {
-              "buildTarget": "accounts-v2:build:development"
+              "buildTarget": "accounts-v2:build:development",
+              "allowedHosts": true
             }
           },
           "defaultConfiguration": "development"

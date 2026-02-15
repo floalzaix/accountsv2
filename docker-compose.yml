@@ -1,0 +1,41 @@
+services:
+  frontend:
+    image: floalzaix/accounts-v2:frontend
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - accounts-v2-network
+
+  backend:
+    image: floalzaix/accounts-v2:backend
+    build: ./backend
+    restart: unless-stopped
+    volumes:
+      - .env:/app/.env:ro
+    ports:
+      - "5050:5050"
+    networks:
+      - accounts-v2-network
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=accounts_v2
+    volumes:
+      - pgsql-volume-accounts-v2:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - accounts-v2-network
+
+volumes:
+  pgsql-volume-accounts-v2:
+
+networks:
+  accounts-v2-network:
+    driver: bridge
