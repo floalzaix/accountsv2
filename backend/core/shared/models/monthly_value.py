@@ -3,6 +3,7 @@
 #
 
 from dataclasses import dataclass
+from decimal import Decimal
 from typing import Any, Optional
 
 #
@@ -62,10 +63,12 @@ class MonthlyValue():
 
         for month in MONTHS:
             value = getattr(self, month)
-            if isinstance(value, float):
+            if isinstance(value, Decimal):
                 s += value
-
-        return s
+            elif isinstance(value, float):
+                s += Decimal(value)
+                
+        return float(s)
 
     #
     #   Methods

@@ -2,10 +2,13 @@
 #   Imports
 #
 
+from decimal import Decimal
+
+
 import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func, extract
+from sqlalchemy import select, extract, cast, Numeric, func
 
 # Perso
 
@@ -35,9 +38,14 @@ class SummaryRepo(SummaryDBPort):
         """
 
         year_extracted = extract('year', TransactionORM.event_date)
-        
+
         query = (
-            select(func.sum(TransactionORM.amount))
+            select(
+                cast(
+                    func.sum(TransactionORM.amount), 
+                    Numeric[Decimal](10, 2)
+                )
+            )
             .where(
                 TransactionORM.user_id == user_id,
                 year_extracted == year,
@@ -48,7 +56,8 @@ class SummaryRepo(SummaryDBPort):
         result = await self.session.execute(query)
 
         amount = result.scalar_one_or_none()
+
         if amount is None:
             return 0.0
-            
-        return amount
+
+        return float(amount)

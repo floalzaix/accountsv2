@@ -15,6 +15,7 @@ import { ToastModule } from 'primeng/toast';
 import { formatDate } from '../../shared/utils/other';
 import { DetailsService } from '../../details/details-service';
 import { SummaryService } from '../../summary/summary.service';
+import { OptionsService } from '../../shared/services/options';
 
 @Component({
   selector: 'app-transaction-add-bar',
@@ -43,20 +44,18 @@ export class TransactionAddBar {
   public readonly level2SelectedCategory = input<string | null>(null);
   public readonly level3SelectedCategory = input<string | null>(null);
 
-  public readonly year = input.required<number | null>();
-  public readonly type = input.required<string | null>();
-  
   private readonly transactionsService = inject(TransactionsService);
   private readonly detailsService = inject(DetailsService);
   private readonly summaryService = inject(SummaryService);
   private readonly messageService = inject(MessageService);
+  private readonly optionsService = inject(OptionsService);
 
   //
   //   Computed values
   //
   
-  protected readonly minDate = computed(() => new Date(this.year()!, 0, 0));
-  protected readonly maxDate = computed(() => new Date(this.year()!, 11, 31));
+  protected readonly minDate = computed(() => new Date(this.optionsService.year()!, 0, 1));
+  protected readonly maxDate = computed(() => new Date(this.optionsService.year()!, 11, 31));
 
   //
   //   Forms
@@ -97,7 +96,7 @@ export class TransactionAddBar {
         bank_date: formatDate(
           this.transactionAddForm.value?.bank_date!
         ),
-        type: this.type(),
+        type: this.optionsService.types(),
         category1_id: this.level1SelectedCategory(),
         category2_id: this.level2SelectedCategory(),
         category3_id: this.level3SelectedCategory(),

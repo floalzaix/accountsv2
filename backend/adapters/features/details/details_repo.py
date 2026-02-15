@@ -5,7 +5,9 @@
 import uuid
 
 from typing import Any, Dict, List
-from sqlalchemy import extract, func, or_, select
+from decimal import Decimal
+
+from sqlalchemy import extract, func, or_, select, cast, Numeric
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # Perso
@@ -45,7 +47,7 @@ class DetailsRepo(DetailsDBPort):
         query = (
             select(
                 trans_month,
-                func.sum(TransactionORM.amount)
+                cast(func.sum(TransactionORM.amount), Numeric[Decimal](10, 2))
             )
             .where(TransactionORM.user_id == user_id)
             .where(extract("year", TransactionORM.event_date) == year)
@@ -92,7 +94,7 @@ class DetailsRepo(DetailsDBPort):
             select(
                 CategoryORM,
                 trans_month,
-                func.sum(TransactionORM.amount)
+                cast(func.sum(TransactionORM.amount), Numeric[Decimal](10, 2))
             )
             .join(TransactionORM, or_(
                     CategoryORM.id == TransactionORM.category1_id,

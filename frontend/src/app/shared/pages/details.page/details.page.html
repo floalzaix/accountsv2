@@ -7,11 +7,11 @@
         ]"
         [(ngModel)]="selectedTab"
     />
-    @if (selectedTab === 'revenues') {
+    @if (selectedTab() === 'revenues') {
         <app-details-tab class="details-tab" [tab_type]="'revenues'" />
-    } @else if (selectedTab === 'expenses') {
+    } @else if (selectedTab() === 'expenses') {
         <app-details-tab class="details-tab" [tab_type]="'expenses'" />
-    } @else if (selectedTab === 'differences') {
+    } @else if (selectedTab() === 'differences') {
         <app-details-tab class="details-tab" [tab_type]="'differences'" />
     } @else {
         <app-details-tab class="details-tab" [tab_type]="'revenues'" />

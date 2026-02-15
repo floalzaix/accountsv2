@@ -17,12 +17,13 @@
     margin: 0;
 }
 
-#details-tab-container ::ng-deep .p-treetable {
-    font-size: 0.75rem;
+#details-tab-container ::ng-deep .p-treetable table tr td {
+    padding: 10px 10px;
+    font-size: 0.80rem;
 }
 
 #details-tab-container ::ng-deep .p-treetable table th {
-    width: 85px;
+    width: 90px;
 }
 
 #details-tab-container ::ng-deep .p-treetable table th:first-child {

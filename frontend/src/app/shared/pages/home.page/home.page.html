@@ -4,16 +4,12 @@
         [(level1SelectedCategory)]="categories_id1"
         [(level2SelectedCategory)]="categories_id2"
         [(level3SelectedCategory)]="categories_id3"
-        
     />
     <app-transactions-table 
         id="transactions-table"
-        [year]="optionsService.year()"
     />
     <app-transaction-add-bar 
         id="transaction-add-bar"
-        [year]="optionsService.year()"
-        [type]="optionsService.types()"
         [level1SelectedCategory]="categories_id1()"
         [level2SelectedCategory]="categories_id2()"
         [level3SelectedCategory]="categories_id3()"

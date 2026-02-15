@@ -5,6 +5,8 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
+from decimal import Decimal
+
 # Perso
 
 from core.shared.models.monthly_value import MonthlyValue
@@ -40,9 +42,9 @@ class DetailsTab:
             of the row with the total row.
         """
         for key, value in row.values.__dict__.items():
-            if key != "title" and isinstance(value, float):
+            if key != "title" and isinstance(value, Decimal):
                 self.total_row.set_month_value_by_name(key, 
-                    (self.total_row.get_month_value_by_name(key) or 0) + value
+                    round(self.total_row.get_month_value_by_name(key) or 0, 2) + value
                 )
 
         self.rows.append(row)

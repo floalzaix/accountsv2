@@ -10,6 +10,8 @@ import { CategoriesService } from '../categories.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ErrorWrapper } from '../../shared/errors/error-wrapper';
+import { DetailsService } from '../../details/details-service';
+import { SummaryService } from '../../summary/summary.service';
 
 @Component({
   selector: 'app-category-component',
@@ -34,6 +36,8 @@ export class CategoryComponent {
 
   private  readonly messageService = inject(MessageService);
   private  readonly categoriesService = inject(CategoriesService);
+  private  readonly detailsService = inject(DetailsService);
+  private  readonly summaryService = inject(SummaryService);
 
   public readonly category = input.required<Category>();
 
@@ -102,6 +106,8 @@ export class CategoryComponent {
         });
 
         this.onUpdated.emit();
+        this.detailsService.refresh();
+        this.summaryService.refresh();
       },
       error: (error) => {
         if (error instanceof ErrorWrapper) {
@@ -129,6 +135,8 @@ export class CategoryComponent {
         });
 
         this.onUpdated.emit();
+        this.detailsService.refresh();
+        this.summaryService.refresh();
       },
       error: (error) => {
         if (error instanceof ErrorWrapper) {

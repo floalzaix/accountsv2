@@ -5,7 +5,7 @@
 import uuid
 from typing import cast
 
-from sqlalchemy import select, update, delete
+from sqlalchemy import extract, select, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # Perso
@@ -48,11 +48,14 @@ class TransactionsRepo(TransactionDBPort):
     
         return orm_to_model(transaction_orm, Transaction)
 
-    async def get_transactions(self, user_id: uuid.UUID, trans_type: str) -> list[Transaction]:
+    async def get_transactions(self, user_id: uuid.UUID, trans_type: str, year: int) -> list[Transaction]:
+        year_column = extract('year', TransactionORM.event_date)
+
         query = (
             select(TransactionORM)
             .where(TransactionORM.user_id == user_id)
             .where(TransactionORM.type == trans_type)
+            .where(year_column == year)
         )
         result = await self.session.execute(query)
         transactions_orm = result.scalars().all()

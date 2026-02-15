@@ -29,7 +29,8 @@ export class TransactionsService {
       "/transactions",
       {
         "trans_type": this.opionsService.types(),
-      }
+        "year": this.opionsService.year(),
+        }
     ).pipe(
       map((response) => {
         if (!(response instanceof Array)) {

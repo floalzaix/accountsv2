@@ -12,7 +12,7 @@
     [(ngModel)]="stateSelect"
   />  
 
-@if (stateSelect === "register") {
+@if (stateSelect() === "register") {
   <!--
   
     Register form
@@ -42,7 +42,7 @@
 
     <button pButton type="submit" label="S'inscrire"></button>
   </form>
-} @else if (stateSelect === "login") {
+} @else if (stateSelect() === "login") {
   <!--
   
     Login form

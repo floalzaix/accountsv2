@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -39,7 +39,19 @@ export class AuthComponent {
   //   State
   //
   
-  protected stateSelect: string = "login";
+  protected stateSelect = signal<"login" | "register">("login");
+
+  //
+  //   Effects
+  //
+  
+  protected readonly stateSelectEffect = effect(() => {
+    if (!this.stateSelect()) {
+      setTimeout(() => {
+        this.stateSelect.set("login");
+      }, 1);
+    }
+  });
 
   //
   //   Forms

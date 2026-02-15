@@ -1,17 +1,17 @@
     <p-toast />
 
-    <div class="surface" id="transactions-table-container">
-        <h3>TRANSACTIONS</h3>
-
+    <div id="transactions-table-container">
         @let ts = tableRows();
         @if (ts) {
-            <form [formGroup]="editTransactionForm">
+            <form [formGroup]="editTransactionForm" class="surface">
+                <h3>TRANSACTIONS</h3>
+
                 <p-table [value]="ts">
                     <ng-template pTemplate="header">
                         <tr>
                             <th id="event_date">Date</th>
                             <th id="motive">Motif</th>
-                            <th id="to">Destinataire</th>
+                            <th id="to">À/De</th>
                             <th id="bank_date">Date en banque</th>
                             <th id="category1_id">Catégorie 1</th>
                             <th id="category2_id">Catégorie 2</th>
@@ -76,6 +76,7 @@
                                         [showIcon]="true"
                                         [minDate]="minDate()"
                                         [maxDate]="maxDate()"
+                                        appendTo="body"
                                     />
                                 </td>
                                 <td>
@@ -100,6 +101,7 @@
                                         [showIcon]="true"
                                         [minDate]="minDate()"
                                         [maxDate]="maxDate()"
+                                        appendTo="body"
                                     />
                                 </td>
                                 <td>
@@ -110,6 +112,7 @@
                                         placeholder="Autre"
                                         optionLabel="name"
                                         optionValue="id"
+                                        appendTo="body"
                                     />
                                 </td>
                                 <td>
@@ -120,6 +123,7 @@
                                         placeholder="Autre"
                                         optionLabel="name"
                                         optionValue="id"
+                                        appendTo="body"
                                     />
                                 </td>
                                 <td>
@@ -130,6 +134,7 @@
                                         placeholder="Autre"
                                         optionLabel="name"
                                         optionValue="id"
+                                        appendTo="body"
                                     />
                                 </td>
                                 <td>

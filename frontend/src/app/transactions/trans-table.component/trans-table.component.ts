@@ -12,6 +12,10 @@ import { ErrorWrapper } from '../../shared/errors/error-wrapper';
 import { DatePipe } from '@angular/common';
 import { DatePickerModule } from 'primeng/datepicker';
 import { SelectModule } from 'primeng/select';
+import { formatDate } from '../../shared/utils/other';
+import { SummaryService } from '../../summary/summary.service';
+import { DetailsService } from '../../details/details-service';
+import { OptionsService } from '../../shared/services/options';
 
 @Component({
   selector: 'app-transactions-table',
@@ -37,9 +41,10 @@ export class TransactionsTable {
   private readonly transactionsService = inject(TransactionsService);
   private readonly messageService = inject(MessageService);
   protected readonly categoriesService = inject(CategoriesService);
-
-  public readonly year = input.required<number | null>();
-
+  private readonly detailsService = inject(DetailsService);
+  private readonly summaryService = inject(SummaryService);
+  private readonly optionsService = inject(OptionsService);
+  
   //
   //   Data
   //
@@ -64,8 +69,8 @@ export class TransactionsTable {
     })
   });
 
-  protected readonly minDate = computed(() => new Date(this.year()!, 0, 1));
-  protected readonly maxDate = computed(() => new Date(this.year()!, 11, 31));
+  protected readonly minDate = computed(() => new Date(this.optionsService.year()!, 0, 1));
+  protected readonly maxDate = computed(() => new Date(this.optionsService.year()!, 11, 31));
 
   //
   //   Forms
@@ -118,6 +123,12 @@ export class TransactionsTable {
     // Preparing the edited transaction
     const editedTransaction = TransactionSchema.parse({
       ...transactionData.value,
+      event_date: formatDate(
+        transactionData.value?.event_date!
+      ),
+      bank_date: formatDate(
+        transactionData.value?.bank_date!
+      ),
       type: transaction.type,
       id: transaction.id,
     });
@@ -133,6 +144,8 @@ export class TransactionsTable {
 
         // Refreshing the transactions
         this.transactionsService.refresh();
+        this.detailsService.refresh();
+        this.summaryService.refresh();
       },
       error: (error) => {
         if (error instanceof ErrorWrapper) {
@@ -142,6 +155,8 @@ export class TransactionsTable {
             detail: error.userSafeDescription,
             life: 7000,
           });
+
+          console.log(error.error);
         }
 
         throw error;
@@ -160,6 +175,8 @@ export class TransactionsTable {
 
         // Refreshing the transactions
         this.transactionsService.refresh();
+        this.detailsService.refresh();
+        this.summaryService.refresh();
       },
       error: (error) => {
         if (error instanceof ErrorWrapper) {

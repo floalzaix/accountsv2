@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { DetailsTab } from '../../../details/details-tab/details-tab';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
@@ -19,9 +19,21 @@ export class DetailsPage implements OnInit {
   //   Data
   //
   
-  protected selectedTab: string = 'revenues';
+  protected selectedTab = signal<"revenues" | "expenses" | "differences">("revenues");
   protected readonly optionsService = inject(OptionsService);
 
+  //
+  //   Effects
+  //
+  
+  protected readonly selectedTabEffect = effect(() => {
+    if (!this.selectedTab()) {
+      setTimeout(() => {
+        this.selectedTab.set("revenues");
+      }, 1);
+    }
+  });
+  
   //
   //   Init 
   //

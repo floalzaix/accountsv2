@@ -45,11 +45,14 @@ export class Options {
   private readonly refreshEffect = effect(() => {
     if (this.optionsService.multipleTypes().length > 0) {
       this.summaryService.refresh();
+      this.detailsService.refresh();
     }
 
     if (this.optionsService.types() && this.optionsService.year()) {
       this.detailsService.refresh();
+      this.summaryService.refresh();
       this.transactionsService.refresh();
     }
+    
   });
 }

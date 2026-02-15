@@ -6,3 +6,7 @@
     align-items: center;
     justify-content: center;
 }
+
+#balance-container ::ng-deep .p-knob-text {
+    font-size: 1.1rem;
+}

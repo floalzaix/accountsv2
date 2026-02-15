@@ -38,9 +38,12 @@ async def get_summary(
     repo = SummaryRepo(session=db_session)
 
     summary_service = SummaryService(summary_db_port=repo)
+    
 
-    return await summary_service.get_balance(
+    balance = await summary_service.get_balance(
         user_id=user.id,
         year=year,
         trans_types=trans_types
     )
+
+    return balance
